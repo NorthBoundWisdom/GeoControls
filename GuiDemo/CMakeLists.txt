@@ -1,0 +1,58 @@
+set(GUIDEMO_RESOURCES
+    testnetwork.qrc
+)
+
+set(GUIDEMO_SOURCES
+    main.cpp
+    ThemeHelper.h
+    ThemeHelper.cpp
+    FontMetricsProvider.h
+    FontMetricsProvider.cpp
+    ${GUIDEMO_RESOURCES}
+)
+
+qt_add_executable(GuiDemo ${GUIDEMO_SOURCES})
+
+set_target_properties(GuiDemo PROPERTIES
+    AUTOMOC ON
+    AUTOUIC ON
+    AUTORCC ON
+)
+
+target_link_libraries(GuiDemo
+PRIVATE
+    GeoToyControls
+    Qt6::Core
+    Qt6::Gui
+    Qt6::Qml
+    Qt6::Quick
+    Qt6::QuickControls2
+)
+
+target_include_directories(GuiDemo
+PRIVATE
+    ${CMAKE_SOURCE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}
+)
+
+if(WIN32)
+    get_target_property(_guidemo_qmake_executable Qt6::qmake IMPORTED_LOCATION)
+    get_filename_component(_guidemo_qt_bin_dir "${_guidemo_qmake_executable}" DIRECTORY)
+    find_program(GUIDEMO_WINDEPLOYQT_EXECUTABLE windeployqt
+        HINTS "${_guidemo_qt_bin_dir}"
+        NO_DEFAULT_PATH
+    )
+    if(GUIDEMO_WINDEPLOYQT_EXECUTABLE)
+        add_custom_command(TARGET GuiDemo POST_BUILD
+            COMMAND "${GUIDEMO_WINDEPLOYQT_EXECUTABLE}"
+                --verbose 0
+                --qmldir "${CMAKE_SOURCE_DIR}/Controls"
+                --no-translations
+                --compiler-runtime
+                "$<TARGET_FILE:GuiDemo>"
+            COMMENT "Deploying Qt dependencies for GuiDemo"
+        )
+    else()
+        message(WARNING "GuiDemo: windeployqt not found, Qt runtime files will not be auto-copied.")
+    endif()
+endif()
