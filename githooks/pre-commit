@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+repo_root="$(git rev-parse --show-toplevel)"
+cd "${repo_root}"
+
+find_qmlformat()
+{
+    if command -v qmlformat >/dev/null 2>&1; then
+        command -v qmlformat
+        return 0
+    fi
+
+    local candidate
+    shopt -s nullglob
+    for candidate in \
+        "${HOME}"/Qt/*/macos/bin/qmlformat \
+        "${HOME}"/Qt/*/clang_64/bin/qmlformat \
+        "${HOME}"/Qt/*/gcc_64/bin/qmlformat
+    do
+        if [[ -x "${candidate}" ]]; then
+            printf '%s\n' "${candidate}"
+            shopt -u nullglob
+            return 0
+        fi
+    done
+    shopt -u nullglob
+    return 1
+}
+
+clang_format="$(command -v clang-format || true)"
+qml_format="$(find_qmlformat || true)"
+
+cpp_files=()
+qml_files=()
+
+while IFS= read -r -d '' file; do
+    [[ -f "${file}" ]] || continue
+
+    case "${file}" in
+        *.c | *.cc | *.cpp | *.cxx | *.c++ | *.h | *.hh | *.hpp | *.hxx)
+            cpp_files+=("${file}")
+            ;;
+        *.qml)
+            qml_files+=("${file}")
+            ;;
+    esac
+done < <(git diff --cached --name-only -z --diff-filter=ACMR)
+
+if (( ${#cpp_files[@]} > 0 )) && [[ -z "${clang_format}" ]]; then
+    printf 'pre-commit: clang-format is required to format staged C++ files.\n' >&2
+    exit 1
+fi
+
+if (( ${#qml_files[@]} > 0 )) && [[ -z "${qml_format}" ]]; then
+    printf 'pre-commit: qmlformat is required to format staged QML files.\n' >&2
+    printf 'pre-commit: add qmlformat to PATH or install Qt under ${HOME}/Qt.\n' >&2
+    exit 1
+fi
+
+if (( ${#cpp_files[@]} > 0 )); then
+    "${clang_format}" -i "${cpp_files[@]}"
+    git add -- "${cpp_files[@]}"
+fi
+
+if (( ${#qml_files[@]} > 0 )); then
+    "${qml_format}" -i "${qml_files[@]}"
+    git add -- "${qml_files[@]}"
+fi
+
+exit 0
