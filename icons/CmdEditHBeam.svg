@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" role="img"
+  aria-label="edit h-beam">
+  <g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+    stroke-linejoin="round">
+    <path d="M5 4h4v16H5z" />
+    <path d="M15 4h4v16h-4z" />
+    <path d="M9 10.2h6v3.6H9z" />
+    <path d="M13.2 18.4l5.1-5.1 1.8 1.8-5.1 5.1h-2.9z" />
+  </g>
+  <path d="M12.8 18.4l-.4 2.4 2.4-.4z" fill="currentColor" />
+</svg>

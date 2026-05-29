@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+  <!-- 2D Plane representation -->
+  <!-- Main 2D rectangle/plane -->
+  <rect x="4" y="6" width="16" height="12" fill="none" stroke="currentColor" stroke-width="1.5" />
+  <!-- Grid lines to indicate 2D coordinate system -->
+  <line x1="4" y1="12" x2="20" y2="12" stroke="currentColor" stroke-width="1" />
+  <line x1="12" y1="6" x2="12" y2="18" stroke="currentColor" stroke-width="1" />
+  <!-- Corner indicators -->
+  <circle cx="4" cy="6" r="1" fill="currentColor" />
+  <circle cx="20" cy="6" r="1" fill="currentColor" />
+  <circle cx="4" cy="18" r="1" fill="currentColor" />
+  <circle cx="20" cy="18" r="1" fill="currentColor" />
+</svg>

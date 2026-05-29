@@ -2,6 +2,7 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 import GeoToy.Controls 1.0
+import GeoToy.AppShell 1.0
 
 ApplicationWindow {
     id: window
@@ -17,7 +18,6 @@ ApplicationWindow {
     property color selectedColor: "#2f80ed"
 
     Component.onCompleted: {
-        Theme.helper = themeHelper
         raise()
         requestActivate()
     }
@@ -43,13 +43,13 @@ ApplicationWindow {
             spacing: 12
 
             CustomLabel {
-                text: "GeoToy.Controls"
+                text: "GeoControls"
                 font.pixelSize: 20
                 font.bold: true
             }
 
             CustomLabel {
-                text: "standalone controls module"
+                text: "Controls, AppShell, icons"
                 color: Theme.placeholderTextColor
             }
 
@@ -74,7 +74,7 @@ ApplicationWindow {
             anchors.verticalCenter: parent.verticalCenter
             anchors.left: parent.left
             anchors.leftMargin: 16
-            text: "URI: GeoToy.Controls 1.0"
+            text: "URI: GeoToy.Controls 1.0 / GeoToy.AppShell 1.0"
             color: Theme.placeholderTextColor
         }
     }
@@ -111,6 +111,10 @@ ApplicationWindow {
 
                 TabButton {
                     text: "Charts & Dialogs"
+                }
+
+                TabButton {
+                    text: "AppShell"
                 }
             }
 
@@ -526,6 +530,87 @@ ApplicationWindow {
                                         border.color: Theme.midColor
                                         border.width: 1
                                     }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                Page {
+                    background: Rectangle {
+                        color: "transparent"
+                    }
+
+                    ScrollView {
+                        id: appShellScroll
+                        anchors.fill: parent
+                        contentWidth: availableWidth
+                        clip: true
+
+                        ColumnLayout {
+                            width: appShellScroll.availableWidth
+                            spacing: 14
+
+                            CustomRectangle {
+                                Layout.fillWidth: true
+                                title: "Window caption buttons"
+                                collapsible: false
+
+                                RowLayout {
+                                    spacing: 12
+
+                                    WindowCaptionButtons {
+                                        windowHandle: window
+                                        showClose: false
+                                        chromeHeightOverride: 32
+                                    }
+
+                                    CustomLabel {
+                                        Layout.fillWidth: true
+                                        text: "Caption controls use GeoControls icons and Theme."
+                                        color: Theme.placeholderTextColor
+                                    }
+                                }
+                            }
+
+                            CustomRectangle {
+                                Layout.fillWidth: true
+                                title: "Command input"
+                                collapsible: false
+
+                                ColumnLayout {
+                                    spacing: 10
+
+                                    CmdInputArea {
+                                        id: demoCommandInput
+                                        Layout.fillWidth: true
+                                        requireSlashForCommand: true
+                                        placeholderText: qsTr("Enter /help, /box, /measure...")
+                                        onCommandSubmitted: function (command) {
+                                            appShellLog.text = "Command submitted: " + command
+                                        }
+                                        onPlainTextRejected: function (text) {
+                                            appShellLog.text = "Plain text rejected: " + text
+                                        }
+                                    }
+
+                                    CustomLabel {
+                                        id: appShellLog
+                                        text: "Try command completion with /"
+                                        color: Theme.placeholderTextColor
+                                    }
+                                }
+                            }
+
+                            CustomRectangle {
+                                Layout.fillWidth: true
+                                title: "Server config"
+                                collapsible: false
+
+                                ServerConfigSection {
+                                    Layout.fillWidth: true
+                                    serverConfiger: demoServerConfiger
+                                    useComboBox: true
                                 }
                             }
                         }

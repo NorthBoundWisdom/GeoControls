@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" role="img"
+  aria-label="redo">
+  <path d="M15 7H6C4.9 7 4 7.9 4 9V10.5C4 13.54 6.46 16 9.5 16H16.5" fill="none"
+    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M15 4l5 4-5 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+    stroke-linejoin="round" />
+</svg>

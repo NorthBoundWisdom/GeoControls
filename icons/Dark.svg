@@ -1,0 +1,5 @@
+<!-- Dark.svg（月牙） -->
+<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+  <path d="M15 3a9 9 0 1 0 6 15.5A8 8 0 0 1 15 3z" fill="none" stroke="currentColor"
+    stroke-width="2" />
+</svg>

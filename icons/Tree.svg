@@ -1,0 +1,13 @@
+<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+  <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+    stroke-linejoin="round">
+    <!-- spine -->
+    <path d="M6 4v16M6 8h4M6 13h4M6 18h4" />
+    <!-- file (top) -->
+    <rect x="10" y="6" width="10" height="5" rx="1" />
+    <!-- folder (middle) -->
+    <path d="M10 11h3l1 1h5v4h-9z" />
+    <!-- file (bottom) -->
+    <rect x="10" y="16" width="10" height="5" rx="1" />
+  </g>
+</svg>

@@ -17,12 +17,15 @@ find_package(Qt6 REQUIRED COMPONENTS Core Gui Qml Quick QuickControls2 Svg)
 qt_standard_project_setup(REQUIRES 6.8)
 
 add_subdirectory(Controls)
+add_subdirectory(AppShell)
 
 if(GEOCONTROLS_BUILD_DEMO)
     add_subdirectory(GuiDemo)
 endif()
 
 if(GEOCONTROLS_INSTALL_SDK)
+    set(GEOCONTROLS_ICON_INSTALL_DIR "${CMAKE_INSTALL_DATADIR}/GeoControls/icons")
+
     install(
         TARGETS ${GEOCONTROLS_EXPORT_TARGETS}
         EXPORT GeoControlsTargets
@@ -37,6 +40,11 @@ if(GEOCONTROLS_INSTALL_SDK)
         FILE GeoControlsTargets.cmake
         NAMESPACE GeoControls::
         DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/GeoControls
+    )
+
+    install(
+        DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/icons/
+        DESTINATION ${GEOCONTROLS_ICON_INSTALL_DIR}
     )
 
     write_basic_package_version_file(

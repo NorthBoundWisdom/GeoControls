@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+  viewBox="0 0 24 24"
+  version="1.1"
+  id="svg8"
+  sodipodi:docname="SettingPoly.svg"
+  inkscape:version="1.4.2 (f4327f4, 2025-05-13)"
+  xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+  xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+    id="defs8" />
+  <sodipodi:namedview
+    id="namedview8"
+    pagecolor="#ffffff"
+    bordercolor="#000000"
+    borderopacity="0.25"
+    inkscape:showpageshadow="2"
+    inkscape:pageopacity="0.0"
+    inkscape:pagecheckerboard="0"
+    inkscape:deskcolor="#d1d1d1"
+    inkscape:zoom="47.208333"
+    inkscape:cx="12.010591"
+    inkscape:cy="12"
+    inkscape:window-width="2560"
+    inkscape:window-height="1351"
+    inkscape:window-x="-9"
+    inkscape:window-y="-9"
+    inkscape:window-maximized="1"
+    inkscape:current-layer="g8" />
+  <!-- unified outline style -->
+  <g
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    id="g8">
+    <!-- canvas -->
+    <!-- example 2D polyline -->
+    <g
+      id="g11"
+      transform="matrix(0.9667129,0,0,0.9667129,0.63245492,0.56588072)">
+      <rect
+        x="3"
+        y="4"
+        width="15"
+        height="12"
+        rx="2"
+        id="rect1" />
+      <path
+        d="m 5.4788173,13.428067 3.5,-3.9999999 2.4999997,1.9999999 4,-3.9999999"
+        id="path1" />
+    </g>
+    <!-- settings gear (emphasized), anchored at canvas corner -->
+    <!-- gear teeth -->
+    <g
+      id="g10"
+      transform="translate(-0.27537511,-0.52956752)">
+      <g
+        id="g9"
+        transform="matrix(1.1718597,0,0,1.1718597,-4.0902597,-3.9184001)">
+        <circle
+          cx="18.5"
+          cy="17.5"
+          r="2.2"
+          id="circle1" />
+        <line
+          x1="18.5"
+          y1="14.5"
+          x2="18.5"
+          y2="13.2"
+          id="line1" />
+        <line
+          x1="18.5"
+          y1="21.799999"
+          x2="18.5"
+          y2="20.5"
+          id="line2" />
+        <line
+          x1="21.5"
+          y1="17.5"
+          x2="22.799999"
+          y2="17.5"
+          id="line3" />
+        <line
+          x1="14.2"
+          y1="17.5"
+          x2="15.5"
+          y2="17.5"
+          id="line4" />
+        <line
+          x1="20.6"
+          y1="15.4"
+          x2="21.5"
+          y2="14.5"
+          id="line5" />
+        <line
+          x1="16.4"
+          y1="19.6"
+          x2="15.5"
+          y2="20.5"
+          id="line6" />
+        <line
+          x1="20.6"
+          y1="19.6"
+          x2="21.5"
+          y2="20.5"
+          id="line7" />
+        <line
+          x1="16.4"
+          y1="15.4"
+          x2="15.5"
+          y2="14.5"
+          id="line8" />
+      </g>
+    </g>
+  </g>
+</svg>

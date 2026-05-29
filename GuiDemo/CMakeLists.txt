@@ -4,10 +4,6 @@ set(GUIDEMO_RESOURCES
 
 set(GUIDEMO_SOURCES
     main.cpp
-    ThemeHelper.h
-    ThemeHelper.cpp
-    FontMetricsProvider.h
-    FontMetricsProvider.cpp
     ${GUIDEMO_RESOURCES}
 )
 
@@ -38,6 +34,7 @@ endif()
 target_link_libraries(GuiDemo
 PRIVATE
     GeoToyControls
+    GeoToyAppShell
     Qt6::Core
     Qt6::Gui
     Qt6::Qml
@@ -49,6 +46,8 @@ target_include_directories(GuiDemo
 PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
 )
+
+qt_import_qml_plugins(GuiDemo)
 
 if(WIN32)
     get_target_property(_guidemo_qmake_executable Qt6::qmake IMPORTED_LOCATION)

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" role="img"
+  aria-label="modeling extend">
+  <path d="M19 5v14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+  <path d="M5 14h7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+  <path d="M12 14h4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+    stroke-dasharray="2.2 2.2" />
+  <path d="M14.2 11.6l3.6 2.4-3.6 2.4" fill="none" stroke="currentColor" stroke-width="2"
+    stroke-linecap="round" stroke-linejoin="round" />
+  <circle cx="5" cy="14" r="1.9" fill="currentColor" />
+  <circle cx="12" cy="14" r="1.9" fill="currentColor" />
+</svg>

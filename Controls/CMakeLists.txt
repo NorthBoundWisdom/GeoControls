@@ -82,6 +82,8 @@ qt_add_qml_module(GeoToyControls
         QmlListDialog.h
         QmlMessageBox.cpp
         QmlMessageBox.h
+        ThemeHelper.cpp
+        ThemeHelper.h
         Vector3SpinBoxWrapper.cpp
         Vector3SpinBoxWrapper.h
 )

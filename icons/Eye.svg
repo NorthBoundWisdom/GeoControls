@@ -1,0 +1,6 @@
+<!-- Eye.svg -->
+<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+  <path d="M2 12s4-6 10-6 10 6 10 6-4 6-10 6-10-6-10-6z" fill="none" stroke="currentColor"
+    stroke-width="2" />
+  <circle cx="12" cy="12" r="2.5" stroke="currentColor" stroke-width="2" fill="none" />
+</svg>

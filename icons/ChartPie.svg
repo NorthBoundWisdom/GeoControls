@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" role="img"
+  aria-label="chart pie">
+  <path d="M12 4.2A7.8 7.8 0 1 0 19.8 12H12z" fill="none" stroke="currentColor" stroke-width="2"
+    stroke-linejoin="round" />
+  <path d="M13 4.2a7.8 7.8 0 0 1 6.8 6.8H13z" fill="currentColor" />
+  <path d="M12 4v8l5.65 5.65" fill="none" stroke="currentColor" stroke-width="2"
+    stroke-linecap="round" stroke-linejoin="round" opacity="0.45" />
+</svg>

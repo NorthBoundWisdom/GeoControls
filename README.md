@@ -1,16 +1,18 @@
 # GeoControls
 
-GeoControls is the standalone QML/C++ controls package extracted from GeoToy.
-The public QML module URI is intentionally kept as `GeoToy.Controls 1.0` so
-existing GeoToy QML can consume the package without changing type names.
+GeoControls is the standalone QML/C++ UI package extracted from GeoToy.
+It now ships a reusable controls module, an AppShell module, a full icon set,
+and a pure example app.
 
 ## Contents
 
 - `Controls/`: reusable QML controls, dialog pages, chart controls, theme helpers,
-  `Qml*Dialog` helpers, `QmlMessageBox`, and `Vector3SpinBoxWrapper`.
-- `GuiDemo/`: a pure controls example application. It does not depend on
-  `GeoToy.AppShell` or `GeoToy 1.0`.
-- `icons/`: the minimal `qrc:/icons/...` SVG set used by the controls.
+  `Qml*Dialog` helpers, `QmlMessageBox`, `Vector3SpinBoxWrapper`, and the
+  default `ThemeHelper`.
+- `AppShell/`: host-injected app shell components such as the toolbar, status
+  bar, command input area, mini viewer, splash screen, and window chrome.
+- `GuiDemo/`: a pure GeoControls example application.
+- `icons/`: the full `qrc:/icons/...` asset set used by Controls and AppShell.
 - `cmake/`: CMake package export files for downstream `find_package(GeoControls)`.
 
 ## Requirements
@@ -56,14 +58,25 @@ Downstream CMake usage:
 
 ```cmake
 find_package(GeoControls CONFIG REQUIRED)
-target_link_libraries(MyApp PRIVATE GeoToyControls)
+target_link_libraries(MyApp PRIVATE GeoToyControls GeoToyAppShell)
 ```
 
 QML usage:
 
 ```qml
 import GeoToy.Controls 1.0
+import GeoToy.AppShell 1.0
 ```
+
+Packaged icon variables:
+
+- `GeoControls_ICON_DIR`
+- `GeoControls_APP_ICON_ICO`
+- `GeoControls_APP_ICON_ICNS`
+- `GeoControls_APP_ICON_PNG`
+- `GeoControls_FILE_ICON_ICO`
+- `GeoControls_FILE_ICON_ICNS`
+- `GeoControls_FILE_ICON_PNG`
 
 ## Development Hooks
 
@@ -76,4 +89,3 @@ git config core.hooksPath githooks
 The pre-commit hook formats staged C++ files with `clang-format` and staged QML
 files with `qmlformat`, then re-stages the formatted files. If either formatter
 is required and cannot be found, the commit fails.
-
