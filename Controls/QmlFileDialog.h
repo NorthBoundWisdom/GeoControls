@@ -15,7 +15,7 @@ class QmlFileDialog : public QObject
 {
     Q_OBJECT
 
-public:
+  public:
     enum class DialogMode
     {
         OpenFile,
@@ -40,7 +40,7 @@ public:
     static QString getSaveFileName(QQuickView *view, const QString &title, const QString &path,
                                    const QString &filter, QString *selectedFilter = nullptr);
 
-private:
+  private:
     explicit QmlFileDialog(QObject *parent = nullptr);
 
     Result runDialog(QQuickView *view, DialogMode mode, const QString &title,
@@ -51,13 +51,13 @@ private:
 
     static QStringList parseNameFilters(const QString &filter);
 
-private slots:
+  private slots:
     void onFileAccepted(const QString &filePath, const QString &selectedFilter,
                         const QVariant &filePaths);
     void onFileRejected();
     void onDialogClosed();
 
-private:
+  private:
     QObject *dialog_ = nullptr;
     QEventLoop *loop_ = nullptr;
     Result result_;

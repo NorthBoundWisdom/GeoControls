@@ -65,15 +65,15 @@ DialogShell {
 
                     validator: {
                         if (modelData.value === undefined || modelData.value === null) {
-                            return null;
+                            return null
                         }
 
-                        var originalValue = modelData.value;
+                        var originalValue = modelData.value
                         if (typeof originalValue === "number" || (typeof originalValue === "string" && !isNaN(originalValue) && originalValue !== "")) {
-                            return Qt.createQmlObject("import QtQuick 2.13; DoubleValidator { bottom: -999999999; top: 999999999; decimals: 6; notation: DoubleValidator.StandardNotation }", valueField);
+                            return Qt.createQmlObject("import QtQuick 2.13; DoubleValidator { bottom: -999999999; top: 999999999; decimals: 6; notation: DoubleValidator.StandardNotation }", valueField)
                         }
 
-                        return Qt.createQmlObject("import QtQuick 2.13; RegExpValidator { regExp: /.*/ }", valueField);
+                        return Qt.createQmlObject("import QtQuick 2.13; RegExpValidator { regExp: /.*/ }", valueField)
                     }
 
                     background: Rectangle {
@@ -89,26 +89,26 @@ DialogShell {
 
                     onTextChanged: {
                         if (root.keyValueList && index < root.keyValueList.length) {
-                            var newValue = text;
+                            var newValue = text
 
-                            var originalValue = root.keyValueList[index].value;
+                            var originalValue = root.keyValueList[index].value
                             if (typeof originalValue === "number" || (typeof originalValue === "string" && !isNaN(originalValue) && originalValue !== "")) {
-                                var numValue = parseFloat(text);
+                                var numValue = parseFloat(text)
                                 if (!isNaN(numValue)) {
-                                    newValue = numValue;
+                                    newValue = numValue
                                 }
                             }
 
-                            root.keyValueList[index].value = newValue;
+                            root.keyValueList[index].value = newValue
                         }
                     }
 
                     Keys.onReturnPressed: {
                         if (index < repeater.count - 1) {
-                            repeater.itemAt(index + 1).children[1].forceActiveFocus();
+                            repeater.itemAt(index + 1).children[1].forceActiveFocus()
                         } else {
-                            root.valuesSubmitted(root.keyValueList);
-                            root.close();
+                            root.valuesSubmitted(root.keyValueList)
+                            root.close()
                         }
                     }
                 }
@@ -129,8 +129,8 @@ DialogShell {
             buttonTextColor: Theme.buttonTextColor
             activeFocusOnTab: true
             onClicked: {
-                root.valuesSubmitted(root.keyValueList);
-                root.close();
+                root.valuesSubmitted(root.keyValueList)
+                root.close()
             }
         }
 
@@ -145,9 +145,9 @@ DialogShell {
 
     onOpened: {
         if (repeater.count > 0) {
-            var firstItem = repeater.itemAt(0);
+            var firstItem = repeater.itemAt(0)
             if (firstItem && firstItem.children.length > 1) {
-                firstItem.children[1].forceActiveFocus();
+                firstItem.children[1].forceActiveFocus()
             }
         }
     }

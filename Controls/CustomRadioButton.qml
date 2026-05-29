@@ -35,23 +35,31 @@ RadioButton {
         // background color
         color: {
             if (!control.enabled)
-                return Theme.buttonDisabledColor;      // forbidden
+                return Theme.buttonDisabledColor
+            // forbidden
             if (control.pressed)
-                return Theme.buttonPressedColor;       // pressed
+                return Theme.buttonPressedColor
+            // pressed
             if (isHovered)
-                return Theme.highlightColor;            // hovered
-            return Theme.buttonColor;                  // default
+                return Theme.highlightColor
+            // hovered
+            return Theme.buttonColor
+            // default
         }
         opacity: isHovered ? 0.2 : 1.0
 
         border.color: {
             if (!control.enabled)
-                return Theme.midColor;                 // forbidden
+                return Theme.midColor
+            // forbidden
             if (control.pressed || control.checked)
-                return Theme.highlightColor;            // selected or pressed
+                return Theme.highlightColor
+            // selected or pressed
             if (isHovered)
-                return Theme.highlightColor;            // hovered
-            return Theme.midColor;                     // default
+                return Theme.highlightColor
+            // hovered
+            return Theme.midColor
+            // default
         }
         border.width: control.checked ? Fonts.size2 : Fonts.size1
 
@@ -80,7 +88,7 @@ RadioButton {
         Connections {
             target: control
             function onPaletteChanged() {
-                indicatorRect.isHovered = false;
+                indicatorRect.isHovered = false
             }
         }
     }
@@ -100,25 +108,25 @@ RadioButton {
         hoverEnabled: true
 
         onEntered: {
-            indicatorRect.isHovered = true;
+            indicatorRect.isHovered = true
         }
 
         onExited: {
-            indicatorRect.isHovered = false;
+            indicatorRect.isHovered = false
         }
 
         function handleClick(mouseX) {
             if (mouseX <= (control.indicator.width + control.leftPadding)) {
                 if (!control.checked) {
-                    control.toggle();
-                    control.clicked();
+                    control.toggle()
+                    control.clicked()
                 }
             } else if (!control.textClickable) {
-                control.textClicked();
+                control.textClicked()
             } else {
                 if (!control.checked) {
-                    control.toggle();
-                    control.clicked();
+                    control.toggle()
+                    control.clicked()
                 }
             }
         }

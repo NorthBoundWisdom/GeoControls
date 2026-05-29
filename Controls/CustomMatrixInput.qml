@@ -23,7 +23,7 @@ Item {
     signal matrixDataChanged(var matrix)
 
     onDefaultValueChanged: {
-        internalData = defaultValue.slice();
+        internalData = defaultValue.slice()
     }
 
     ColumnLayout {
@@ -66,9 +66,9 @@ Item {
                         }
                         verticalAlignment: Text.AlignVCenter
                         onEditingFinished: {
-                            let val = parseFloat(text);
-                            internalData[index] = isNaN(val) ? 0.0 : val;
-                            root.getMatrix();
+                            let val = parseFloat(text)
+                            internalData[index] = isNaN(val) ? 0.0 : val
+                            root.getMatrix()
                         }
                     }
 
@@ -82,8 +82,8 @@ Item {
                         validatorDecimals: 2
                         value: modelData
                         onValueChanged: {
-                            internalData[index] = value;
-                            root.getMatrix();
+                            internalData[index] = value
+                            root.getMatrix()
                         }
                     }
                 }
@@ -92,18 +92,18 @@ Item {
     }
 
     function getMatrix() {
-        matrix = [];
+        matrix = []
         if (rows === 1 || columns === 1) {
-            matrix = internalData.slice();
+            matrix = internalData.slice()
         } else {
             for (let r = 0; r < rows; ++r) {
-                let row = [];
+                let row = []
                 for (let c = 0; c < columns; ++c) {
-                    row.push(internalData[r * columns + c]);
+                    row.push(internalData[r * columns + c])
                 }
-                matrix.push(row);
+                matrix.push(row)
             }
         }
-        matrixDataChanged(matrix);
+        matrixDataChanged(matrix)
     }
 }

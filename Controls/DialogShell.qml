@@ -51,28 +51,28 @@ Popup {
 
     function activateHostWindow() {
         if (parentItem && parentItem.window) {
-            parentItem.window.raise();
-            parentItem.window.requestActivate();
+            parentItem.window.raise()
+            parentItem.window.requestActivate()
         }
     }
 
     function requestClose(reason) {
-        closeRequested(reason || "");
-        close();
+        closeRequested(reason || "")
+        close()
     }
 
     function requestDialogFocus() {
-        activateHostWindow();
-        keyScope.forceActiveFocus(Qt.ActiveWindowFocusReason);
+        activateHostWindow()
+        keyScope.forceActiveFocus(Qt.ActiveWindowFocusReason)
     }
 
     function openDialog() {
-        activateHostWindow();
-        open();
-        requestDialogFocus();
+        activateHostWindow()
+        open()
+        requestDialogFocus()
         Qt.callLater(function () {
-            requestDialogFocus();
-        });
+            requestDialogFocus()
+        })
     }
 
     implicitHeight: dialogCol.implicitHeight
@@ -97,8 +97,8 @@ Popup {
         height: root.height
 
         Keys.onEscapePressed: function (event) {
-            root.requestClose("escape");
-            event.accepted = true;
+            root.requestClose("escape")
+            event.accepted = true
         }
 
         ColumnLayout {
@@ -202,25 +202,25 @@ Popup {
 
     onBodyItemChanged: {
         if (!bodyItem) {
-            return;
+            return
         }
-        bodyItem.parent = bodyHost;
+        bodyItem.parent = bodyHost
         if (bodyItem.anchors) {
-            bodyItem.anchors.fill = bodyHost;
+            bodyItem.anchors.fill = bodyHost
         }
     }
 
     onFooterItemChanged: {
         if (!footerItem) {
-            return;
+            return
         }
-        footerItem.parent = footerHost;
+        footerItem.parent = footerHost
         if (footerItem.anchors) {
-            footerItem.anchors.fill = footerHost;
+            footerItem.anchors.fill = footerHost
         }
     }
 
     onOpened: {
-        requestDialogFocus();
+        requestDialogFocus()
     }
 }

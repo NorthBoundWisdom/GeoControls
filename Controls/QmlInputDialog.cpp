@@ -13,10 +13,7 @@
 
 namespace geotoys
 {
-QmlInputDialog::QmlInputDialog(QObject *parent)
-    : QObject(parent)
-{
-}
+QmlInputDialog::QmlInputDialog(QObject *parent) : QObject(parent) {}
 
 void QmlInputDialog::showInputDialog(QQuickView *view, const QString &title,
                                      const QString &placeholder_text, const QString &initial_text,

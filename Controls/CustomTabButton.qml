@@ -15,13 +15,13 @@ TabButton {
     property bool flatStyle: false
     property bool isSelected: {
         if (!tabBar || targetIndex < 0) {
-            return false;
+            return false
         }
-        var current = (tabBar.targetIndex !== undefined && tabBar.targetIndex !== null) ? tabBar.targetIndex : tabBar.currentIndex;
+        var current = (tabBar.targetIndex !== undefined && tabBar.targetIndex !== null) ? tabBar.targetIndex : tabBar.currentIndex
         if (current === undefined || current === null) {
-            return false;
+            return false
         }
-        return current === targetIndex;
+        return current === targetIndex
     }
     property var viewerItem: null
     readonly property bool useLegacyStyle: !!(tabBar && tabBar.useLegacyTabStyle)
@@ -47,11 +47,11 @@ TabButton {
     topPadding: 0
     bottomPadding: 0
     implicitWidth: {
-        var iconWidth = (display === AbstractButton.TextOnly || !iconSource || iconSource.length === 0) ? 0 : iconSize;
-        var textWidth = (display === AbstractButton.IconOnly) ? 0 : textMetrics.width;
-        var spacingWidth = (iconWidth > 0 && textWidth > 0) ? spacing : 0;
-        var total = iconWidth + textWidth + spacingWidth + leftPadding + rightPadding;
-        return Math.max(total, height * 1.5);
+        var iconWidth = (display === AbstractButton.TextOnly || !iconSource || iconSource.length === 0) ? 0 : iconSize
+        var textWidth = (display === AbstractButton.IconOnly) ? 0 : textMetrics.width
+        var spacingWidth = (iconWidth > 0 && textWidth > 0) ? spacing : 0
+        var total = iconWidth + textWidth + spacingWidth + leftPadding + rightPadding
+        return Math.max(total, height * 1.5)
     }
     implicitHeight: defaultHeight
     width: implicitWidth
@@ -128,9 +128,9 @@ TabButton {
     onClicked: {
         if (tabBar && targetIndex >= 0) {
             if (tabBar.setTargetIndex) {
-                tabBar.setTargetIndex(targetIndex);
+                tabBar.setTargetIndex(targetIndex)
             } else {
-                tabBar.currentIndex = targetIndex;
+                tabBar.currentIndex = targetIndex
             }
         }
     }

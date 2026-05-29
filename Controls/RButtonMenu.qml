@@ -47,7 +47,7 @@ Menu {
     property var menuItems: []
     property var pendingAction: null
     property real iconSize: {
-        return Theme.cmdlineFont.pixelSize;
+        return Theme.cmdlineFont.pixelSize
     }
     readonly property var emptyMenuPlaceholderItems: [
         {
@@ -63,83 +63,83 @@ Menu {
     signal commandRequested(var actionConfig)
 
     function queuePendingCommand(actionConfig) {
-        pendingAction = actionConfig;
-        close();
+        pendingAction = actionConfig
+        close()
     }
 
     function executePendingCommand() {
         if (pendingAction) {
-            commandRequested(pendingAction);
-            pendingAction = null;
+            commandRequested(pendingAction)
+            pendingAction = null
         }
     }
 
     function resolvedMenuItems(items) {
-        return (items && items.length > 0) ? items : emptyMenuPlaceholderItems;
+        return (items && items.length > 0) ? items : emptyMenuPlaceholderItems
     }
 
     function labelTextForAction(actionObject) {
         if (!actionObject) {
-            return "";
+            return ""
         }
         if (actionObject.translationContext && actionObject.translationSource) {
-            var translated = qsTranslate(String(actionObject.translationContext), String(actionObject.translationSource));
+            var translated = qsTranslate(String(actionObject.translationContext), String(actionObject.translationSource))
             if (translated && translated.length > 0) {
-                return translated;
+                return translated
             }
         }
         if (actionObject.displayName && actionObject.displayName.length > 0) {
-            return actionObject.displayName;
+            return actionObject.displayName
         }
         if (actionObject.display_name && actionObject.display_name.length > 0) {
-            return actionObject.display_name;
+            return actionObject.display_name
         }
         if (actionObject.actionName && actionObject.actionName.length > 0) {
-            return actionObject.actionName;
+            return actionObject.actionName
         }
         if (actionObject.action && actionObject.action.length > 0) {
-            return actionObject.action;
+            return actionObject.action
         }
-        return actionObject.cmd_id ? actionObject.cmd_id : "";
+        return actionObject.cmd_id ? actionObject.cmd_id : ""
     }
 
     function iconPathForAction(actionObject) {
         if (actionObject && actionObject.iconPath && actionObject.iconPath.length > 0) {
-            return actionObject.iconPath;
+            return actionObject.iconPath
         }
-        return (actionObject && actionObject.icon_path && actionObject.icon_path.length > 0) ? actionObject.icon_path : "";
+        return (actionObject && actionObject.icon_path && actionObject.icon_path.length > 0) ? actionObject.icon_path : ""
     }
 
     function childrenForAction(actionObject) {
-        return (actionObject && actionObject.children) ? actionObject.children : [];
+        return (actionObject && actionObject.children) ? actionObject.children : []
     }
 
     function isActionEnabled(actionObject) {
-        return !(actionObject && actionObject.enabled !== undefined) || !!actionObject.enabled;
+        return !(actionObject && actionObject.enabled !== undefined) || !!actionObject.enabled
     }
 
     function insertResolvedObject(targetMenu, index, wrapper) {
         if (!wrapper || !wrapper.createdObject) {
-            return;
+            return
         }
         if (wrapper.hasSubMenu) {
-            targetMenu.insertMenu(index, wrapper.createdObject);
+            targetMenu.insertMenu(index, wrapper.createdObject)
         } else {
-            targetMenu.insertItem(index, wrapper.createdObject);
+            targetMenu.insertItem(index, wrapper.createdObject)
         }
     }
 
     function removeResolvedObject(targetMenu, wrapper) {
         if (!wrapper || !wrapper.createdObject) {
-            return;
+            return
         }
         if (wrapper.hasSubMenu) {
-            targetMenu.removeMenu(wrapper.createdObject);
+            targetMenu.removeMenu(wrapper.createdObject)
         } else {
-            targetMenu.removeItem(wrapper.createdObject);
+            targetMenu.removeItem(wrapper.createdObject)
         }
-        wrapper.createdObject.destroy();
-        wrapper.createdObject = null;
+        wrapper.createdObject.destroy()
+        wrapper.createdObject = null
     }
 
     Component {
@@ -272,10 +272,10 @@ Menu {
                 model: control.resolvedMenuItems(nestedMenu.menuItems)
                 delegate: menuDelegateFactory
                 onObjectAdded: function (index, wrapper) {
-                    control.insertResolvedObject(nestedMenu, index, wrapper);
+                    control.insertResolvedObject(nestedMenu, index, wrapper)
                 }
                 onObjectRemoved: function (index, wrapper) {
-                    control.removeResolvedObject(nestedMenu, wrapper);
+                    control.removeResolvedObject(nestedMenu, wrapper)
                 }
             }
         }
@@ -298,19 +298,19 @@ Menu {
                     createdObject = subMenuComponent.createObject(null, {
                         menuTitle: labelText,
                         menuItems: childMenuItems
-                    });
+                    })
                 } else {
                     createdObject = styledMenuDelegate.createObject(null, {
                         text: labelText,
                         enabled: control.isActionEnabled(actionObject)
-                    });
+                    })
                     if (createdObject) {
-                        createdObject.icon.source = control.iconPathForAction(actionObject);
-                        createdObject.icon.color = createdObject.enabled ? control.menuTextColor : control.menuDisabledTextColor;
+                        createdObject.icon.source = control.iconPathForAction(actionObject)
+                        createdObject.icon.color = createdObject.enabled ? control.menuTextColor : control.menuDisabledTextColor
                         triggeredHandler = function () {
-                            control.queuePendingCommand(actionObject);
-                        };
-                        createdObject.triggered.connect(triggeredHandler);
+                            control.queuePendingCommand(actionObject)
+                        }
+                        createdObject.triggered.connect(triggeredHandler)
                     }
                 }
             }
@@ -322,15 +322,15 @@ Menu {
         model: control.resolvedMenuItems(control.menuItems)
         delegate: menuDelegateFactory
         onObjectAdded: function (index, wrapper) {
-            control.insertResolvedObject(control, index, wrapper);
+            control.insertResolvedObject(control, index, wrapper)
         }
         onObjectRemoved: function (index, wrapper) {
-            control.removeResolvedObject(control, wrapper);
+            control.removeResolvedObject(control, wrapper)
         }
     }
 
     onClosed: {
-        executePendingCommand();
-        menuItems = [];
+        executePendingCommand()
+        menuItems = []
     }
 }

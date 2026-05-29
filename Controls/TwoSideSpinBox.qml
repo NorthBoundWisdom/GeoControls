@@ -27,8 +27,8 @@ SpinBox {
         id: fontMetrics
 
         text: {
-            var maxLength = Math.max(control.from.toString().length, control.to.toString().length, control.value.toString().length);
-            return "0".repeat(maxLength);
+            var maxLength = Math.max(control.from.toString().length, control.to.toString().length, control.value.toString().length)
+            return "0".repeat(maxLength)
         }
     }
 
@@ -47,9 +47,9 @@ SpinBox {
         selectByMouse: true
 
         onTextEdited: {
-            var newValue = control.valueFromText(text, control.locale);
+            var newValue = control.valueFromText(text, control.locale)
             if (newValue !== undefined) {
-                control.value = newValue;
+                control.value = newValue
             }
         }
 
@@ -90,19 +90,19 @@ SpinBox {
             Connections {
                 target: control
                 function onTextColorChanged() {
-                    upArrow.requestPaint();
+                    upArrow.requestPaint()
                 }
             }
 
             onPaint: {
-                var ctx = getContext("2d");
-                ctx.reset();
-                ctx.moveTo(0, height);
-                ctx.lineTo(width / 2, 0);
-                ctx.lineTo(width, height);
-                ctx.closePath();
-                ctx.fillStyle = control.textColor;
-                ctx.fill();
+                var ctx = getContext("2d")
+                ctx.reset()
+                ctx.moveTo(0, height)
+                ctx.lineTo(width / 2, 0)
+                ctx.lineTo(width, height)
+                ctx.closePath()
+                ctx.fillStyle = control.textColor
+                ctx.fill()
             }
         }
     }
@@ -135,19 +135,19 @@ SpinBox {
             Connections {
                 target: control
                 function onTextColorChanged() {
-                    downArrow.requestPaint();
+                    downArrow.requestPaint()
                 }
             }
 
             onPaint: {
-                var ctx = getContext("2d");
-                ctx.reset();
-                ctx.moveTo(0, 0);
-                ctx.lineTo(width / 2, height);
-                ctx.lineTo(width, 0);
-                ctx.closePath();
-                ctx.fillStyle = control.textColor;
-                ctx.fill();
+                var ctx = getContext("2d")
+                ctx.reset()
+                ctx.moveTo(0, 0)
+                ctx.lineTo(width / 2, height)
+                ctx.lineTo(width, 0)
+                ctx.closePath()
+                ctx.fillStyle = control.textColor
+                ctx.fill()
             }
         }
     }

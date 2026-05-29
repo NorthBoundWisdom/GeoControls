@@ -113,15 +113,15 @@ CheckBox {
         function handleClick(mouseX) {
             if (mouseX <= control.indicator.width) {
                 // Click checkbox area
-                control.toggle();
-                control.clicked();
+                control.toggle()
+                control.clicked()
             } else if (!control.textClickable) {
                 // Click text area and textClickable is false
-                control.textClicked();
+                control.textClicked()
             } else {
                 // Click text area and textClickable is true
-                control.toggle();
-                control.clicked();
+                control.toggle()
+                control.clicked()
             }
         }
 

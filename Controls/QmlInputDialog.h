@@ -20,7 +20,7 @@ class QmlInputDialog : public QObject
 {
     Q_OBJECT
 
-public:
+  public:
     struct InputResult
     {
         QString inputText;         //!< The input text
@@ -68,17 +68,17 @@ public:
      */
     void close();
 
-private slots:
+  private slots:
     void onTextSubmitted(const QString &text);
     void onCancelled();
 
-private:
+  private:
     QObject *createDialog(QQuickView *view, const QString &title, const QString &placeholder_text,
                           const QString &initial_text);
     void cleanupDialog();
     void invokeCallback(const InputResult &result);
 
-private:
+  private:
     QObject *dialog_ = nullptr;
     InputCallback callback_;
 };

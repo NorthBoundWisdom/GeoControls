@@ -31,50 +31,50 @@ DialogShell {
     onCloseRequested: root.cancelled()
 
     function normalizeFormat(inputFormat) {
-        const normalized = (inputFormat || "").toLowerCase().trim();
+        const normalized = (inputFormat || "").toLowerCase().trim()
         if (normalized === "pdf") {
-            return "pdf";
+            return "pdf"
         }
-        return "png";
+        return "png"
     }
 
     function normalizeMode(inputMode) {
-        const normalized = (inputMode || "").toLowerCase().trim();
+        const normalized = (inputMode || "").toLowerCase().trim()
         if (normalized === "fitall" || normalized === "fit_all") {
-            return "fitall";
+            return "fitall"
         }
-        return "viewport";
+        return "viewport"
     }
 
     function normalizeLongEdge(inputLongEdge) {
         if (inputLongEdge >= 8192) {
-            return 8192;
+            return 8192
         }
         if (inputLongEdge <= 2048) {
-            return 2048;
+            return 2048
         }
-        return 4096;
+        return 4096
     }
 
     function resolutionIndexByLongEdge(inputLongEdge) {
-        const normalizedLongEdge = normalizeLongEdge(inputLongEdge);
+        const normalizedLongEdge = normalizeLongEdge(inputLongEdge)
         if (normalizedLongEdge === 2048) {
-            return 0;
+            return 0
         }
         if (normalizedLongEdge === 8192) {
-            return 2;
+            return 2
         }
-        return 1;
+        return 1
     }
 
     function longEdgeByResolutionIndex(index) {
         if (index === 0) {
-            return 2048;
+            return 2048
         }
         if (index === 2) {
-            return 8192;
+            return 8192
         }
-        return 4096;
+        return 4096
     }
 
     bodyItem: ColumnLayout {
@@ -94,7 +94,7 @@ DialogShell {
             model: [qsTr("PNG"), qsTr("PDF")]
             currentIndex: root.selectedFormat === "pdf" ? 1 : 0
             onActivated: function (index) {
-                root.selectedFormat = index === 1 ? "pdf" : "png";
+                root.selectedFormat = index === 1 ? "pdf" : "png"
             }
         }
 
@@ -148,7 +148,7 @@ DialogShell {
             model: [qsTr("2K (2048)"), qsTr("4K (4096)"), qsTr("8K (8192)")]
             currentIndex: root.resolutionIndexByLongEdge(root.selectedLongEdgePx)
             onActivated: function (index) {
-                root.selectedLongEdgePx = root.longEdgeByResolutionIndex(index);
+                root.selectedLongEdgePx = root.longEdgeByResolutionIndex(index)
             }
         }
 
@@ -185,8 +185,8 @@ DialogShell {
             buttonTextColor: Theme.buttonTextColor
             activeFocusOnTab: true
             onClicked: {
-                root.optionsAccepted(root.selectedFormat, root.selectedMode, root.selectedLongEdgePx, root.includeAxis, root.includeOverlayText);
-                root.close();
+                root.optionsAccepted(root.selectedFormat, root.selectedMode, root.selectedLongEdgePx, root.includeAxis, root.includeOverlayText)
+                root.close()
             }
         }
 
@@ -200,10 +200,10 @@ DialogShell {
     }
 
     Component.onCompleted: {
-        root.selectedFormat = root.normalizeFormat(root.initialFormat);
-        root.selectedMode = root.normalizeMode(root.initialMode);
-        root.selectedLongEdgePx = root.normalizeLongEdge(root.initialLongEdgePx);
-        root.includeAxis = root.initialIncludeAxis;
-        root.includeOverlayText = root.initialIncludeOverlayText;
+        root.selectedFormat = root.normalizeFormat(root.initialFormat)
+        root.selectedMode = root.normalizeMode(root.initialMode)
+        root.selectedLongEdgePx = root.normalizeLongEdge(root.initialLongEdgePx)
+        root.includeAxis = root.initialIncludeAxis
+        root.includeOverlayText = root.initialIncludeOverlayText
     }
 }

@@ -42,28 +42,28 @@ Item {
     height: columnLayout.implicitHeight
 
     function roundToDecimal(value, decimals) {
-        var factor = Math.pow(10, decimals);
-        return Math.round(value * factor) / factor;
+        var factor = Math.pow(10, decimals)
+        return Math.round(value * factor) / factor
     }
 
     function valueToPosition(value) {
         if (to === from)
-            return 0;
-        return (value - from) / (to - from);
+            return 0
+        return (value - from) / (to - from)
     }
 
     function positionToValue(position) {
-        return from + position * (to - from);
+        return from + position * (to - from)
     }
 
     // Reset all values to default: from=-100, to=100, fromValue=0, toValue=0
     function resetToDefault() {
-        _suppressSync = true;
-        from = -100;
-        to = 100;
-        fromValue = 0;
-        toValue = 0;
-        _suppressSync = false;
+        _suppressSync = true
+        from = -100
+        to = 100
+        fromValue = 0
+        toValue = 0
+        _suppressSync = false
     }
 
     TextMetrics {
@@ -207,40 +207,40 @@ Item {
                         drag.maximumX: Math.min(sliderTrack.trackPadding + sliderTrack.trackWidth - parent.width / 2, toHandle.x + toHandle.width / 2 - parent.width / 2)
 
                         onPressed: {
-                            control._draggingFrom = true;
-                            control._draggingTo = false;
+                            control._draggingFrom = true
+                            control._draggingTo = false
                         }
 
                         onReleased: {
-                            control._draggingFrom = false;
+                            control._draggingFrom = false
                         }
 
                         onEntered: {
-                            control._hoveringFrom = true;
+                            control._hoveringFrom = true
                         }
 
                         onExited: {
-                            control._hoveringFrom = false;
+                            control._hoveringFrom = false
                         }
 
                         onPositionChanged: {
                             if (drag.active) {
                                 // Calculate center position relative to track
-                                var centerX = parent.x + parent.width / 2 - sliderTrack.trackPadding;
-                                var ratio = centerX / sliderTrack.trackWidth;
+                                var centerX = parent.x + parent.width / 2 - sliderTrack.trackPadding
+                                var ratio = centerX / sliderTrack.trackWidth
                                 ratio = Math.max(0, Math.min(1, ratio));
 
                                 // Limit to not exceed toHandle center position
-                                var toHandleCenterX = toHandle.x + toHandle.width / 2 - sliderTrack.trackPadding;
-                                var maxRatio = toHandleCenterX / sliderTrack.trackWidth;
-                                ratio = Math.min(ratio, maxRatio);
+                                var toHandleCenterX = toHandle.x + toHandle.width / 2 - sliderTrack.trackPadding
+                                var maxRatio = toHandleCenterX / sliderTrack.trackWidth
+                                ratio = Math.min(ratio, maxRatio)
 
-                                var newValue = control.positionToValue(ratio);
+                                var newValue = control.positionToValue(ratio)
                                 newValue = control.roundToDecimal(newValue, control.validatorDecimals);
                                 // No range constraints - caller is responsible for valid values
-                                control._suppressSync = true;
-                                control.fromValue = newValue;
-                                control._suppressSync = false;
+                                control._suppressSync = true
+                                control.fromValue = newValue
+                                control._suppressSync = false
                             }
                         }
                     }
@@ -305,40 +305,40 @@ Item {
                         drag.maximumX: sliderTrack.trackPadding + sliderTrack.trackWidth - parent.width / 2
 
                         onPressed: {
-                            control._draggingTo = true;
-                            control._draggingFrom = false;
+                            control._draggingTo = true
+                            control._draggingFrom = false
                         }
 
                         onReleased: {
-                            control._draggingTo = false;
+                            control._draggingTo = false
                         }
 
                         onEntered: {
-                            control._hoveringTo = true;
+                            control._hoveringTo = true
                         }
 
                         onExited: {
-                            control._hoveringTo = false;
+                            control._hoveringTo = false
                         }
 
                         onPositionChanged: {
                             if (drag.active) {
                                 // Calculate center position relative to track
-                                var centerX = parent.x + parent.width / 2 - sliderTrack.trackPadding;
-                                var ratio = centerX / sliderTrack.trackWidth;
+                                var centerX = parent.x + parent.width / 2 - sliderTrack.trackPadding
+                                var ratio = centerX / sliderTrack.trackWidth
                                 ratio = Math.max(0, Math.min(1, ratio));
 
                                 // Limit to not be less than fromHandle center position
-                                var fromHandleCenterX = fromHandle.x + fromHandle.width / 2 - sliderTrack.trackPadding;
-                                var minRatio = fromHandleCenterX / sliderTrack.trackWidth;
-                                ratio = Math.max(ratio, minRatio);
+                                var fromHandleCenterX = fromHandle.x + fromHandle.width / 2 - sliderTrack.trackPadding
+                                var minRatio = fromHandleCenterX / sliderTrack.trackWidth
+                                ratio = Math.max(ratio, minRatio)
 
-                                var newValue = control.positionToValue(ratio);
+                                var newValue = control.positionToValue(ratio)
                                 newValue = control.roundToDecimal(newValue, control.validatorDecimals);
                                 // No range constraints - caller is responsible for valid values
-                                control._suppressSync = true;
-                                control.toValue = newValue;
-                                control._suppressSync = false;
+                                control._suppressSync = true
+                                control.toValue = newValue
+                                control._suppressSync = false
                             }
                         }
                     }

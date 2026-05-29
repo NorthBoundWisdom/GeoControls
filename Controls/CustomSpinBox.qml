@@ -57,55 +57,55 @@ SpinBox {
     readonly property int _intMax: 2147483647
     readonly property bool _hasActiveFocus: control.activeFocus || (input && input.activeFocus)
     readonly property int effectiveButtonWidth: {
-        var maxAllowed = width - minTextWidth - Fonts.size6;
-        var clampedMax = max(Fonts.size12, maxAllowed);
-        return max(Fonts.size12, min(buttonWidth, clampedMax));
+        var maxAllowed = width - minTextWidth - Fonts.size6
+        var clampedMax = max(Fonts.size12, maxAllowed)
+        return max(Fonts.size12, min(buttonWidth, clampedMax))
     }
 
     function clampInt(v, lo, hi) {
         if (v < lo)
-            return lo;
+            return lo
         if (v > hi)
-            return hi;
-        return v;
+            return hi
+        return v
     }
 
     function min(a, b) {
-        return a < b ? a : b;
+        return a < b ? a : b
     }
 
     function max(a, b) {
-        return a > b ? a : b;
+        return a > b ? a : b
     }
 
     function abs(v) {
-        return v < 0 ? -v : v;
+        return v < 0 ? -v : v
     }
 
     function isFiniteNumber(v) {
-        return (typeof v === "number") && (v === v) && (v !== _Number.POSITIVE_INFINITY) && (v !== _Number.NEGATIVE_INFINITY);
+        return (typeof v === "number") && (v === v) && (v !== _Number.POSITIVE_INFINITY) && (v !== _Number.NEGATIVE_INFINITY)
     }
 
     function roundToInt(v) {
-        var n = _Number(v);
+        var n = _Number(v)
         if (!isFiniteNumber(n))
-            return 0;
+            return 0
         if (n >= _intMax)
-            return _intMax;
+            return _intMax
         if (n <= _intMin)
-            return _intMin;
-        var r = n >= 0 ? (n + 0.5) : (n - 0.5);
-        return r | 0;
+            return _intMin
+        var r = n >= 0 ? (n + 0.5) : (n - 0.5)
+        return r | 0
     }
 
     function pow10(exp) {
-        var e = exp | 0;
+        var e = exp | 0
         if (e <= 0)
-            return 1;
-        var r = 1;
+            return 1
+        var r = 1
         for (var i = 0; i < e; i++)
-            r *= 10;
-        return r;
+            r *= 10
+        return r
     }
 
     readonly property int _decimals: decimals > 0 ? decimals : 0
@@ -122,90 +122,90 @@ SpinBox {
     stepSize: _stepInt
 
     function _syncValueFromReal() {
-        var newValue = roundToInt(realValue * scaleFactor);
-        newValue = clampInt(newValue, from, to);
+        var newValue = roundToInt(realValue * scaleFactor)
+        newValue = clampInt(newValue, from, to)
         if (value === newValue)
-            return;
-        _syncing = true;
-        value = newValue;
-        _syncing = false;
+            return
+        _syncing = true
+        value = newValue
+        _syncing = false
     }
 
     function _syncRealFromValue() {
-        var newReal = value / scaleFactor;
+        var newReal = value / scaleFactor
         if (abs(realValue - newReal) <= _Number.EPSILON)
-            return;
-        _syncing = true;
-        realValue = newReal;
-        _syncing = false;
+            return
+        _syncing = true
+        realValue = newReal
+        _syncing = false
     }
 
     function _requestActiveFocus() {
         if (_hasActiveFocus)
-            return;
-        forceActiveFocus();
+            return
+        forceActiveFocus()
     }
 
     function _refreshDisplayedText(selectAll) {
         if (!input)
-            return;
-        input.text = textFromValue(value, locale);
+            return
+        input.text = textFromValue(value, locale)
         if (selectAll && input.activeFocus)
-            input.selectAll();
+            input.selectAll()
     }
 
     onValueChanged: {
         if (_syncing)
-            return;
-        _syncRealFromValue();
+            return
+        _syncRealFromValue()
     }
 
     onRealValueChanged: {
         if (_syncing)
-            return;
-        _syncValueFromReal();
+            return
+        _syncValueFromReal()
     }
 
     onFromChanged: {
         if (_syncing)
-            return;
-        _syncValueFromReal();
+            return
+        _syncValueFromReal()
     }
     onToChanged: {
         if (_syncing)
-            return;
-        _syncValueFromReal();
+            return
+        _syncValueFromReal()
     }
     onScaleFactorChanged: {
         if (_syncing)
-            return;
-        _syncValueFromReal();
+            return
+        _syncValueFromReal()
     }
 
     Component.onCompleted: {
-        _syncValueFromReal();
-        _refreshDisplayedText(false);
+        _syncValueFromReal()
+        _refreshDisplayedText(false)
     }
 
     onValueModified: {
-        _requestActiveFocus();
-        _refreshDisplayedText(true);
-        _syncRealFromValue();
-        editingCommitted(realValue);
+        _requestActiveFocus()
+        _refreshDisplayedText(true)
+        _syncRealFromValue()
+        editingCommitted(realValue)
     }
 
     textFromValue: function (v, locale) {
-        return _Number(v / scaleFactor).toLocaleString(locale, "f", _decimals);
+        return _Number(v / scaleFactor).toLocaleString(locale, "f", _decimals)
     }
 
     valueFromText: function (text, locale) {
-        var s = String(text).trim();
+        var s = String(text).trim()
         if (s.length === 0)
-            return control.value;
-        var parsed = _Number.fromLocaleString(locale, s);
+            return control.value
+        var parsed = _Number.fromLocaleString(locale, s)
         if (!isFiniteNumber(parsed))
-            return control.value;
-        return roundToInt(parsed * scaleFactor);
+            return control.value
+        return roundToInt(parsed * scaleFactor)
     }
 
     // contentItem - the text input area
@@ -252,48 +252,48 @@ SpinBox {
 
         function commit() {
             if (!control.editable)
-                return;
-            var newValue = control.valueFromText(text, control.locale);
-            control.value = newValue;
-            text = control.textFromValue(control.value, control.locale);
-            control.editingCommitted(control.realValue);
+                return
+            var newValue = control.valueFromText(text, control.locale)
+            control.value = newValue
+            text = control.textFromValue(control.value, control.locale)
+            control.editingCommitted(control.realValue)
         }
 
         onActiveFocusChanged: {
             if (activeFocus) {
-                text = control.textFromValue(control.value, control.locale);
-                selectAll();
+                text = control.textFromValue(control.value, control.locale)
+                selectAll()
             } else {
-                commit();
+                commit()
             }
         }
 
         Keys.onPressed: function (event) {
             if (event.key === Qt.Key_Up || event.key === Qt.Key_PageUp) {
-                control.increase();
-                control._refreshDisplayedText(true);
-                event.accepted = true;
+                control.increase()
+                control._refreshDisplayedText(true)
+                event.accepted = true
             } else if (event.key === Qt.Key_Down || event.key === Qt.Key_PageDown) {
-                control.decrease();
-                control._refreshDisplayedText(true);
-                event.accepted = true;
+                control.decrease()
+                control._refreshDisplayedText(true)
+                event.accepted = true
             } else if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
-                commit();
+                commit()
                 input.focus = false;
                 // Trigger focus-based commit handlers in parent code, then return focus to this control.
-                control.focus = false;
+                control.focus = false
                 Qt.callLater(function () {
-                    control.forceActiveFocus();
-                });
-                event.accepted = true;
+                    control.forceActiveFocus()
+                })
+                event.accepted = true
             } else if (event.key === Qt.Key_Escape) {
-                text = control.textFromValue(control.value, control.locale);
-                input.focus = false;
-                control.focus = false;
+                text = control.textFromValue(control.value, control.locale)
+                input.focus = false
+                control.focus = false
                 Qt.callLater(function () {
-                    control.forceActiveFocus();
-                });
-                event.accepted = true;
+                    control.forceActiveFocus()
+                })
+                event.accepted = true
             }
         }
 
@@ -317,22 +317,22 @@ SpinBox {
 
         color: {
             if (!control.enabled)
-                return control.disabledBackgroundColor;
+                return control.disabledBackgroundColor
             if (control.up.pressed)
-                return control.pressedBackgroundColor;
+                return control.pressedBackgroundColor
             if (control.up.hovered)
-                return control.hoveredBackgroundColor;
-            return control.backgroundColor;
+                return control.hoveredBackgroundColor
+            return control.backgroundColor
         }
 
         border.color: {
             if (!control.enabled)
-                return control.borderColor;
+                return control.borderColor
             if (control.visualFocus || control._hasActiveFocus)
-                return control.focusedBorderColor;
+                return control.focusedBorderColor
             if (control.up.hovered)
-                return control.hoveredBorderColor;
-            return control.borderColor;
+                return control.hoveredBorderColor
+            return control.borderColor
         }
         border.width: (control.visualFocus || control._hasActiveFocus || control.up.hovered) ? Fonts.size2 : Fonts.size1
 
@@ -374,22 +374,22 @@ SpinBox {
 
         color: {
             if (!control.enabled)
-                return control.disabledBackgroundColor;
+                return control.disabledBackgroundColor
             if (control.down.pressed)
-                return control.pressedBackgroundColor;
+                return control.pressedBackgroundColor
             if (control.down.hovered)
-                return control.hoveredBackgroundColor;
-            return control.backgroundColor;
+                return control.hoveredBackgroundColor
+            return control.backgroundColor
         }
 
         border.color: {
             if (!control.enabled)
-                return control.borderColor;
+                return control.borderColor
             if (control.visualFocus || control._hasActiveFocus)
-                return control.focusedBorderColor;
+                return control.focusedBorderColor
             if (control.down.hovered)
-                return control.hoveredBorderColor;
-            return control.borderColor;
+                return control.hoveredBorderColor
+            return control.borderColor
         }
         border.width: (control.visualFocus || control._hasActiveFocus || control.down.hovered) ? Fonts.size2 : Fonts.size1
 
@@ -425,21 +425,21 @@ SpinBox {
         implicitHeight: control.defaultHeight
         color: {
             if (!control.enabled)
-                return control.disabledBackgroundColor;
+                return control.disabledBackgroundColor
             if (control.pressed)
-                return control.pressedBackgroundColor;
+                return control.pressedBackgroundColor
             if (control.hovered)
-                return control.hoveredBackgroundColor;
-            return control.backgroundColor;
+                return control.hoveredBackgroundColor
+            return control.backgroundColor
         }
         border.color: {
             if (!control.enabled)
-                return control.borderColor;
+                return control.borderColor
             if (control.visualFocus || control._hasActiveFocus)
-                return control.focusedBorderColor;
+                return control.focusedBorderColor
             if (control.hovered)
-                return control.hoveredBorderColor;
-            return control.borderColor;
+                return control.hoveredBorderColor
+            return control.borderColor
         }
         border.width: (control.visualFocus || control._hasActiveFocus || control.hovered) ? Fonts.size2 : Fonts.size1
         radius: defaultRadius
@@ -487,10 +487,10 @@ SpinBox {
 
     // Helper functions for easier usage
     function setRealValue(val) {
-        realValue = val;
+        realValue = val
     }
 
     function getRealValue() {
-        return realValue;
+        return realValue
     }
 }

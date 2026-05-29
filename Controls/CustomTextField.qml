@@ -151,22 +151,22 @@ TextField {
 
         onClicked: {
             if (mouse.button === Qt.RightButton) {
-                var menu = editMenuComponent.createObject(control);
-                menu.popup();
+                var menu = editMenuComponent.createObject(control)
+                menu.popup()
             }
         }
 
         onPressed: function (mouse) {
-            mouse.accepted = false;
+            mouse.accepted = false
         }
         onReleased: function (mouse) {
-            mouse.accepted = false;
+            mouse.accepted = false
         }
         onDoubleClicked: function (mouse) {
-            mouse.accepted = false;
+            mouse.accepted = false
         }
         onPositionChanged: function (mouse) {
-            mouse.accepted = false;
+            mouse.accepted = false
         }
     }
 
@@ -178,17 +178,17 @@ TextField {
         propagateComposedEvents: true
 
         onEntered: {
-            control.mouseInside = true;
-            cursorShape = Qt.IBeamCursor;
+            control.mouseInside = true
+            cursorShape = Qt.IBeamCursor
         }
 
         onExited: {
-            control.mouseInside = false;
-            cursorShape = Qt.ArrowCursor;
+            control.mouseInside = false
+            cursorShape = Qt.ArrowCursor
 
             if (control.autoAcceptOnMouseExit && control.activeFocus) {
-                control.accepted();
-                control.focus = false;
+                control.accepted()
+                control.focus = false
             }
         }
 
@@ -201,52 +201,52 @@ TextField {
 
     Keys.onPressed: function (event) {
         if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
-            control._skipFocusCommitOnce = true;
-            control.editingCommitted(control.text);
-            control.accepted();
-            control.editingFinished();
+            control._skipFocusCommitOnce = true
+            control.editingCommitted(control.text)
+            control.accepted()
+            control.editingFinished()
             Qt.callLater(function () {
-                control.focus = false;
-            });
-            event.accepted = true;
+                control.focus = false
+            })
+            event.accepted = true
         } else if (event.key === Qt.Key_Escape) {
-            control.actualText = originalText;
-            control.focus = false;
-            event.accepted = true;
+            control.actualText = originalText
+            control.focus = false
+            event.accepted = true
         }
     }
 
     Keys.onEscapePressed: {
-        focus = false;
+        focus = false
     }
 
     onFocusChanged: {
         if (!focus && activeFocus) {
             if (control._skipFocusCommitOnce) {
-                control._skipFocusCommitOnce = false;
-                return;
+                control._skipFocusCommitOnce = false
+                return
             }
-            control.editingCommitted(control.text);
-            control.accepted();
-            control.editingFinished();
+            control.editingCommitted(control.text)
+            control.accepted()
+            control.editingFinished()
         }
     }
 
     onTextChanged: {
         if (activeFocus && text !== "(empty)") {
-            actualText = text;
+            actualText = text
         }
     }
 
     onActiveFocusChanged: {
         if (activeFocus) {
-            originalText = actualText;
+            originalText = actualText
 
             if (text === "(empty)") {}
         }
     }
 
     onActualTextChanged: {
-        textContentChanged(actualText);
+        textContentChanged(actualText)
     }
 }

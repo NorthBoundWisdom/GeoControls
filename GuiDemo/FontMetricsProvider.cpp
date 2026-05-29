@@ -4,11 +4,7 @@
 
 namespace networkutil
 {
-FontMetricsProvider::FontMetricsProvider(QObject *parent)
-    : QObject(parent)
-    , m_metrics(QFont())
-{
-}
+FontMetricsProvider::FontMetricsProvider(QObject *parent) : QObject(parent), m_metrics(QFont()) {}
 
 void FontMetricsProvider::setFont(const QFont &font)
 {

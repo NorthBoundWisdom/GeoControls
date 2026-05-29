@@ -22,10 +22,10 @@ DialogShell {
     signal rejected
 
     onCloseRequested: function (reason) {
-        root.resultText = qsTr("Cancel");
-        root.finished(qsTr("Cancel"));
+        root.resultText = qsTr("Cancel")
+        root.finished(qsTr("Cancel"))
         if (reason === "escape") {
-            root.rejected();
+            root.rejected()
         }
     }
 
@@ -33,12 +33,12 @@ DialogShell {
         spacing: 0
 
         Keys.onReturnPressed: {
-            root.accepted();
-            root.close();
+            root.accepted()
+            root.close()
         }
         Keys.onEnterPressed: {
-            root.accepted();
-            root.close();
+            root.accepted()
+            root.close()
         }
 
         Label {
@@ -69,22 +69,22 @@ DialogShell {
                 Component.onCompleted: {
                     if (isDefault) {
                         Qt.callLater(function () {
-                            dynBtn.forceActiveFocus();
-                        });
+                            dynBtn.forceActiveFocus()
+                        })
                     }
                 }
                 Keys.onPressed: function (event) {
                     if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter || event.key === Qt.Key_Space) {
-                        root.resultText = text;
-                        root.finished(text);
-                        root.close();
-                        event.accepted = true;
+                        root.resultText = text
+                        root.finished(text)
+                        root.close()
+                        event.accepted = true
                     }
                 }
                 onClicked: function () {
-                    root.resultText = text;
-                    root.finished(text);
-                    root.close();
+                    root.resultText = text
+                    root.finished(text)
+                    root.close()
                 }
             }
         }
@@ -94,7 +94,7 @@ DialogShell {
     }
 
     function openWithButtons() {
-        open();
+        open()
     }
 
     // (Keys moved into keyScope Item to avoid attaching to non-Item Popup)
@@ -105,8 +105,8 @@ DialogShell {
         context: Qt.WindowShortcut
         enabled: root.visible
         onActivated: {
-            root.accepted();
-            root.close();
+            root.accepted()
+            root.close()
         }
     }
 }

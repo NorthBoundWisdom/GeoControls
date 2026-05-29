@@ -14,24 +14,24 @@ Rectangle {
     readonly property real buttonTextPadding: Fonts.size8
     readonly property real fallbackButtonWidth: Fonts.scaledUiSize(96)
     readonly property real resolvedButtonWidth: {
-        var maxWidth = fallbackButtonWidth;
+        var maxWidth = fallbackButtonWidth
         if (!Array.isArray(model)) {
-            return maxWidth;
+            return maxWidth
         }
         for (var i = 0; i < model.length; ++i) {
-            var label = String(model[i]);
-            var estimate = Math.max(fallbackButtonWidth, label.length * Fonts.size8 + buttonTextPadding * 2);
-            maxWidth = Math.max(maxWidth, estimate);
+            var label = String(model[i])
+            var estimate = Math.max(fallbackButtonWidth, label.length * Fonts.size8 + buttonTextPadding * 2)
+            maxWidth = Math.max(maxWidth, estimate)
         }
-        return maxWidth;
+        return maxWidth
     }
 
     implicitWidth: {
-        var count = Array.isArray(model) ? model.length : 0;
+        var count = Array.isArray(model) ? model.length : 0
         if (count <= 0) {
-            return 0;
+            return 0
         }
-        return count * resolvedButtonWidth + Math.max(0, count - 1) * Fonts.size4 + Fonts.size12;
+        return count * resolvedButtonWidth + Math.max(0, count - 1) * Fonts.size4 + Fonts.size12
     }
     Layout.minimumWidth: implicitWidth
     implicitHeight: Fonts.inputFieldHeight
@@ -55,29 +55,24 @@ Rectangle {
 
                 Layout.fillWidth: true
                 Layout.minimumWidth: root.resolvedButtonWidth
-                implicitWidth: Math.max(root.resolvedButtonWidth,
-                                        contentItem.implicitWidth + leftPadding + rightPadding)
+                implicitWidth: Math.max(root.resolvedButtonWidth, contentItem.implicitWidth + leftPadding + rightPadding)
                 text: String(modelData)
                 defaultHeight: Fonts.inputFieldHeight * 0.8
                 defaultPadding: Fonts.size4
                 defaultRadius: Fonts.size2
                 buttonColor: root.currentIndex === index ? Theme.highlightColor : "transparent"
-                hoveredColor: root.currentIndex === index ? Theme.highlightColor :
-                                                           Theme.buttonHoveredColor
+                hoveredColor: root.currentIndex === index ? Theme.highlightColor : Theme.buttonHoveredColor
                 pressedColor: Theme.highlightColor
-                buttonTextColor: root.currentIndex === index ? Theme.highlightedTextColor :
-                                                               Theme.textColor
+                buttonTextColor: root.currentIndex === index ? Theme.highlightedTextColor : Theme.textColor
                 midColor: "transparent"
-                darkColor: root.currentIndex === index ? Theme.highlightColor :
-                                                         Theme.midColor
+                darkColor: root.currentIndex === index ? Theme.highlightColor : Theme.midColor
                 highlightColor: Theme.highlightColor
 
                 contentItem: Text {
                     text: optionButton.text
                     anchors.centerIn: parent
                     font: optionButton.font
-                    color: !optionButton.enabled ? optionButton.disabledTextColor :
-                                                   optionButton.buttonTextColor
+                    color: !optionButton.enabled ? optionButton.disabledTextColor : optionButton.buttonTextColor
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
                     wrapMode: Text.NoWrap
@@ -86,10 +81,10 @@ Rectangle {
 
                 onClicked: {
                     if (root.currentIndex === index) {
-                        return;
+                        return
                     }
-                    root.currentIndex = index;
-                    root.activated(index);
+                    root.currentIndex = index
+                    root.activated(index)
                 }
             }
         }

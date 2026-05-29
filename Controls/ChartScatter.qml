@@ -31,12 +31,12 @@ Item {
         ] : [])
     readonly property int legendItemCount: (root.rawLegendItems || []).length
     readonly property var visibleLegendIndices: (function () {
-            var result = [];
+            var result = []
             for (var i = 0; i < root.legendItemCount; i++) {
                 if (root.isLegendEnabled(i))
-                    result.push(i);
+                    result.push(i)
             }
-            return result;
+            return result
         })()
     readonly property int visibleSeriesCount: root.visibleLegendIndices.length
     readonly property bool allowLegendToggle: root.legendItemCount > 1
@@ -51,76 +51,76 @@ Item {
     readonly property var legendItems: root.rawLegendItems
 
     function requestChartPaint() {
-        canvas.requestPaint();
+        canvas.requestPaint()
     }
 
     function isValidNumber(value) {
-        return value !== null && value !== undefined && !isNaN(Number(value)) && isFinite(Number(value));
+        return value !== null && value !== undefined && !isNaN(Number(value)) && isFinite(Number(value))
     }
 
     function normalizeYValues(points, targetLen) {
-        var source = points || [];
-        var values = [];
+        var source = points || []
+        var values = []
         for (var i = 0; i < targetLen; i++) {
-            var p = source[i];
-            values.push((p && isValidNumber(p.y)) ? Number(p.y) : null);
+            var p = source[i]
+            values.push((p && isValidNumber(p.y)) ? Number(p.y) : null)
         }
-        return values;
+        return values
     }
 
     function animateToNewData() {
-        requestChartPaint();
+        requestChartPaint()
     }
 
     function isLegendEnabled(index) {
         if (!allowLegendToggle)
-            return true;
-        return !hiddenLegendIndices[index];
+            return true
+        return !hiddenLegendIndices[index]
     }
 
     function toggleLegendIndex(index) {
         if (!allowLegendToggle)
-            return;
-        var currentlyEnabled = root.isLegendEnabled(index);
+            return
+        var currentlyEnabled = root.isLegendEnabled(index)
         if (currentlyEnabled && root.visibleSeriesCount <= 1)
-            return;
-        var next = {};
+            return
+        var next = {}
         for (var k in hiddenLegendIndices)
-            next[k] = hiddenLegendIndices[k];
+            next[k] = hiddenLegendIndices[k]
         if (next[index]) {
-            delete next[index];
+            delete next[index]
         } else {
-            next[index] = true;
+            next[index] = true
         }
-        hiddenLegendIndices = next;
-        requestChartPaint();
+        hiddenLegendIndices = next
+        requestChartPaint()
     }
 
     function isolateLegendIndex(index) {
         if (!allowLegendToggle)
-            return;
-        var count = (root.legendItems || []).length;
+            return
+        var count = (root.legendItems || []).length
         if (index < 0 || index >= count)
-            return;
-        var hasOtherVisible = false;
+            return
+        var hasOtherVisible = false
         for (var i = 0; i < count; i++) {
             if (i !== index && root.isLegendEnabled(i)) {
-                hasOtherVisible = true;
-                break;
+                hasOtherVisible = true
+                break
             }
         }
         if (!hasOtherVisible) {
-            hiddenLegendIndices = ({});
-            requestChartPaint();
-            return;
+            hiddenLegendIndices = ({})
+            requestChartPaint()
+            return
         }
-        var next = {};
+        var next = {}
         for (var j = 0; j < count; j++) {
             if (j !== index)
-                next[j] = true;
+                next[j] = true
         }
-        hiddenLegendIndices = next;
-        requestChartPaint();
+        hiddenLegendIndices = next
+        requestChartPaint()
     }
 
     // Force redraw when theme colors change
@@ -130,13 +130,13 @@ Item {
     Connections {
         target: Theme
         function onColorsChanged() {
-            root.requestChartPaint();
+            root.requestChartPaint()
         }
     }
 
     // Compute whether a right axis is needed
     readonly property bool needsRightAxis: (series || []).some(function (s) {
-        return (s && s.yAxisId === "y-axis-2");
+        return (s && s.yAxisId === "y-axis-2")
     })
 
     // Header above canvas to prevent overlap
@@ -217,7 +217,7 @@ Item {
 
         onPaint: {
             if (width <= 0 || height <= 0)
-                return;
+                return
             // Build series from either multi-series or single-series fallback
             var series = (root.series && root.series.length > 0) ? root.series : (root.points && root.points.length > 0 ? [
                     {
@@ -226,44 +226,44 @@ Item {
                         color: root.seriesColor,
                         yAxisId: (root.useRightAxis ? "y-axis-2" : "y-axis-1")
                     }
-                ] : []);
-            var maxLen = 0;
+                ] : [])
+            var maxLen = 0
             for (var i = 0; i < series.length; i++) {
-                var pts = (series[i] && series[i].data) ? series[i].data : [];
+                var pts = (series[i] && series[i].data) ? series[i].data : []
                 if (pts.length > maxLen)
-                    maxLen = pts.length;
+                    maxLen = pts.length
             }
             // Build x-axis labels using x-values from the first series (fallback to index)
-            var labels = [];
-            var base = (series.length > 0 && (series[0].data || []).length > 0) ? series[0].data : [];
+            var labels = []
+            var base = (series.length > 0 && (series[0].data || []).length > 0) ? series[0].data : []
             for (var j = 0; j < maxLen; j++) {
-                var xv = (base[j] && base[j].x !== undefined) ? base[j].x : (j + 1);
-                labels.push(String(xv));
+                var xv = (base[j] && base[j].x !== undefined) ? base[j].x : (j + 1)
+                labels.push(String(xv))
             }
-            var datasets = [];
+            var datasets = []
             for (var k = 0; k < series.length; k++) {
                 if (!root.isLegendEnabled(k))
-                    continue;
-                var s = series[k] || {};
-                var color = String(s.color || Theme.highlightColor);
+                    continue
+                var s = series[k] || {}
+                var color = String(s.color || Theme.highlightColor)
                 datasets.push({
                     data: root.normalizeYValues(s.data, labels.length),
                     strokeColor: "rgba(0,0,0,0)",
                     fillColor: "rgba(0,0,0,0)",
                     pointColor: color,
                     pointStrokeColor: color
-                });
+                })
             }
             if (datasets.length === 0) {
-                var ctx = getContext("2d");
+                var ctx = getContext("2d")
                 if (ctx)
-                    ctx.clearRect(0, 0, width, height);
-                return;
+                    ctx.clearRect(0, 0, width, height)
+                return
             }
             var data = {
                 labels: labels,
                 datasets: datasets
-            };
+            }
             var config = {
                 animation: false,
                 datasetStrokeWidth: 0,
@@ -274,8 +274,8 @@ Item {
                 scaleGridLineColor: String(root.gridColor),
                 scaleLineColor: String(root.zeroLineColor),
                 scaleFontColor: String(root.tickColor)
-            };
-            line(data, config);
+            }
+            line(data, config)
         }
     }
 

@@ -39,12 +39,12 @@ Dialog {
     bottomPadding: Math.round(unit * 0.45)
 
     onOpened: {
-        var initial = isValidRgbColor(selectedColor) ? selectedColor : previewColor;
+        var initial = isValidRgbColor(selectedColor) ? selectedColor : previewColor
         applyColorToUi(initial);
         // Re-apply after layout pass so cursor positions are correct even when sizes are not ready on first tick.
         Qt.callLater(function () {
-            applyColorToUi(initial);
-        });
+            applyColorToUi(initial)
+        })
     }
 
     background: Rectangle {
@@ -120,20 +120,20 @@ Dialog {
             function updateFinalColor() {
                 if (colorPanel && colorPanel.xPercent !== undefined && colorPanel.yPercent !== undefined) {
                     if (isNaN(colorPanel.xPercent) || isNaN(colorPanel.yPercent)) {
-                        return;
+                        return
                     }
 
-                    var hueColor = colorPanel.getHueColor(colorPanel.xPercent);
+                    var hueColor = colorPanel.getHueColor(colorPanel.xPercent)
                     if (hueColor) {
-                        var saturationColor = colorPanel.getSaturationColor(hueColor, colorPanel.yPercent);
+                        var saturationColor = colorPanel.getSaturationColor(hueColor, colorPanel.yPercent)
                         if (saturationColor && colorPanel.brightnessPercent !== undefined) {
                             if (isNaN(colorPanel.brightnessPercent)) {
-                                return;
+                                return
                             }
 
-                            var finalColor = Qt.rgba(saturationColor.r * colorPanel.brightnessPercent, saturationColor.g * colorPanel.brightnessPercent, saturationColor.b * colorPanel.brightnessPercent, 1.0);
-                            colorValue = finalColor;
-                            control.updateColor();
+                            var finalColor = Qt.rgba(saturationColor.r * colorPanel.brightnessPercent, saturationColor.g * colorPanel.brightnessPercent, saturationColor.b * colorPanel.brightnessPercent, 1.0)
+                            colorValue = finalColor
+                            control.updateColor()
                         }
                     }
                 }
@@ -173,61 +173,61 @@ Dialog {
 
                     function getHueColor(x) {
                         if (isNaN(x) || x < 0 || x > 1) {
-                            return Qt.rgba(1, 0, 0, 1);
+                            return Qt.rgba(1, 0, 0, 1)
                         }
 
-                        var h = x;
-                        var r, g, b;
+                        var h = x
+                        var r, g, b
 
                         if (h < 1 / 6) {
-                            r = 1;
-                            g = h * 6;
-                            b = 0;
+                            r = 1
+                            g = h * 6
+                            b = 0
                         } else if (h < 2 / 6) {
-                            r = 2 - h * 6;
-                            g = 1;
-                            b = 0;
+                            r = 2 - h * 6
+                            g = 1
+                            b = 0
                         } else if (h < 3 / 6) {
-                            r = 0;
-                            g = 1;
-                            b = (h - 2 / 6) * 6;
+                            r = 0
+                            g = 1
+                            b = (h - 2 / 6) * 6
                         } else if (h < 4 / 6) {
-                            r = 0;
-                            g = (4 / 6 - h) * 6;
-                            b = 1;
+                            r = 0
+                            g = (4 / 6 - h) * 6
+                            b = 1
                         } else if (h < 5 / 6) {
-                            r = (h - 4 / 6) * 6;
-                            g = 0;
-                            b = 1;
+                            r = (h - 4 / 6) * 6
+                            g = 0
+                            b = 1
                         } else {
-                            r = 1;
-                            g = 0;
-                            b = (1 - h) * 6;
+                            r = 1
+                            g = 0
+                            b = (1 - h) * 6
                         }
 
                         if (isNaN(r) || isNaN(g) || isNaN(b)) {
-                            return Qt.rgba(1, 0, 0, 1);
+                            return Qt.rgba(1, 0, 0, 1)
                         }
 
-                        return Qt.rgba(r, g, b, 1);
+                        return Qt.rgba(r, g, b, 1)
                     }
 
                     function getSaturationColor(hueColor, y) {
                         if (!hueColor || isNaN(y) || y < 0 || y > 1) {
-                            return Qt.rgba(1, 0, 0, 1);
+                            return Qt.rgba(1, 0, 0, 1)
                         }
 
-                        var whiteness = y;
+                        var whiteness = y
 
-                        var r = hueColor.r * (1 - whiteness) + whiteness;
-                        var g = hueColor.g * (1 - whiteness) + whiteness;
-                        var b = hueColor.b * (1 - whiteness) + whiteness;
+                        var r = hueColor.r * (1 - whiteness) + whiteness
+                        var g = hueColor.g * (1 - whiteness) + whiteness
+                        var b = hueColor.b * (1 - whiteness) + whiteness
 
                         if (isNaN(r) || isNaN(g) || isNaN(b)) {
-                            return Qt.rgba(1, 0, 0, 1);
+                            return Qt.rgba(1, 0, 0, 1)
                         }
 
-                        return Qt.rgba(r, g, b, 1.0);
+                        return Qt.rgba(r, g, b, 1.0)
                     }
 
                     Item {
@@ -302,9 +302,9 @@ Dialog {
 
                         Component.onCompleted: {
                             if (!isInitialized) {
-                                x = 0;
-                                y = 0;
-                                isInitialized = true;
+                                x = 0
+                                y = 0
+                                isInitialized = true
                             }
                         }
 
@@ -333,9 +333,9 @@ Dialog {
                         function handleMouse(mouse) {
                             if (mouse.buttons & Qt.LeftButton) {
                                 if (width > 0 && height > 0 && !isNaN(mouse.x) && !isNaN(mouse.y)) {
-                                    pickerCursor.x = Math.max(0, Math.min(mouse.x, width));
-                                    pickerCursor.y = Math.max(0, Math.min(mouse.y, height));
-                                    colorPickerPanel.updateFinalColor();
+                                    pickerCursor.x = Math.max(0, Math.min(mouse.x, width))
+                                    pickerCursor.y = Math.max(0, Math.min(mouse.y, height))
+                                    colorPickerPanel.updateFinalColor()
                                 }
                             }
                         }
@@ -358,17 +358,17 @@ Dialog {
                             position: 0.0
                             color: {
                                 if (isNaN(colorPanel.xPercent) || isNaN(colorPanel.yPercent)) {
-                                    return "#FF0000";
+                                    return "#FF0000"
                                 }
 
-                                var hueColor = colorPanel.getHueColor(colorPanel.xPercent);
-                                var saturationColor = colorPanel.getSaturationColor(hueColor, colorPanel.yPercent);
+                                var hueColor = colorPanel.getHueColor(colorPanel.xPercent)
+                                var saturationColor = colorPanel.getSaturationColor(hueColor, colorPanel.yPercent)
 
                                 if (!saturationColor) {
-                                    return "#FF0000";
+                                    return "#FF0000"
                                 }
 
-                                return saturationColor;
+                                return saturationColor
                             }
                         }
                         GradientStop {
@@ -393,8 +393,8 @@ Dialog {
 
                         Component.onCompleted: {
                             if (!isInitialized) {
-                                y = 0;
-                                isInitialized = true;
+                                y = 0
+                                isInitialized = true
                             }
                         }
 
@@ -415,8 +415,8 @@ Dialog {
                         function handleMouse(mouse) {
                             if (mouse.buttons & Qt.LeftButton) {
                                 if (height > 0 && !isNaN(mouse.y)) {
-                                    brightnessCursor.y = Math.max(0, Math.min(mouse.y, height));
-                                    colorPickerPanel.updateFinalColor();
+                                    brightnessCursor.y = Math.max(0, Math.min(mouse.y, height))
+                                    colorPickerPanel.updateFinalColor()
                                 }
                             }
                         }
@@ -451,7 +451,7 @@ Dialog {
                 }
                 onTextChanged: {
                     if (!updating && text) {
-                        updateColorFromInputs();
+                        updateColorFromInputs()
                     }
                 }
             }
@@ -475,7 +475,7 @@ Dialog {
                 }
                 onTextChanged: {
                     if (!updating && text) {
-                        updateColorFromInputs();
+                        updateColorFromInputs()
                     }
                 }
             }
@@ -499,7 +499,7 @@ Dialog {
                 }
                 onTextChanged: {
                     if (!updating && text) {
-                        updateColorFromInputs();
+                        updateColorFromInputs()
                     }
                 }
             }
@@ -566,57 +566,57 @@ Dialog {
     Connections {
         target: colorPickerPanel
         function onColorValueChanged() {
-            redInput.updating = true;
-            greenInput.updating = true;
-            blueInput.updating = true;
+            redInput.updating = true
+            greenInput.updating = true
+            blueInput.updating = true
 
-            updateTextFields();
+            updateTextFields()
 
-            redInput.updating = false;
-            greenInput.updating = false;
-            blueInput.updating = false;
+            redInput.updating = false
+            greenInput.updating = false
+            blueInput.updating = false
         }
     }
 
     function updateTextFields() {
         if (colorPickerPanel && colorPickerPanel.colorValue) {
-            var r = Math.round((colorPickerPanel.colorValue.r || 0) * 255);
-            var g = Math.round((colorPickerPanel.colorValue.g || 0) * 255);
-            var b = Math.round((colorPickerPanel.colorValue.b || 0) * 255);
+            var r = Math.round((colorPickerPanel.colorValue.r || 0) * 255)
+            var g = Math.round((colorPickerPanel.colorValue.g || 0) * 255)
+            var b = Math.round((colorPickerPanel.colorValue.b || 0) * 255)
 
             if (!isNaN(r) && !isNaN(g) && !isNaN(b)) {
-                redInput.text = r.toString();
-                greenInput.text = g.toString();
-                blueInput.text = b.toString();
+                redInput.text = r.toString()
+                greenInput.text = g.toString()
+                blueInput.text = b.toString()
             }
         }
     }
 
     function isValidRgbColor(c) {
-        return c && c.r !== undefined && c.g !== undefined && c.b !== undefined && !isNaN(c.r) && !isNaN(c.g) && !isNaN(c.b);
+        return c && c.r !== undefined && c.g !== undefined && c.b !== undefined && !isNaN(c.r) && !isNaN(c.g) && !isNaN(c.b)
     }
 
     function applyColorToUi(color) {
         if (!isValidRgbColor(color)) {
-            return;
+            return
         }
 
-        colorPickerPanel.colorValue = Qt.rgba(color.r, color.g, color.b, 1.0);
-        selectedColor = colorPickerPanel.colorValue;
+        colorPickerPanel.colorValue = Qt.rgba(color.r, color.g, color.b, 1.0)
+        selectedColor = colorPickerPanel.colorValue
 
-        var hsv = rgbToHsv(color.r, color.g, color.b);
+        var hsv = rgbToHsv(color.r, color.g, color.b)
         if (isNaN(hsv.h) || isNaN(hsv.s) || isNaN(hsv.v)) {
             hsv = {
                 h: 0,
                 s: 0,
                 v: 1
-            };
+            }
         }
 
-        pickerCursor.x = Math.max(0, Math.min(hsv.h * colorPanel.width, colorPanel.width));
-        pickerCursor.y = Math.max(0, Math.min(hsv.s * colorPanel.height, colorPanel.height));
-        brightnessCursor.y = Math.max(0, Math.min((1 - hsv.v) * brightnessBar.height, brightnessBar.height));
-        updateTextFields();
+        pickerCursor.x = Math.max(0, Math.min(hsv.h * colorPanel.width, colorPanel.width))
+        pickerCursor.y = Math.max(0, Math.min(hsv.s * colorPanel.height, colorPanel.height))
+        brightnessCursor.y = Math.max(0, Math.min((1 - hsv.v) * brightnessBar.height, brightnessBar.height))
+        updateTextFields()
     }
 
     function rgbToHsv(r, g, b) {
@@ -625,35 +625,35 @@ Dialog {
                 h: 0,
                 s: 0,
                 v: 1
-            };
+            }
         }
 
-        r = Math.max(0, Math.min(1, r));
-        g = Math.max(0, Math.min(1, g));
-        b = Math.max(0, Math.min(1, b));
+        r = Math.max(0, Math.min(1, r))
+        g = Math.max(0, Math.min(1, g))
+        b = Math.max(0, Math.min(1, b))
 
-        var max = Math.max(r, g, b);
-        var min = Math.min(r, g, b);
-        var d = max - min;
-        var h;
-        var s = (max === 0 ? 0 : d / max);
-        var v = max;
+        var max = Math.max(r, g, b)
+        var min = Math.min(r, g, b)
+        var d = max - min
+        var h
+        var s = (max === 0 ? 0 : d / max)
+        var v = max
 
         if (max === min) {
-            h = 0;
+            h = 0
         } else {
             switch (max) {
             case r:
-                h = (g - b) / d + (g < b ? 6 : 0);
-                break;
+                h = (g - b) / d + (g < b ? 6 : 0)
+                break
             case g:
-                h = (b - r) / d + 2;
-                break;
+                h = (b - r) / d + 2
+                break
             case b:
-                h = (r - g) / d + 4;
-                break;
+                h = (r - g) / d + 4
+                break
             }
-            h /= 6;
+            h /= 6
         }
 
         if (isNaN(h) || isNaN(s) || isNaN(v)) {
@@ -661,42 +661,41 @@ Dialog {
                 h: 0,
                 s: 0,
                 v: 1
-            };
+            }
         }
 
-        var whiteness = 1 - s;
+        var whiteness = 1 - s
 
         return {
             h: h,
             s: whiteness,
             v: v
-        };
+        }
     }
 
     function updateColor() {
         if (colorPickerPanel && colorPickerPanel.colorValue) {
-            selectedColor = colorPickerPanel.colorValue;
+            selectedColor = colorPickerPanel.colorValue
         }
     }
 
     function updateColorFromInputs() {
         if (!redInput.text || !greenInput.text || !blueInput.text)
-            return;
-
-        let r = Math.max(0, Math.min(parseInt(redInput.text, 10) || 0, 255)) / 255;
-        let g = Math.max(0, Math.min(parseInt(greenInput.text, 10) || 0, 255)) / 255;
-        let b = Math.max(0, Math.min(parseInt(blueInput.text, 10) || 0, 255)) / 255;
+            return
+        let r = Math.max(0, Math.min(parseInt(redInput.text, 10) || 0, 255)) / 255
+        let g = Math.max(0, Math.min(parseInt(greenInput.text, 10) || 0, 255)) / 255
+        let b = Math.max(0, Math.min(parseInt(blueInput.text, 10) || 0, 255)) / 255
 
         if (!isNaN(r) && !isNaN(g) && !isNaN(b)) {
-            colorPickerPanel.colorValue = Qt.rgba(r, g, b, 1.0);
-            selectedColor = colorPickerPanel.colorValue;
+            colorPickerPanel.colorValue = Qt.rgba(r, g, b, 1.0)
+            selectedColor = colorPickerPanel.colorValue
 
-            var hsv = rgbToHsv(r, g, b);
+            var hsv = rgbToHsv(r, g, b)
 
             if (!isNaN(hsv.h) && !isNaN(hsv.s) && !isNaN(hsv.v)) {
-                pickerCursor.x = Math.max(0, Math.min(hsv.h * colorPanel.width, colorPanel.width));
-                pickerCursor.y = Math.max(0, Math.min(hsv.s * colorPanel.height, colorPanel.height));
-                brightnessCursor.y = Math.max(0, Math.min((1 - hsv.v) * brightnessBar.height, brightnessBar.height));
+                pickerCursor.x = Math.max(0, Math.min(hsv.h * colorPanel.width, colorPanel.width))
+                pickerCursor.y = Math.max(0, Math.min(hsv.s * colorPanel.height, colorPanel.height))
+                brightnessCursor.y = Math.max(0, Math.min((1 - hsv.v) * brightnessBar.height, brightnessBar.height))
             }
         }
     }

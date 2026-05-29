@@ -36,7 +36,7 @@ GroupBox {
             duration: 150
             onStopped: {
                 if (!control.expanded && control.contentItem) {
-                    control.contentItem.visible = false;
+                    control.contentItem.visible = false
                 }
             }
         }
@@ -44,21 +44,21 @@ GroupBox {
 
     Component.onCompleted: {
         if (control.contentItem) {
-            control.contentItem.clip = true;
+            control.contentItem.clip = true
         }
 
-        control.initialized = false;
-        control.expanded = control.initialExpanded;
-        control.prevHeight = control.implicitHeight;
+        control.initialized = false
+        control.expanded = control.initialExpanded
+        control.prevHeight = control.implicitHeight
         if (!control.expanded) {
             if (control.contentItem)
-                control.contentItem.visible = false;
-            control.implicitHeight = 0;
+                control.contentItem.visible = false
+            control.implicitHeight = 0
         } else {
             if (control.contentItem)
-                control.contentItem.visible = true;
+                control.contentItem.visible = true
         }
-        control.initialized = true;
+        control.initialized = true
     }
 
     background: Rectangle {
@@ -122,21 +122,21 @@ GroupBox {
             cursorShape: Qt.PointingHandCursor
             onClicked: {
                 if (!control.collapsible)
-                    return;
-                var nextExpanded = !control.expanded;
+                    return
+                var nextExpanded = !control.expanded
                 if (nextExpanded) {
                     if (control.contentItem)
-                        control.contentItem.visible = true;
-                    control.expanded = true;
-                    control.toggled(control.expanded);
-                    control.implicitHeight = control.prevHeight;
+                        control.contentItem.visible = true
+                    control.expanded = true
+                    control.toggled(control.expanded)
+                    control.implicitHeight = control.prevHeight
                 } else {
-                    control.prevHeight = control.implicitHeight;
+                    control.prevHeight = control.implicitHeight
                     if (control.contentItem)
-                        control.contentItem.visible = true;
-                    control.expanded = false;
-                    control.toggled(control.expanded);
-                    control.implicitHeight = 0;
+                        control.contentItem.visible = true
+                    control.expanded = false
+                    control.toggled(control.expanded)
+                    control.implicitHeight = 0
                 }
             }
         }

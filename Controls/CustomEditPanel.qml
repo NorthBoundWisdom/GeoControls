@@ -7,7 +7,7 @@ Rectangle {
     id: root
 
     function expandedPreferredHeight() {
-        return contentColumn.implicitHeight + titleBar.height + (root.padding * 2);
+        return contentColumn.implicitHeight + titleBar.height + (root.padding * 2)
     }
 
     // Layout properties
@@ -77,13 +77,13 @@ Rectangle {
     // Track the last expanded height for smooth collapse/expand behavior.
     onContentHeightChanged: {
         if (root.expanded && root.initialized) {
-            prevHeight = expandedPreferredHeight();
+            prevHeight = expandedPreferredHeight()
         }
     }
 
     onExpandedChanged: {
         if (root.expanded) {
-            prevHeight = expandedPreferredHeight();
+            prevHeight = expandedPreferredHeight()
         }
     }
 
@@ -99,9 +99,9 @@ Rectangle {
     // Initialize expanded/collapsed state
     Component.onCompleted: {
         Qt.callLater(function () {
-            root.prevHeight = root.expandedPreferredHeight();
-            root.initialized = true;
-        });
+            root.prevHeight = root.expandedPreferredHeight()
+            root.initialized = true
+        })
     }
 
     // Title bar
@@ -189,9 +189,9 @@ Rectangle {
 
                     onClicked: {
                         if (!root.editing) {
-                            root.editing = true;
+                            root.editing = true
                             if (root.onAdd) {
-                                root.onAdd();
+                                root.onAdd()
                             }
                         }
                     }
@@ -217,9 +217,9 @@ Rectangle {
 
                     onClicked: {
                         if (root.onDelete) {
-                            root.onDelete();
+                            root.onDelete()
                         }
-                        root.editing = false;
+                        root.editing = false
                     }
 
                     background: Rectangle {
@@ -242,7 +242,7 @@ Rectangle {
 
                     onClicked: {
                         if (root.onReset) {
-                            root.onReset();
+                            root.onReset()
                         }
                         // Reset does not exit editing state, only resets parameters
                     }
@@ -266,9 +266,9 @@ Rectangle {
 
                     onClicked: {
                         if (root.onApply) {
-                            root.onApply();
+                            root.onApply()
                         }
-                        root.editing = false;
+                        root.editing = false
                     }
 
                     background: Rectangle {
@@ -288,10 +288,10 @@ Rectangle {
             enabled: root.collapsible
             onClicked: {
                 if (!root.collapsible)
-                    return;
-                root.expanded = !root.expanded;
-                root.toggled(root.expanded);
-                root.prevHeight = root.expandedPreferredHeight();
+                    return
+                root.expanded = !root.expanded
+                root.toggled(root.expanded)
+                root.prevHeight = root.expandedPreferredHeight()
             }
         }
     }

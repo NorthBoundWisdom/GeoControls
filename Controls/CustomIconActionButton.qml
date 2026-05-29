@@ -36,27 +36,27 @@ CustomButton {
     background: Rectangle {
         color: {
             if (!control.enabled) {
-                return control.disabledColor;
+                return control.disabledColor
             }
             if (control.pressed) {
-                return control.pressedBgColor;
+                return control.pressedBgColor
             }
             if (control.hovered) {
-                return control.active ? Qt.lighter(control.activeColor, 1.1) : control.hoveredInactiveColor;
+                return control.active ? Qt.lighter(control.activeColor, 1.1) : control.hoveredInactiveColor
             }
-            return control.active ? control.activeColor : control.inactiveColor;
+            return control.active ? control.activeColor : control.inactiveColor
         }
         border.color: {
             if (!control.enabled) {
-                return control.borderColor;
+                return control.borderColor
             }
             if (control.pressed) {
-                return control.pressedBorderColor;
+                return control.pressedBorderColor
             }
             if (control.hovered) {
-                return control.hoveredBorderColor;
+                return control.hoveredBorderColor
             }
-            return control.borderColor;
+            return control.borderColor
         }
         border.width: control.borderWidth
         radius: control.defaultRadius

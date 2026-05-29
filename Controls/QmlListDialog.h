@@ -21,7 +21,7 @@ class QmlListDialog : public QObject
 {
     Q_OBJECT
 
-public:
+  public:
     struct SelectionInfo
     {
         QString selectedItem;       //!< The selected item text
@@ -92,18 +92,18 @@ public:
                            const QString &title = QString(),
                            const QString &defaultItem = QString());
 
-private slots:
+  private slots:
     void onItemSelected(const QString &item, int index);
     void onItemsSelected(const QStringList &items, const QList<int> &indices);
     void onCancelled();
 
-private:
+  private:
     QObject *createDialog(QQuickView *view, const QStringList &items, const QString &title,
                           bool allow_multiple_selection);
     void cleanupDialog();
     void invokeCallback(const SelectionInfo &result);
 
-private:
+  private:
     QObject *dialog_ = nullptr;
     SelectionCallback callback_;
     bool allowMultipleSelection_ = false;

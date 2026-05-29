@@ -23,49 +23,49 @@ Item {
     property int titleFontSize: Fonts.scaledFontPixelSize(14)
     property int legendFontSize: Fonts.scaledFontPixelSize(12)
     readonly property var legendItems: (function () {
-            var items = [];
-            var count = root.legendCount();
+            var items = []
+            var count = root.legendCount()
             for (var i = 0; i < count; i++) {
                 items.push({
                     label: String((root.labels && root.labels[i] !== undefined) ? root.labels[i] : (i + 1)),
                     color: root.colorAt(i)
-                });
+                })
             }
-            return items;
+            return items
         })()
 
     function isValidNumber(value) {
-        return value !== null && value !== undefined && !isNaN(Number(value)) && isFinite(Number(value));
+        return value !== null && value !== undefined && !isNaN(Number(value)) && isFinite(Number(value))
     }
 
     function normalizedValue(value) {
         if (!isValidNumber(value))
-            return 0;
-        var n = Number(value);
-        return n > 0 ? n : 0;
+            return 0
+        var n = Number(value)
+        return n > 0 ? n : 0
     }
 
     function legendCount() {
-        var labelsLen = (root.labels || []).length;
-        var valuesLen = (root.values || []).length;
-        return Math.max(labelsLen, valuesLen);
+        var labelsLen = (root.labels || []).length
+        var valuesLen = (root.values || []).length
+        return Math.max(labelsLen, valuesLen)
     }
 
     function colorAt(index) {
-        var palette = root.colors || [];
+        var palette = root.colors || []
         if (palette.length <= 0)
-            return String(Theme.highlightColor);
-        var c = palette[index % palette.length];
-        return String(c !== undefined && c !== null ? c : Theme.highlightColor);
+            return String(Theme.highlightColor)
+        var c = palette[index % palette.length]
+        return String(c !== undefined && c !== null ? c : Theme.highlightColor)
     }
 
     function requestPaintSafe() {
         if (canvas)
-            canvas.requestPaint();
+            canvas.requestPaint()
     }
 
     function animateToNewData() {
-        requestPaintSafe();
+        requestPaintSafe()
     }
 
     onValuesChanged: requestPaintSafe()
@@ -77,7 +77,7 @@ Item {
     Connections {
         target: Theme
         function onColorsChanged() {
-            requestPaintSafe();
+            requestPaintSafe()
         }
     }
 
@@ -104,27 +104,27 @@ Item {
 
                 onPaint: {
                     if (width <= 0 || height <= 0)
-                        return;
-                    var vals = root.values || [];
-                    var segments = [];
-                    var total = 0;
+                        return
+                    var vals = root.values || []
+                    var segments = []
+                    var total = 0
                     for (var i = 0; i < vals.length; i++) {
-                        var v = root.normalizedValue(vals[i]);
-                        total += v;
+                        var v = root.normalizedValue(vals[i])
+                        total += v
                         segments.push({
                             value: v,
                             color: root.colorAt(i)
-                        });
+                        })
                     }
                     if (total <= 0) {
-                        var ctx = getContext("2d");
+                        var ctx = getContext("2d")
                         if (ctx)
-                            ctx.clearRect(0, 0, width, height);
-                        return;
+                            ctx.clearRect(0, 0, width, height)
+                        return
                     }
                     doughnut(segments, {
                         animation: false
-                    });
+                    })
                 }
             }
 

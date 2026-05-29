@@ -43,30 +43,30 @@ ComboBox {
 
     onActivated: {
         if (skipCurrentIndexChange) {
-            skipCurrentIndexChange = false;
-            return;
+            skipCurrentIndexChange = false
+            return
         }
     }
 
     function appendItem(value) {
         if (!model.includes(value)) {
-            let newModel = model;
+            let newModel = model
 
-            newModel.unshift(value);
-            model = newModel;
+            newModel.unshift(value)
+            model = newModel
         }
     }
 
     function applyHighlightedSelection() {
         if (!control.popup.visible || control.highlightedIndex < 0)
-            return false;
-        let idx = control.highlightedIndex;
-        control.currentIndex = idx;
+            return false
+        let idx = control.highlightedIndex
+        control.currentIndex = idx
         if (control.editable) {
-            control.skipNextAutoPopup = true;
-            control.editText = control.textAt(idx);
+            control.skipNextAutoPopup = true
+            control.editText = control.textAt(idx)
         }
-        return true;
+        return true
     }
 
     contentItem: Item {
@@ -92,43 +92,43 @@ ComboBox {
 
             Keys.onPressed: function (event) {
                 if (event.key === Qt.Key_A && (event.modifiers & Qt.ControlModifier)) {
-                    editableTextField.selectAll();
-                    event.accepted = true;
+                    editableTextField.selectAll()
+                    event.accepted = true
                 } else if (editableTextField.inputMethodComposing && (event.key === Qt.Key_Return || event.key === Qt.Key_Enter || event.key === Qt.Key_Escape)) {
                     // Let IME consume confirm/cancel keys while composing.
-                    event.accepted = false;
-                    return;
+                    event.accepted = false
+                    return
                 } else if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
-                    control.applyHighlightedSelection();
+                    control.applyHighlightedSelection()
                     if (text.length > 0) {
-                        control.accepted();
+                        control.accepted()
                     }
-                    editableTextField.focus = false;
-                    event.accepted = true;
-                    control.popup.close();
-                    control.isExpanded = false;
-                    return;
+                    editableTextField.focus = false
+                    event.accepted = true
+                    control.popup.close()
+                    control.isExpanded = false
+                    return
                 } else if (event.key === Qt.Key_Tab || event.key === Qt.Key_Backtab) {
                     if (control.applyHighlightedSelection()) {
-                        control.accepted();
-                        control.popup.close();
-                        control.isExpanded = false;
+                        control.accepted()
+                        control.popup.close()
+                        control.isExpanded = false
                     }
                     // Keep default tab focus navigation behavior.
-                    event.accepted = false;
-                    return;
+                    event.accepted = false
+                    return
                 } else if (event.key === Qt.Key_Escape) {
-                    editableTextField.text = "";
-                    control.editText = "";
-                    editableTextField.focus = false;
-                    event.accepted = true;
+                    editableTextField.text = ""
+                    control.editText = ""
+                    editableTextField.focus = false
+                    event.accepted = true
                 }
             }
 
             onTextChanged: {
-                control.editText = text;
+                control.editText = text
                 if (!editableTextField.inputMethodComposing) {
-                    control.textEdited(text);
+                    control.textEdited(text)
                 }
             }
         }
@@ -141,18 +141,18 @@ ComboBox {
 
             onExited: {
                 if (control.editable && editableTextField.activeFocus && control.detectMouseExit) {
-                    editableTextField.focus = false;
+                    editableTextField.focus = false
                 }
             }
 
             onPressed: function (event) {
-                event.accepted = false;
+                event.accepted = false
             }
             onReleased: function (event) {
-                event.accepted = false;
+                event.accepted = false
             }
             onClicked: function (event) {
-                event.accepted = false;
+                event.accepted = false
             }
         }
 
@@ -165,7 +165,7 @@ ComboBox {
             text: (control.currentIndex === -1) ? control.placeholderText : (control.displayText || control.placeholderText)
             font: control.font
             color: {
-                return (control.currentIndex === -1) ? control.placeholderColor : (control.displayText ? control.textColor : control.placeholderColor);
+                return (control.currentIndex === -1) ? control.placeholderColor : (control.displayText ? control.textColor : control.placeholderColor)
             }
             verticalAlignment: Text.AlignVCenter
             elide: Text.ElideRight
@@ -177,19 +177,19 @@ ComboBox {
 
             onClicked: {
                 if (mouseX > parent.width - control.indicator.width - control.defaultPadding * 1.2) {
-                    control.isExpanded = !control.isExpanded;
-                    control.popup.visible = control.isExpanded;
+                    control.isExpanded = !control.isExpanded
+                    control.popup.visible = control.isExpanded
                 } else if (control.editable) {
-                    editableTextField.forceActiveFocus();
+                    editableTextField.forceActiveFocus()
                 } else {
-                    control.isExpanded = !control.isExpanded;
-                    control.popup.visible = control.isExpanded;
+                    control.isExpanded = !control.isExpanded
+                    control.popup.visible = control.isExpanded
                 }
             }
 
             onPressed: function (event) {
                 if (control.editable && event.x <= parent.width - control.indicator.width - control.defaultPadding * 1.2) {
-                    event.accepted = false;
+                    event.accepted = false
                 }
             }
         }
@@ -206,12 +206,12 @@ ComboBox {
             text: {
                 if (modelData && typeof modelData === "object") {
                     if (control.textRole && control.textRole !== "") {
-                        return modelData[control.textRole] || "";
+                        return modelData[control.textRole] || ""
                     }
 
-                    return modelData.name || modelData.toString() || "";
+                    return modelData.name || modelData.toString() || ""
                 }
-                return modelData || "";
+                return modelData || ""
             }
             color: control.textColor
             font: control.font
@@ -231,29 +231,29 @@ ComboBox {
         }
 
         onClicked: {
-            var comboBox = control || ListView.view;
+            var comboBox = control || ListView.view
             comboBox.currentIndex = index;
             // Keep compatibility with existing pages that commit via onActivated.
-            comboBox.activated(index);
+            comboBox.activated(index)
             if (comboBox.editable) {
-                var textValue = "";
+                var textValue = ""
                 if (modelData && typeof modelData === "object") {
                     if (comboBox.textRole && comboBox.textRole !== "") {
-                        textValue = modelData[comboBox.textRole] || "";
+                        textValue = modelData[comboBox.textRole] || ""
                     } else {
-                        textValue = modelData.name || modelData.toString() || "";
+                        textValue = modelData.name || modelData.toString() || ""
                     }
                 } else {
-                    textValue = modelData || "";
+                    textValue = modelData || ""
                 }
-                comboBox.skipNextAutoPopup = true;
-                comboBox.editText = textValue;
+                comboBox.skipNextAutoPopup = true
+                comboBox.editText = textValue
             }
             if (comboBox.acceptOnDelegateClick) {
-                comboBox.accepted();
+                comboBox.accepted()
             }
-            comboBox.isExpanded = false;
-            comboBox.popup.close();
+            comboBox.isExpanded = false
+            comboBox.popup.close()
         }
     }
 
@@ -296,31 +296,31 @@ ComboBox {
         Connections {
             target: control
             function onPressedChanged() {
-                canvas.requestPaint();
+                canvas.requestPaint()
             }
             function onTextColorChanged() {
-                canvas.requestPaint();
+                canvas.requestPaint()
             }
             function onHoveredChanged() {
-                canvas.requestPaint();
+                canvas.requestPaint()
             }
         }
 
         onPaint: {
-            var ctx = getContext("2d");
+            var ctx = getContext("2d")
             if (!ctx) {
-                console.warn("Failed to get 2D context");
-                return;
+                console.warn("Failed to get 2D context")
+                return
             }
 
-            ctx.clearRect(0, 0, width, height);
-            ctx.beginPath();
-            ctx.moveTo(0, 0);
-            ctx.lineTo(width, 0);
-            ctx.lineTo(width / 2, height);
-            ctx.closePath();
-            ctx.fillStyle = control.hovered ? control.highlightColor : control.textColor;
-            ctx.fill();
+            ctx.clearRect(0, 0, width, height)
+            ctx.beginPath()
+            ctx.moveTo(0, 0)
+            ctx.lineTo(width, 0)
+            ctx.lineTo(width / 2, height)
+            ctx.closePath()
+            ctx.fillStyle = control.hovered ? control.highlightColor : control.textColor
+            ctx.fill()
         }
     }
 
@@ -330,24 +330,24 @@ ComboBox {
         implicitHeight: control.defaultHeight
         color: {
             if (!control.enabled) {
-                return control.buttonDisabledColor;
+                return control.buttonDisabledColor
             }
             if (control.editable) {
-                return control.hovered ? Qt.lighter(control.highlightColor, 1.8) : control.editableBackgroundColor;
+                return control.hovered ? Qt.lighter(control.highlightColor, 1.8) : control.editableBackgroundColor
             }
-            return control.pressed ? Qt.darker(control.readOnlyBackgroundColor, 1.2) : control.hovered ? control.buttonHoveredColor : control.readOnlyBackgroundColor;
+            return control.pressed ? Qt.darker(control.readOnlyBackgroundColor, 1.2) : control.hovered ? control.buttonHoveredColor : control.readOnlyBackgroundColor
         }
         border.color: {
             if (!control.enabled) {
-                return control.midColor;
+                return control.midColor
             }
             if (control.pressed || control.editable) {
-                return control.highlightColor;
+                return control.highlightColor
             }
             if (control.hovered) {
-                return control.highlightColor;
+                return control.highlightColor
             }
-            return control.midColor;
+            return control.midColor
         }
         border.width: (control.visualFocus || control.editable || (control.hovered && control.enabled)) ? Fonts.size2 : Fonts.size1
         radius: defaultRadius

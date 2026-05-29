@@ -22,7 +22,7 @@ RowLayout {
         text: qsTr("OK")
 
         onClicked: {
-            root.toggled(true);
+            root.toggled(true)
         }
     }
 
@@ -30,7 +30,7 @@ RowLayout {
         id: cancelBtn
         text: qsTr("Cancel")
         onClicked: {
-            root.toggled(false);
+            root.toggled(false)
         }
     }
 }

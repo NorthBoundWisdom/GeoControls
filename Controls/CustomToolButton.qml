@@ -51,7 +51,7 @@ ToolButton {
 
     onClicked: {
         if (handleInCpp) {
-            control.actionRequested(parameter);
+            control.actionRequested(parameter)
         }
     }
 

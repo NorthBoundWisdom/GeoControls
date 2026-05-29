@@ -31,26 +31,26 @@ ColumnLayout {
         property int selectedIndex: -1
 
         function setByPreset(idx) {
-            var val;
+            var val
             if (Array.isArray(root.presets)) {
-                val = root.presets[idx];
+                val = root.presets[idx]
             } else if (typeof root.presets === "number") {
-                val = idx * root.step;
+                val = idx * root.step
             }
 
-            slider.value = val;
+            slider.value = val
 
-            presetsCurrentIndexChanged(idx);
+            presetsCurrentIndexChanged(idx)
         }
 
         Repeater {
             model: {
                 if (Array.isArray(root.presets)) {
-                    return root.presets;
+                    return root.presets
                 } else if (typeof root.presets === "number") {
-                    return root.presets;
+                    return root.presets
                 }
-                return 0;
+                return 0
             }
 
             ColorTabButton {
@@ -65,7 +65,7 @@ ColumnLayout {
                 onClicked: {
                     checked = false;
                     // presets.selectedIndex = index;
-                    presets.setByPreset(index);
+                    presets.setByPreset(index)
                 }
             }
         }
@@ -79,7 +79,7 @@ ColumnLayout {
             Layout.fillWidth: true
 
             onValueChanged: {
-                sliderValueChanged(value);
+                sliderValueChanged(value)
             }
         }
 
@@ -87,7 +87,7 @@ ColumnLayout {
             visible: root.needButton
             text: root.buttonText
             onClicked: {
-                buttonClicked();
+                buttonClicked()
             }
         }
     }

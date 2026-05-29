@@ -15,10 +15,7 @@
 
 namespace geotoys
 {
-QmlKeyValueDialog::QmlKeyValueDialog(QObject *parent)
-    : QObject(parent)
-{
-}
+QmlKeyValueDialog::QmlKeyValueDialog(QObject *parent) : QObject(parent) {}
 
 void QmlKeyValueDialog::showKeyValueDialog(
     QQuickView *view, const QString &title,

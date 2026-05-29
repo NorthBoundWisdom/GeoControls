@@ -22,7 +22,7 @@ class QmlKeyValueDialog : public QObject
 {
     Q_OBJECT
 
-public:
+  public:
     struct KeyValuePair
     {
         QString name;
@@ -68,11 +68,11 @@ public:
     bool isVisible() const;
     void close();
 
-private slots:
+  private slots:
     void onValuesSubmitted(const QVariant &key_value_list);
     void onCancelled();
 
-private:
+  private:
     QObject *createDialog(QQuickView *view, const QString &title,
                           const std::vector<std::pair<std::string, QVariant>> &key_value_list);
     void cleanupDialog();
@@ -82,7 +82,7 @@ private:
     std::vector<std::pair<std::string, QVariant>>
     convertFromQVariantList(const QVariantList &variantList);
 
-private:
+  private:
     QObject *dialog_ = nullptr;
     KeyValueCallback callback_;
 };

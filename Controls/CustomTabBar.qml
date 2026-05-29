@@ -61,11 +61,11 @@ TabBar {
 
             onContentWidthChanged: {
                 // Check if all tabs fit in the available width
-                checkVisibleTabs();
+                checkVisibleTabs()
             }
 
             onWidthChanged: {
-                checkVisibleTabs();
+                checkVisibleTabs()
             }
         }
 
@@ -85,7 +85,7 @@ TabBar {
             }
 
             onClicked: {
-                overflowMenu.popup(overflowButton, 0, overflowButton.height);
+                overflowMenu.popup(overflowButton, 0, overflowButton.height)
             }
 
             Menu {
@@ -163,7 +163,7 @@ TabBar {
                             }
                         }
                         onTriggered: {
-                            control.setTargetIndex(modelData);
+                            control.setTargetIndex(modelData)
                         }
                     }
                 }
@@ -173,75 +173,75 @@ TabBar {
 
     function setTargetIndex(index) {
         if (targetIndex !== index) {
-            targetIndex = index;
+            targetIndex = index
         }
     }
 
     function checkVisibleTabs() {
         function computeVisibility(availableWidth) {
-            var usedWidth = 0;
-            var shown = [];
-            var hidden = [];
+            var usedWidth = 0
+            var shown = []
+            var hidden = []
             for (var i = 0; i < contentModel.count; i++) {
-                var tab = contentModel.get(i);
+                var tab = contentModel.get(i)
                 if (!tab)
-                    continue;
+                    continue
                 if (tab.forceHidden === true) {
-                    continue;
+                    continue
                 }
 
-                var tabWidth = (tab.implicitWidth || tab.width || 0);
-                var extra = shown.length > 0 ? tabListView.spacing : 0;
+                var tabWidth = (tab.implicitWidth || tab.width || 0)
+                var extra = shown.length > 0 ? tabListView.spacing : 0
                 if (usedWidth + extra + tabWidth <= availableWidth) {
-                    usedWidth += extra + tabWidth;
-                    shown.push(i);
+                    usedWidth += extra + tabWidth
+                    shown.push(i)
                 } else {
-                    hidden.push(i);
+                    hidden.push(i)
                 }
             }
             return {
                 shown: shown,
                 hidden: hidden
-            };
+            }
         }
 
         // First pass without reserving overflow space
-        var pass1 = computeVisibility(control.width);
+        var pass1 = computeVisibility(control.width)
         var needsOverflow = pass1.hidden.length > 0;
 
         // Second pass: reserve overflow button space if needed
-        var availableWidth = control.width - (needsOverflow ? control.height : 0);
+        var availableWidth = control.width - (needsOverflow ? control.height : 0)
         var pass2 = computeVisibility(availableWidth);
 
         // Apply visibility without changing width to preserve layout
         for (var i = 0; i < contentModel.count; i++) {
-            var tab = contentModel.get(i);
+            var tab = contentModel.get(i)
             if (!tab)
-                continue;
+                continue
             if (tab.forceHidden === true) {
-                tab.visible = false;
-                continue;
+                tab.visible = false
+                continue
             }
-            var isShown = pass2.shown.indexOf(i) !== -1;
+            var isShown = pass2.shown.indexOf(i) !== -1
             tab.visible = isShown;
             // Don't set tab.width to 0 - this breaks the layout
         }
 
-        hiddenTabs = pass2.hidden;
-        showOverflowButton = pass2.hidden.length > 0;
+        hiddenTabs = pass2.hidden
+        showOverflowButton = pass2.hidden.length > 0
         if (!showOverflowButton) {
             // When tabs fully fit again, reset viewport offset to avoid clipped first tab.
-            tabListView.cancelFlick();
-            tabListView.contentX = tabListView.originX;
-            tabListView.returnToBounds();
+            tabListView.cancelFlick()
+            tabListView.contentX = tabListView.originX
+            tabListView.returnToBounds()
             if (overflowMenu.visible) {
-                overflowMenu.close();
+                overflowMenu.close()
             }
         }
     }
 
     onWidthChanged: {
-        checkVisibleTabs();
+        checkVisibleTabs()
     }
     onCompactContentWidthChanged: checkVisibleTabs()
     onHeightChanged: checkVisibleTabs()

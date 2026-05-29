@@ -19,6 +19,22 @@ set_target_properties(GuiDemo PROPERTIES
     AUTORCC ON
 )
 
+if(APPLE)
+    set_target_properties(GuiDemo PROPERTIES
+        MACOSX_BUNDLE TRUE
+        MACOSX_BUNDLE_BUNDLE_NAME "GeoControls GuiDemo"
+        MACOSX_BUNDLE_GUI_IDENTIFIER "com.northboundwisdom.geocontrols.guidemo"
+    )
+    add_custom_command(TARGET GuiDemo POST_BUILD
+        COMMAND ${CMAKE_COMMAND}
+            -DGUIDEMO_LAUNCHER_PATH=${CMAKE_CURRENT_BINARY_DIR}/GuiDemo
+            -DGUIDEMO_BUNDLE_PATH=$<TARGET_BUNDLE_DIR:GuiDemo>
+            -DGUIDEMO_EXECUTABLE_PATH=$<TARGET_FILE:GuiDemo>
+            -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/WriteLauncher.cmake
+        COMMENT "Writing GuiDemo launcher"
+    )
+endif()
+
 target_link_libraries(GuiDemo
 PRIVATE
     GeoToyControls
@@ -31,7 +47,6 @@ PRIVATE
 
 target_include_directories(GuiDemo
 PRIVATE
-    ${CMAKE_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}
 )
 

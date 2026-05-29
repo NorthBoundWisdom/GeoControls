@@ -11,20 +11,20 @@ RowLayout {
 
     function syncChildLayouts() {
         if (!enforceEqualWidths) {
-            return;
+            return
         }
 
         for (var i = 0; i < children.length; ++i) {
-            var child = children[i];
+            var child = children[i]
             if (!child || child.visible === false) {
-                continue;
+                continue
             }
 
             if (child.Layout !== undefined) {
-                child.Layout.fillWidth = true;
-                child.Layout.preferredWidth = equalPreferredWidth;
+                child.Layout.fillWidth = true
+                child.Layout.preferredWidth = equalPreferredWidth
                 if (equalMinimumWidth >= 0) {
-                    child.Layout.minimumWidth = equalMinimumWidth;
+                    child.Layout.minimumWidth = equalMinimumWidth
                 }
             }
         }

@@ -43,12 +43,12 @@ Item {
         ] : [])
     readonly property int legendItemCount: (root.rawLegendItems || []).length
     readonly property var visibleLegendIndices: (function () {
-            var result = [];
+            var result = []
             for (var i = 0; i < root.legendItemCount; i++) {
                 if (root.isLegendEnabled(i))
-                    result.push(i);
+                    result.push(i)
             }
-            return result;
+            return result
         })()
     readonly property int visibleSeriesCount: root.visibleLegendIndices.length
     readonly property bool allowLegendToggle: root.legendItemCount > 1
@@ -58,104 +58,104 @@ Item {
     property int legendFontSize: Fonts.scaledFontPixelSize(12)
     property int headerChartSpacing: Fonts.size8
     readonly property var legendItems: (function () {
-            var items = [];
-            var base = root.rawLegendItems || [];
+            var items = []
+            var base = root.rawLegendItems || []
             for (var i = 0; i < base.length; i++) {
-                var item = base[i] || {};
+                var item = base[i] || {}
                 items.push({
                     label: String(item.label || ""),
                     color: String(item.color || root.lineColor),
                     enabled: root.isLegendEnabled(i)
-                });
+                })
             }
-            return items;
+            return items
         })()
 
     function requestChartPaint() {
-        canvas.requestPaint();
+        canvas.requestPaint()
     }
 
     function isValidNumber(value) {
-        return value !== null && value !== undefined && !isNaN(Number(value)) && isFinite(Number(value));
+        return value !== null && value !== undefined && !isNaN(Number(value)) && isFinite(Number(value))
     }
 
     function normalizeSeriesValues(values, targetLen) {
-        var source = values || [];
-        var result = [];
+        var source = values || []
+        var result = []
         for (var i = 0; i < targetLen; i++) {
-            var v = source[i];
-            result.push(isValidNumber(v) ? Number(v) : null);
+            var v = source[i]
+            result.push(isValidNumber(v) ? Number(v) : null)
         }
-        return result;
+        return result
     }
 
     function normalizedLabelsFrom(input, fallbackLen, useIndexFallback) {
-        var result = [];
-        var hasInput = (input && input.length > 0);
-        var length = hasInput ? input.length : fallbackLen;
+        var result = []
+        var hasInput = (input && input.length > 0)
+        var length = hasInput ? input.length : fallbackLen
         for (var i = 0; i < length; i++) {
             if (hasInput) {
-                result.push(String(input[i] !== undefined && input[i] !== null ? input[i] : ""));
+                result.push(String(input[i] !== undefined && input[i] !== null ? input[i] : ""))
             } else {
-                result.push(useIndexFallback ? String(i + 1) : "");
+                result.push(useIndexFallback ? String(i + 1) : "")
             }
         }
-        return result;
+        return result
     }
 
     function animateToNewData() {
-        requestChartPaint();
+        requestChartPaint()
     }
 
     function isLegendEnabled(index) {
         if (!allowLegendToggle)
-            return true;
-        return !hiddenLegendIndices[index];
+            return true
+        return !hiddenLegendIndices[index]
     }
 
     function toggleLegendIndex(index) {
         if (!allowLegendToggle)
-            return;
-        var currentlyEnabled = root.isLegendEnabled(index);
+            return
+        var currentlyEnabled = root.isLegendEnabled(index)
         if (currentlyEnabled && root.visibleSeriesCount <= 1)
-            return;
-        var next = {};
+            return
+        var next = {}
         for (var k in hiddenLegendIndices)
-            next[k] = hiddenLegendIndices[k];
+            next[k] = hiddenLegendIndices[k]
         if (next[index]) {
-            delete next[index];
+            delete next[index]
         } else {
-            next[index] = true;
+            next[index] = true
         }
-        hiddenLegendIndices = next;
-        requestChartPaint();
+        hiddenLegendIndices = next
+        requestChartPaint()
     }
 
     function isolateLegendIndex(index) {
         if (!allowLegendToggle)
-            return;
-        var count = (root.legendItems || []).length;
+            return
+        var count = (root.legendItems || []).length
         if (index < 0 || index >= count)
-            return;
-        var hasOtherVisible = false;
+            return
+        var hasOtherVisible = false
         for (var i = 0; i < count; i++) {
             if (i !== index && root.isLegendEnabled(i)) {
-                hasOtherVisible = true;
-                break;
+                hasOtherVisible = true
+                break
             }
         }
         if (!hasOtherVisible) {
-            hiddenLegendIndices = ({});
-            requestChartPaint();
-            return;
+            hiddenLegendIndices = ({})
+            requestChartPaint()
+            return
         }
-        var next = {};
+        var next = {}
         for (var j = 0; j < count; j++) {
             if (j !== index)
-                next[j] = true;
+                next[j] = true
         }
-        hiddenLegendIndices = next;
-        requestChartPaint();
+        hiddenLegendIndices = next
+        requestChartPaint()
     }
 
     // Force redraw when theme colors change
@@ -165,7 +165,7 @@ Item {
     Connections {
         target: Theme
         function onColorsChanged() {
-            root.requestChartPaint();
+            root.requestChartPaint()
         }
     }
 
@@ -247,35 +247,35 @@ Item {
 
         onPaint: {
             if (width <= 0 || height <= 0)
-                return;
-            var useMulti = (root.series && root.series.length > 0);
-            var datasets = [];
-            var labels = [];
+                return
+            var useMulti = (root.series && root.series.length > 0)
+            var datasets = []
+            var labels = []
             if (useMulti) {
-                var maxLen = 0;
+                var maxLen = 0
                 for (var i = 0; i < root.series.length; i++) {
-                    var s = root.series[i] || {};
-                    var arr = s.values || [];
+                    var s = root.series[i] || {}
+                    var arr = s.values || []
                     if (arr.length > maxLen)
-                        maxLen = arr.length;
+                        maxLen = arr.length
                 }
-                labels = root.normalizedLabelsFrom(root.labels, maxLen, false);
+                labels = root.normalizedLabelsFrom(root.labels, maxLen, false)
                 for (var j = 0; j < root.series.length; j++) {
                     if (!root.isLegendEnabled(j))
-                        continue;
-                    var si = root.series[j] || {};
-                    var color = String(si.color || Theme.highlightColor);
+                        continue
+                    var si = root.series[j] || {}
+                    var color = String(si.color || Theme.highlightColor)
                     datasets.push({
                         data: root.normalizeSeriesValues(si.values, labels.length),
                         strokeColor: color,
                         fillColor: root.fill ? color : "rgba(0,0,0,0)",
                         pointColor: color,
                         pointStrokeColor: color
-                    });
+                    })
                 }
             } else {
-                var baseValues = root.values || [];
-                labels = root.normalizedLabelsFrom(root.labels, baseValues.length, true);
+                var baseValues = root.values || []
+                labels = root.normalizedLabelsFrom(root.labels, baseValues.length, true)
                 if (root.isLegendEnabled(0)) {
                     datasets = [
                         {
@@ -285,21 +285,21 @@ Item {
                             pointColor: String(root.lineColor),
                             pointStrokeColor: String(root.lineColor)
                         }
-                    ];
+                    ]
                 } else {
-                    datasets = [];
+                    datasets = []
                 }
             }
             if (datasets.length === 0) {
-                var ctx = getContext("2d");
+                var ctx = getContext("2d")
                 if (ctx)
-                    ctx.clearRect(0, 0, width, height);
-                return;
+                    ctx.clearRect(0, 0, width, height)
+                return
             }
             var data = {
                 labels: labels,
                 datasets: datasets
-            };
+            }
             var config = {
                 animation: false,
                 datasetStrokeWidth: root.lineWidth,
@@ -316,19 +316,19 @@ Item {
                 spanGapsStrokeWidth: root.missingLineWidth,
                 spanGapsAlpha: root.missingLineOpacity,
                 scaleFontSize: 12
-            };
-            var minY = Number(root.yMin);
-            var maxY = Number(root.yMax);
-            var steps = Number(root.ySteps);
-            var stepCount = Math.floor(steps);
-            var useFixed = root.isValidNumber(minY) && root.isValidNumber(maxY) && root.isValidNumber(steps) && stepCount >= 1 && maxY > minY;
-            if (useFixed) {
-                config.scaleOverride = true;
-                config.scaleSteps = stepCount;
-                config.scaleStartValue = minY;
-                config.scaleStepWidth = (maxY - minY) / config.scaleSteps;
             }
-            line(data, config);
+            var minY = Number(root.yMin)
+            var maxY = Number(root.yMax)
+            var steps = Number(root.ySteps)
+            var stepCount = Math.floor(steps)
+            var useFixed = root.isValidNumber(minY) && root.isValidNumber(maxY) && root.isValidNumber(steps) && stepCount >= 1 && maxY > minY
+            if (useFixed) {
+                config.scaleOverride = true
+                config.scaleSteps = stepCount
+                config.scaleStartValue = minY
+                config.scaleStepWidth = (maxY - minY) / config.scaleSteps
+            }
+            line(data, config)
         }
     }
 

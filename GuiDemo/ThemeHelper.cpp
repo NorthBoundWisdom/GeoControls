@@ -24,8 +24,7 @@ static QFont makeDemoCmdlineFont()
 
 namespace networkutil
 {
-ThemeHelper::ThemeHelper(QObject *parent)
-    : QObject(parent)
+ThemeHelper::ThemeHelper(QObject *parent) : QObject(parent)
 {
     // Initialize default colors
     window_color_ = QColor(240, 240, 240);
@@ -49,6 +48,8 @@ ThemeHelper::ThemeHelper(QObject *parent)
     button_pressed_color_ = QColor(200, 200, 200);
     button_hovered_color_ = QColor(220, 220, 220);
     button_disabled_color_ = QColor(240, 240, 240);
+    chrome_divider_color_ = QColor(200, 200, 200);
+    chat_composer_surface_color_ = base_color_;
 
     // Initialize default fonts
     app_font_ = makeDemoFont();
@@ -140,6 +141,19 @@ QColor ThemeHelper::buttonHoveredColor() const
 QColor ThemeHelper::buttonDisabledColor() const
 {
     return button_disabled_color_;
+}
+QColor ThemeHelper::chromeDividerColor() const
+{
+    return chrome_divider_color_;
+}
+QColor ThemeHelper::chatComposerSurfaceColor() const
+{
+    return chat_composer_surface_color_;
+}
+
+int ThemeHelper::appearance() const
+{
+    return 0;
 }
 
 QFont ThemeHelper::appFont() const

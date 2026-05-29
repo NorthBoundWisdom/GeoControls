@@ -9,7 +9,7 @@ namespace geotoys
 {
 class QmlMessageBox
 {
-public:
+  public:
     enum class Button
     {
         Invalid = 0,

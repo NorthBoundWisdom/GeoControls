@@ -14,10 +14,7 @@
 
 namespace geotoys
 {
-QmlExportImageOptionsDialog::QmlExportImageOptionsDialog(QObject *parent)
-    : QObject(parent)
-{
-}
+QmlExportImageOptionsDialog::QmlExportImageOptionsDialog(QObject *parent) : QObject(parent) {}
 
 void QmlExportImageOptionsDialog::showDialog(QQuickView *view, const QString &title,
                                              const QString &initial_format,
@@ -166,7 +163,8 @@ QObject *QmlExportImageOptionsDialog::createDialog(QQuickView *view, const QStri
         context->setContextProperty("parentItem", root_item);
     }
 
-    QQmlComponent component(engine, QUrl("qrc:/GeoToy/Controls/QmlExportImageOptionsDialogPage.qml"));
+    QQmlComponent component(engine,
+                            QUrl("qrc:/GeoToy/Controls/QmlExportImageOptionsDialogPage.qml"));
     if (component.isError())
     {
         qCritical().noquote() << "QmlExportImageOptionsDialog::createDialog QML load failed:"

@@ -14,32 +14,32 @@ Rectangle {
         anchors.fill: parent
 
         onPaint: {
-            var ctx = getContext("2d");
-            ctx.clearRect(0, 0, width, height);
+            var ctx = getContext("2d")
+            ctx.clearRect(0, 0, width, height)
 
-            ctx.strokeStyle = "#00FF00";
-            ctx.lineWidth = 1;
-            ctx.setLineDash([5, 3]);
-            ctx.beginPath();
-            ctx.moveTo(lineX, 0);
-            ctx.lineTo(lineX, height);
-            ctx.stroke();
+            ctx.strokeStyle = "#00FF00"
+            ctx.lineWidth = 1
+            ctx.setLineDash([5, 3])
+            ctx.beginPath()
+            ctx.moveTo(lineX, 0)
+            ctx.lineTo(lineX, height)
+            ctx.stroke()
 
-            ctx.beginPath();
-            ctx.moveTo(0, lineY);
-            ctx.lineTo(width, lineY);
-            ctx.stroke();
+            ctx.beginPath()
+            ctx.moveTo(0, lineY)
+            ctx.lineTo(width, lineY)
+            ctx.stroke()
         }
     }
 
     onLineXChanged: {
-        canvas.requestPaint();
+        canvas.requestPaint()
     }
     onLineYChanged: {
-        canvas.requestPaint();
+        canvas.requestPaint()
     }
     onVisibleChanged: {
         if (visible)
-            canvas.requestPaint();
+            canvas.requestPaint()
     }
 }

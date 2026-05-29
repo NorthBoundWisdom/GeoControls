@@ -25,12 +25,14 @@ TabBar {
     // Use a fixed calculation based on contentModel count instead of child widths
     implicitWidth: {
         if (contentModel.count === 0) {
-            return 0;
+            return 0
         }
         // Use a reasonable default width per tab to avoid binding loops
-        var defaultTabWidth = Fonts.scaledUiSize(80); // Default width per tab
-        var spacing = (contentModel.count - 1) * Fonts.size1; // spacing between tabs
-        return contentModel.count * defaultTabWidth + spacing;
+        var defaultTabWidth = Fonts.scaledUiSize(80);
+        // Default width per tab
+        var spacing = (contentModel.count - 1) * Fonts.size1
+        // spacing between tabs
+        return contentModel.count * defaultTabWidth + spacing
     }
 
     background: Rectangle {
@@ -70,68 +72,68 @@ TabBar {
 
             function updateTabWidths() {
                 if (updatingWidths || contentModel.count === 0 || width <= 0) {
-                    return;
+                    return
                 }
 
                 updatingWidths = true;
 
                 // Calculate average width for all tabs
                 // Available width minus spacing between tabs
-                var totalSpacing = (contentModel.count - 1) * tabListView.spacing;
+                var totalSpacing = (contentModel.count - 1) * tabListView.spacing
                 var averageWidth = Math.max(0, (tabListView.width - totalSpacing) / contentModel.count);
                 // Ensure all tabs have the same height as the ListView
-                var tabHeight = tabListView.height;
+                var tabHeight = tabListView.height
 
                 // Set width and height for all tabs and ensure tabBar and targetIndex are set
                 for (var i = 0; i < contentModel.count; i++) {
-                    var tab = contentModel.get(i);
+                    var tab = contentModel.get(i)
                     if (tab) {
                         // Set width
                         if (Math.abs(tab.width - averageWidth) > 0.1) {
-                            tab.width = averageWidth;
+                            tab.width = averageWidth
                         }
                         // Ensure height is consistent (match ListView height)
                         if (Math.abs(tab.height - tabHeight) > 0.1) {
-                            tab.height = tabHeight;
+                            tab.height = tabHeight
                         }
                         // Ensure tabBar reference is set for CustomTabButton
                         if (tab.tabBar !== control) {
-                            tab.tabBar = control;
+                            tab.tabBar = control
                         }
                         // Ensure targetIndex is set (use ListView index as targetIndex)
                         if (tab.targetIndex !== i) {
-                            tab.targetIndex = i;
+                            tab.targetIndex = i
                         }
                     }
                 }
 
-                updatingWidths = false;
+                updatingWidths = false
             }
 
             // Update tab widths when size changes
             // Use Qt.callLater to defer execution and avoid binding loops
             onWidthChanged: {
                 Qt.callLater(function () {
-                    tabListView.updateTabWidths();
-                });
+                    tabListView.updateTabWidths()
+                })
             }
 
             onCountChanged: {
                 Qt.callLater(function () {
-                    tabListView.updateTabWidths();
-                });
+                    tabListView.updateTabWidths()
+                })
             }
 
             onHeightChanged: {
                 Qt.callLater(function () {
-                    tabListView.updateTabWidths();
-                });
+                    tabListView.updateTabWidths()
+                })
             }
 
             Component.onCompleted: {
                 Qt.callLater(function () {
-                    tabListView.updateTabWidths();
-                });
+                    tabListView.updateTabWidths()
+                })
             }
 
             // Listen to contentModel changes
@@ -139,8 +141,8 @@ TabBar {
                 target: control.contentModel
                 function onCountChanged() {
                     Qt.callLater(function () {
-                        tabListView.updateTabWidths();
-                    });
+                        tabListView.updateTabWidths()
+                    })
                 }
             }
 
@@ -151,15 +153,15 @@ TabBar {
                     // Update all tabs to reflect selection state
                     Qt.callLater(function () {
                         for (var i = 0; i < contentModel.count; i++) {
-                            var tab = contentModel.get(i);
+                            var tab = contentModel.get(i)
                             if (tab) {
                                 // Force property update by reassigning
-                                var currentSelected = tab.isSelected;
+                                var currentSelected = tab.isSelected
                                 // This will trigger the binding to re-evaluate
-                                tab.targetIndex = tab.targetIndex;
+                                tab.targetIndex = tab.targetIndex
                             }
                         }
-                    });
+                    })
                 }
             }
         }
@@ -167,15 +169,15 @@ TabBar {
 
     function setTargetIndex(index) {
         if (targetIndex !== index) {
-            targetIndex = index;
+            targetIndex = index
         }
     }
 
     onDefaultHeightChanged: {
         Qt.callLater(function () {
             if (tabListView) {
-                tabListView.updateTabWidths();
+                tabListView.updateTabWidths()
             }
-        });
+        })
     }
 }

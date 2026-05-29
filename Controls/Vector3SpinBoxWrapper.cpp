@@ -17,10 +17,7 @@ namespace
 constexpr double kComponentEpsilon = 1e-14;
 } // namespace
 
-Vector3SpinBoxWrapper::Vector3SpinBoxWrapper(QObject *parent)
-    : QObject(parent)
-{
-}
+Vector3SpinBoxWrapper::Vector3SpinBoxWrapper(QObject *parent) : QObject(parent) {}
 
 void Vector3SpinBoxWrapper::setQmlItem(QQuickItem *qmlItem)
 {

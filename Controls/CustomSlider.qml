@@ -57,17 +57,17 @@ Item {
         interval: commitDelay
         repeat: false
         onTriggered: {
-            control.valueCommitted(slider.value);
+            control.valueCommitted(slider.value)
         }
     }
 
     function requestCommit() {
         if (control._suppressSync || !control.enabled)
-            return;
+            return
         if (control.delayedCommit) {
-            commitTimer.restart();
+            commitTimer.restart()
         } else {
-            control.valueCommitted(slider.value);
+            control.valueCommitted(slider.value)
         }
     }
 
@@ -133,8 +133,8 @@ Item {
                 Layout.alignment: Qt.AlignLeft
                 visible: control.showStepButton && !control.isCompactMode
                 onClicked: {
-                    slider.value -= slider.stepSize;
-                    control.requestCommit();
+                    slider.value -= slider.stepSize
+                    control.requestCommit()
                 }
             }
 
@@ -142,22 +142,22 @@ Item {
                 id: slider
 
                 function roundToDecimal(value, decimals) {
-                    var factor = Math.pow(10, decimals);
-                    return Math.round(value * factor) / factor;
+                    var factor = Math.pow(10, decimals)
+                    return Math.round(value * factor) / factor
                 }
 
                 function snapToStep(value) {
                     if (stepSize <= 0)
-                        return value;
-                    var steps = Math.round((value - from) / stepSize);
-                    return from + steps * stepSize;
+                        return value
+                    var steps = Math.round((value - from) / stepSize)
+                    return from + steps * stepSize
                 }
 
                 function valueToPosition(value) {
                     if (to === from)
-                        return 0;
-                    var ratio = (value - from) / (to - from);
-                    return slider.leftPadding + ratio * (slider.availableWidth - handleRect.width);
+                        return 0
+                    var ratio = (value - from) / (to - from)
+                    return slider.leftPadding + ratio * (slider.availableWidth - handleRect.width)
                 }
 
                 Layout.alignment: Qt.AlignHCenter
@@ -172,28 +172,28 @@ Item {
                 // Keep rounding, but make the update idempotent and guarded to avoid loops
                 onValueChanged: {
                     if (control._suppressSync)
-                        return;
-                    var rounded = roundToDecimal(value, validatorDecimals);
-                    var newText = rounded.toFixed(validatorDecimals);
+                        return
+                    var rounded = roundToDecimal(value, validatorDecimals)
+                    var newText = rounded.toFixed(validatorDecimals)
                     if (valueLabel.text !== newText) {
-                        control._suppressSync = true;
-                        valueLabel.text = newText;
-                        control._suppressSync = false;
+                        control._suppressSync = true
+                        valueLabel.text = newText
+                        control._suppressSync = false
                     }
                     // Force update handle position when value changes programmatically
                     // This ensures handle position updates even when set via code
                     Qt.callLater(function () {
                         if (slider.availableWidth > 0 && slider.availableWidth >= handleRect.width) {
-                            var pos = isNaN(slider.visualPosition) ? 0 : Math.max(0, Math.min(1, slider.visualPosition));
-                            handleRect.x = slider.leftPadding + pos * (slider.availableWidth - handleRect.width);
+                            var pos = isNaN(slider.visualPosition) ? 0 : Math.max(0, Math.min(1, slider.visualPosition))
+                            handleRect.x = slider.leftPadding + pos * (slider.availableWidth - handleRect.width)
                         }
-                    });
+                    })
                 }
 
                 // When slider is released (e.g., after clicking on the track), trigger commit
                 onPressedChanged: {
                     if (!pressed) {
-                        control.requestCommit();
+                        control.requestCommit()
                     }
                 }
 
@@ -229,9 +229,9 @@ Item {
                     color: control.buttonColor
                     border.color: {
                         if (slider.pressed || handleMouseArea.drag.active || handleMouseArea.containsMouse) {
-                            return control.highlightColor;
+                            return control.highlightColor
                         } else {
-                            return control.midColor;
+                            return control.midColor
                         }
                     }
                     border.width: (handleMouseArea.containsMouse || slider.pressed || handleMouseArea.drag.active) ? Fonts.size2 : Fonts.size1
@@ -241,16 +241,17 @@ Item {
                     // But skip during drag to allow free movement
                     function updatePosition() {
                         if (handleMouseArea.drag.active) {
-                            return; // Don't update position during drag - let it follow mouse
+                            return
+                            // Don't update position during drag - let it follow mouse
                         }
                         if (slider.availableWidth > 0 && slider.availableWidth >= handleRect.width) {
-                            var pos = isNaN(slider.visualPosition) ? 0 : Math.max(0, Math.min(1, slider.visualPosition));
-                            handleRect.x = slider.leftPadding + pos * (slider.availableWidth - handleRect.width);
+                            var pos = isNaN(slider.visualPosition) ? 0 : Math.max(0, Math.min(1, slider.visualPosition))
+                            handleRect.x = slider.leftPadding + pos * (slider.availableWidth - handleRect.width)
                         }
                     }
 
                     Component.onCompleted: {
-                        updatePosition();
+                        updatePosition()
                     }
 
                     // Monitor visualPosition and availableWidth changes to ensure position updates
@@ -259,12 +260,12 @@ Item {
                         target: slider
                         function onVisualPositionChanged() {
                             if (!handleMouseArea.drag.active) {
-                                handleRect.updatePosition();
+                                handleRect.updatePosition()
                             }
                         }
                         function onAvailableWidthChanged() {
                             if (!handleMouseArea.drag.active) {
-                                handleRect.updatePosition();
+                                handleRect.updatePosition()
                             }
                         }
                     }
@@ -292,39 +293,39 @@ Item {
 
                         onPressed: {
                             // Record the starting value when drag begins
-                            dragStartValue = slider.value;
-                            isDragging = true;
+                            dragStartValue = slider.value
+                            isDragging = true
                         }
 
                         onPositionChanged: {
                             if (drag.active) {
                                 // Calculate value based on handle's absolute position
-                                var handleX = parent.x - slider.leftPadding;
-                                var denom = slider.availableWidth - handleRect.width;
+                                var handleX = parent.x - slider.leftPadding
+                                var denom = slider.availableWidth - handleRect.width
                                 if (denom <= 0) {
-                                    return;
+                                    return
                                 }
-                                var ratio = handleX / denom;
-                                ratio = Math.max(0, Math.min(1, ratio));
+                                var ratio = handleX / denom
+                                ratio = Math.max(0, Math.min(1, ratio))
                                 var rawValue = slider.from + ratio * (slider.to - slider.from);
 
                                 // During drag, allow handle to follow mouse freely
                                 // Calculate snapped value for display
-                                var snappedValue = slider.snapToStep(rawValue);
+                                var snappedValue = slider.snapToStep(rawValue)
                                 snappedValue = Math.max(slider.from, Math.min(slider.to, snappedValue));
 
                                 // Update the value to the snapped value for display
                                 // Position updates are suppressed during drag (checked in updatePosition)
                                 // Also directly update the display text during drag to ensure UI updates
-                                control._suppressSync = true;
+                                control._suppressSync = true
                                 slider.value = snappedValue;
                                 // Directly update display text during drag to ensure it updates
-                                var rounded = slider.roundToDecimal(snappedValue, control.validatorDecimals);
-                                var newText = rounded.toFixed(control.validatorDecimals);
+                                var rounded = slider.roundToDecimal(snappedValue, control.validatorDecimals)
+                                var newText = rounded.toFixed(control.validatorDecimals)
                                 if (valueLabel.text !== newText) {
-                                    valueLabel.text = newText;
+                                    valueLabel.text = newText
                                 }
-                                control._suppressSync = false;
+                                control._suppressSync = false
                             }
                         }
 
@@ -332,41 +333,41 @@ Item {
                             isDragging = false;
 
                             // Calculate the final snapped value based on current handle position
-                            var handleX = parent.x - slider.leftPadding;
-                            var denom = slider.availableWidth - handleRect.width;
+                            var handleX = parent.x - slider.leftPadding
+                            var denom = slider.availableWidth - handleRect.width
                             if (denom <= 0) {
-                                control.requestCommit();
-                                return;
+                                control.requestCommit()
+                                return
                             }
-                            var ratio = handleX / denom;
-                            ratio = Math.max(0, Math.min(1, ratio));
-                            var rawValue = slider.from + ratio * (slider.to - slider.from);
-                            var snappedValue = slider.snapToStep(rawValue);
+                            var ratio = handleX / denom
+                            ratio = Math.max(0, Math.min(1, ratio))
+                            var rawValue = slider.from + ratio * (slider.to - slider.from)
+                            var snappedValue = slider.snapToStep(rawValue)
                             snappedValue = Math.max(slider.from, Math.min(slider.to, snappedValue));
 
                             // Check if we've actually moved to a different step value
                             // Use a small epsilon to account for floating point precision
-                            var epsilon = Math.max(1e-10, Math.abs(slider.stepSize) * 1e-6);
+                            var epsilon = Math.max(1e-10, Math.abs(slider.stepSize) * 1e-6)
                             if (Math.abs(snappedValue - dragStartValue) < epsilon) {
                                 // Reset to original value - user didn't move enough to change the value
-                                control._suppressSync = true;
-                                slider.value = dragStartValue;
-                                control._suppressSync = false;
+                                control._suppressSync = true
+                                slider.value = dragStartValue
+                                control._suppressSync = false
                             } else {
                                 // Update to the new snapped value
-                                control._suppressSync = true;
-                                slider.value = snappedValue;
-                                control._suppressSync = false;
+                                control._suppressSync = true
+                                slider.value = snappedValue
+                                control._suppressSync = false
                             }
 
                             // Force synchronization: update position based on final value
-                            var finalValue = slider.value;
-                            var finalRatio = (finalValue - slider.from) / (slider.to - slider.from);
-                            var correctX = slider.leftPadding + finalRatio * (slider.availableWidth - handleRect.width);
+                            var finalValue = slider.value
+                            var finalRatio = (finalValue - slider.from) / (slider.to - slider.from)
+                            var correctX = slider.leftPadding + finalRatio * (slider.availableWidth - handleRect.width)
                             parent.x = correctX;
 
                             // When user releases the handle after dragging, trigger (possibly delayed) commit
-                            control.requestCommit();
+                            control.requestCommit()
                         }
                     }
                 }
@@ -379,8 +380,8 @@ Item {
                 Layout.alignment: Qt.AlignRight
                 visible: control.showStepButton && !control.isCompactMode
                 onClicked: {
-                    slider.value += slider.stepSize;
-                    control.requestCommit();
+                    slider.value += slider.stepSize
+                    control.requestCommit()
                 }
             }
         }
@@ -419,20 +420,20 @@ Item {
                 onActiveFocusChanged: {
                     if (activeFocus) {
                         // Store original value when entering edit mode
-                        originalValue = slider.value;
+                        originalValue = slider.value
                     }
                 }
 
                 function applyEdit() {
                     if (!valEditable)
-                        return;
-                    var newValue = parseFloat(valueLabel.text);
+                        return
+                    var newValue = parseFloat(valueLabel.text)
                     if (isNaN(newValue))
-                        return;
+                        return
 
                     // Clamp to range
                     if (newValue < slider.from)
-                        newValue = slider.from;
+                        newValue = slider.from
                     if (newValue > slider.to)
                         newValue = slider.to;
 
@@ -440,54 +441,54 @@ Item {
                     var snappedValue = slider.snapToStep(newValue);
 
                     // Apply rounding for display consistency
-                    var rounded = slider.roundToDecimal(snappedValue, validatorDecimals);
-                    var newText = rounded.toFixed(validatorDecimals);
+                    var rounded = slider.roundToDecimal(snappedValue, validatorDecimals)
+                    var newText = rounded.toFixed(validatorDecimals)
                     if (valueLabel.text !== newText)
                         valueLabel.text = newText;
 
                     // Update slider value only if actually different, guarded to avoid loop
                     if (rounded !== slider.value) {
-                        control._suppressSync = true;
-                        slider.value = rounded;
-                        control._suppressSync = false;
+                        control._suppressSync = true
+                        slider.value = rounded
+                        control._suppressSync = false
                     }
 
                     // Text-based changes are also user-driven; trigger (possibly delayed) commit.
                     control.requestCommit();
 
                     // Exit edit mode
-                    focus = false;
+                    focus = false
                 }
 
                 function cancelEdit() {
                     // Restore original value and text
-                    control._suppressSync = true;
-                    slider.value = originalValue;
-                    var rounded = slider.roundToDecimal(originalValue, validatorDecimals);
-                    valueLabel.text = rounded.toFixed(validatorDecimals);
+                    control._suppressSync = true
+                    slider.value = originalValue
+                    var rounded = slider.roundToDecimal(originalValue, validatorDecimals)
+                    valueLabel.text = rounded.toFixed(validatorDecimals)
                     control._suppressSync = false;
 
                     // Exit edit mode
-                    focus = false;
+                    focus = false
                 }
 
                 onEditingFinished: {
-                    applyEdit();
+                    applyEdit()
                 }
 
                 Keys.onReturnPressed: {
-                    applyEdit();
-                    event.accepted = true;
+                    applyEdit()
+                    event.accepted = true
                 }
 
                 Keys.onEnterPressed: {
-                    applyEdit();
-                    event.accepted = true;
+                    applyEdit()
+                    event.accepted = true
                 }
 
                 Keys.onEscapePressed: {
-                    cancelEdit();
-                    event.accepted = true;
+                    cancelEdit()
+                    event.accepted = true
                 }
 
                 validator: DoubleValidator {

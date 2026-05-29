@@ -11,7 +11,7 @@ class QmlExportImageOptionsDialog : public QObject
 {
     Q_OBJECT
 
-public:
+  public:
     struct ExportOptionsResult
     {
         QString format;
@@ -41,19 +41,19 @@ public:
                                           bool initial_include_axis,
                                           bool initial_include_overlay_text);
 
-private slots:
+  private slots:
     void onOptionsAccepted(const QString &format, const QString &mode, int long_edge_px,
                            bool include_axis, bool include_overlay_text);
     void onCancelled();
 
-private:
+  private:
     QObject *createDialog(QQuickView *view, const QString &title, const QString &initial_format,
                           const QString &initial_mode, int initial_long_edge_px,
                           bool initial_include_axis, bool initial_include_overlay_text);
     void cleanupDialog();
     void invokeCallback(const ExportOptionsResult &result);
 
-private:
+  private:
     QObject *dialog_ = nullptr;
     ExportOptionsCallback callback_;
 };

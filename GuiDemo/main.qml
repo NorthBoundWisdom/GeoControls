@@ -3,263 +3,550 @@ import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 import GeoToy.Controls 1.0
 
-Rectangle {
-    id: root
-    width: 1120
-    height: 760
-    color: Theme.windowColor
+ApplicationWindow {
+    id: window
+
+    width: 1180
+    height: 780
+    minimumWidth: 860
+    minimumHeight: 620
+    visible: true
+    title: "GeoControls GuiDemo"
+
+    property int currentPage: 0
+    property color selectedColor: "#2f80ed"
 
     Component.onCompleted: {
-        Theme.helper = themeHelper;
+        Theme.helper = themeHelper
+        raise()
+        requestActivate()
     }
 
-    MessageDialog {
-        id: messageDialog
-        objectName: "messageDialog"
-        parentItem: root
+    background: Rectangle {
+        color: Theme.windowColor
     }
 
-    ScrollView {
-        id: scrollView
-        anchors.fill: parent
-        anchors.margins: 16
-        clip: true
+    header: ToolBar {
+        id: topBar
+        height: 52
 
-        ColumnLayout {
-            width: Math.max(0, scrollView.availableWidth - 12)
-            spacing: 16
+        background: Rectangle {
+            color: Theme.baseColor
+            border.color: Theme.chromeDividerColor
+            border.width: 1
+        }
+
+        RowLayout {
+            anchors.fill: parent
+            anchors.leftMargin: 16
+            anchors.rightMargin: 16
+            spacing: 12
 
             CustomLabel {
-                text: "GeoToy.Controls Demo"
-                font.pixelSize: 24
+                text: "GeoToy.Controls"
+                font.pixelSize: 20
                 font.bold: true
-                Layout.alignment: Qt.AlignHCenter
             }
 
-            CustomRectangle {
+            CustomLabel {
+                text: "standalone controls module"
+                color: Theme.placeholderTextColor
+            }
+
+            Item {
                 Layout.fillWidth: true
-                implicitHeight: 190
+            }
 
-                GridLayout {
-                    anchors.fill: parent
-                    anchors.margins: 14
-                    columns: 4
-                    rowSpacing: 10
-                    columnSpacing: 12
+            CustomButton {
+                text: "Message"
+                onClicked: showMessage("GeoControls", "MessageDialog is loaded from GeoToy.Controls.")
+            }
+        }
+    }
 
-                    CustomLabel {
-                        text: "Buttons"
-                    }
-                    CustomButton {
-                        text: "Primary"
-                        onClicked: {
-                            messageDialog.titleText = "Demo";
-                            messageDialog.messageText = "CustomButton clicked";
-                            messageDialog.buttons = ["OK"];
-                            messageDialog.openWithButtons();
-                        }
-                    }
-                    CustomToolButton {
-                        text: "Tool"
-                        ToolTip.visible: hovered
-                        ToolTip.text: "CustomToolButton"
-                    }
-                    CustomCheckBox {
-                        text: "Check"
-                        checked: true
-                    }
+    footer: Rectangle {
+        height: 30
+        color: Theme.baseColor
+        border.color: Theme.chromeDividerColor
+        border.width: 1
 
-                    CustomLabel {
-                        text: "Inputs"
-                    }
-                    CustomTextField {
-                        text: "Editable text"
-                        Layout.fillWidth: true
-                    }
-                    CustomComboBox {
-                        model: ["Alpha", "Beta", "Gamma"]
-                        Layout.fillWidth: true
-                    }
-                    CustomSwitch {
-                        checked: true
-                    }
+        CustomLabel {
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.left: parent.left
+            anchors.leftMargin: 16
+            text: "URI: GeoToy.Controls 1.0"
+            color: Theme.placeholderTextColor
+        }
+    }
 
-                    CustomLabel {
-                        text: "Numeric"
-                    }
-                    CustomSpinBox {
-                        id: demoSpin
-                        from: -100
-                        to: 100
-                        realValue: 12.5
-                        decimals: 1
-                        stepSize: 0.5
-                        editable: true
-                        Layout.fillWidth: true
-                    }
-                    CustomSlider {
-                        from: 0
-                        to: 100
-                        value: demoSpin.realValue
-                        Layout.fillWidth: true
-                    }
-                    CustomBinarySwitch {
-                        checked: true
-                    }
+    Rectangle {
+        id: contentRoot
+        anchors.fill: parent
+        color: Theme.windowColor
+
+        MessageDialog {
+            id: messageDialog
+            objectName: "messageDialog"
+            parentItem: contentRoot
+        }
+
+        ColumnLayout {
+            anchors.fill: parent
+            anchors.margins: 16
+            spacing: 12
+
+            TabBar {
+                id: navigation
+                Layout.fillWidth: true
+                currentIndex: window.currentPage
+                onCurrentIndexChanged: window.currentPage = currentIndex
+
+                TabButton {
+                    text: "Controls"
+                }
+
+                TabButton {
+                    text: "Inputs"
+                }
+
+                TabButton {
+                    text: "Charts & Dialogs"
                 }
             }
 
-            CustomRectangle {
+            StackLayout {
                 Layout.fillWidth: true
-                implicitHeight: 150
+                Layout.fillHeight: true
+                currentIndex: window.currentPage
 
-                ColumnLayout {
-                    anchors.fill: parent
-                    anchors.margins: 14
-                    spacing: 10
-
-                    CustomLabel {
-                        text: "Vector3SpinBox"
-                        font.bold: true
+                Page {
+                    background: Rectangle {
+                        color: "transparent"
                     }
-                    CustomVector3SpinBox {
-                        id: positionVector
-                        objectName: "positionVector"
-                        Layout.fillWidth: true
-                        vector: [10.5, 20.3, 30.7]
-                        decimals: 2
-                        stepSize: 0.5
+
+                    ScrollView {
+                        id: controlsScroll
+                        anchors.fill: parent
+                        contentWidth: availableWidth
+                        clip: true
+
+                        ColumnLayout {
+                            width: controlsScroll.availableWidth
+                            spacing: 14
+
+                            CustomRectangle {
+                                Layout.fillWidth: true
+                                title: "Buttons"
+                                collapsible: false
+
+                                GridLayout {
+                                    columns: 4
+                                    rowSpacing: 12
+                                    columnSpacing: 12
+
+                                    CustomButton {
+                                        Layout.fillWidth: true
+                                        text: "Primary"
+                                        onClicked: showMessage("Button", "CustomButton clicked.")
+                                    }
+
+                                    CustomToolButton {
+                                        display: AbstractButton.TextOnly
+                                        displayName: "Tool"
+                                        tooltip: "CustomToolButton with GeoControls tooltip"
+                                    }
+
+                                    EqualActionButtonRow {
+                                        Layout.fillWidth: true
+                                        Layout.columnSpan: 2
+                                        equalPreferredWidth: 90
+
+                                        CustomButton {
+                                            text: "Apply"
+                                            onClicked: showMessage("Action", "Apply clicked.")
+                                        }
+
+                                        CustomButton {
+                                            text: "Reset"
+                                            onClicked: showMessage("Action", "Reset clicked.")
+                                        }
+                                    }
+
+                                    CustomLabel {
+                                        text: "Choice"
+                                        font.bold: true
+                                    }
+
+                                    CustomCheckBox {
+                                        text: "Check"
+                                        checked: true
+                                    }
+
+                                    CustomRadioButton {
+                                        text: "Radio"
+                                        checked: true
+                                    }
+
+                                    CustomBinarySwitch {
+                                        leftText: "On"
+                                        rightText: "Off"
+                                        leftActive: true
+                                        onLeftClicked: {
+                                            leftActive = true
+                                            rightActive = false
+                                        }
+                                        onRightClicked: {
+                                            leftActive = false
+                                            rightActive = true
+                                        }
+                                    }
+                                }
+                            }
+
+                            CustomRectangle {
+                                Layout.fillWidth: true
+                                title: "Custom tabs"
+                                collapsible: false
+
+                                ColumnLayout {
+                                    spacing: 12
+
+                                    CustomTabBar {
+                                        id: demoTabs
+                                        Layout.fillWidth: true
+                                        targetIndex: demoTabStack.currentIndex
+
+                                        CustomTabButton {
+                                            text: "General"
+                                            targetIndex: 0
+                                            tabBar: demoTabs
+                                            onClicked: demoTabStack.currentIndex = 0
+                                        }
+
+                                        CustomTabButton {
+                                            text: "Advanced"
+                                            targetIndex: 1
+                                            tabBar: demoTabs
+                                            onClicked: demoTabStack.currentIndex = 1
+                                        }
+
+                                        CustomTabButton {
+                                            text: "Preview"
+                                            targetIndex: 2
+                                            tabBar: demoTabs
+                                            onClicked: demoTabStack.currentIndex = 2
+                                        }
+                                    }
+
+                                    StackLayout {
+                                        id: demoTabStack
+                                        Layout.fillWidth: true
+                                        Layout.fillHeight: true
+
+                                        CustomLabel {
+                                            text: "General controls share Theme and Fonts singletons."
+                                        }
+
+                                        CustomLabel {
+                                            text: "Advanced panel content can use the same tab primitives."
+                                        }
+
+                                        CustomLabel {
+                                            text: "Preview pages stay inside ordinary Qt Quick layouts."
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
-            }
 
-            CustomRectangle {
-                Layout.fillWidth: true
-                implicitHeight: 330
-
-                ColumnLayout {
-                    id: chartSection
-                    anchors.fill: parent
-                    anchors.margins: 14
-                    spacing: 10
-
-                    RowLayout {
-                        Layout.fillWidth: true
-
-                        CustomLabel {
-                            text: "Dynamic Chart"
-                            font.bold: true
-                        }
-                        Item {
-                            Layout.fillWidth: true
-                        }
-                        CustomCheckBox {
-                            id: realTimeCheck
-                            text: "Realtime"
-                            onCheckedChanged: checked ? chartTimer.start() : chartTimer.stop()
-                        }
+                Page {
+                    background: Rectangle {
+                        color: "transparent"
                     }
 
-                    CustomChart {
-                        id: demoChart
-                        Layout.fillWidth: true
-                        Layout.fillHeight: true
+                    ScrollView {
+                        id: inputsScroll
+                        anchors.fill: parent
+                        contentWidth: availableWidth
+                        clip: true
 
-                        property var chartData: ({
-                            labels: [],
-                            datasets: [{
-                                strokeColor: "#1f7a8c",
-                                fillColor: "rgba(31,122,140,0.12)",
-                                pointColor: "#1f7a8c",
-                                pointStrokeColor: "#ffffff",
-                                data: []
-                            }]
-                        })
+                        ColumnLayout {
+                            width: inputsScroll.availableWidth
+                            spacing: 14
 
-                        function render() {
-                            line(chartData, {
-                                animation: false,
-                                bezierCurve: false,
-                                scaleShowLabels: true,
-                                datasetFill: false,
-                                pointDot: false
-                            });
+                            CustomRectangle {
+                                Layout.fillWidth: true
+                                title: "Form controls"
+                                collapsible: false
+
+                                GridLayout {
+                                    columns: 2
+                                    rowSpacing: 12
+                                    columnSpacing: 16
+
+                                    CustomLabel {
+                                        text: "Text"
+                                        font.bold: true
+                                    }
+
+                                    CustomTextField {
+                                        Layout.fillWidth: true
+                                        text: "Editable value"
+                                    }
+
+                                    CustomLabel {
+                                        text: "Combo"
+                                        font.bold: true
+                                    }
+
+                                    CustomComboBox {
+                                        Layout.fillWidth: true
+                                        model: ["Alpha", "Beta", "Gamma"]
+                                        currentIndex: 1
+                                    }
+
+                                    CustomLabel {
+                                        text: "Switch"
+                                        font.bold: true
+                                    }
+
+                                    CustomSwitch {
+                                        model: ["Design", "Inspect", "Ship"]
+                                        currentIndex: 0
+                                    }
+
+                                    CustomLabel {
+                                        text: "Spin"
+                                        font.bold: true
+                                    }
+
+                                    CustomSpinBox {
+                                        id: spin
+                                        Layout.fillWidth: true
+                                        decimals: 1
+                                        realFrom: -100
+                                        realTo: 100
+                                        realValue: 12.5
+                                        realStepSize: 0.5
+                                        editable: true
+                                    }
+                                }
+                            }
+
+                            CustomRectangle {
+                                Layout.fillWidth: true
+                                title: "Numeric ranges"
+                                collapsible: false
+
+                                ColumnLayout {
+                                    spacing: 12
+
+                                    CustomSlider {
+                                        Layout.fillWidth: true
+                                        title: "Slider"
+                                        from: -100
+                                        to: 100
+                                        value: spin.realValue
+                                        delayedCommit: true
+                                    }
+
+                                    CustomRangeSlider {
+                                        Layout.fillWidth: true
+                                        title: "Accepted range"
+                                        from: -50
+                                        to: 50
+                                        fromValue: -12
+                                        toValue: 28
+                                    }
+                                }
+                            }
+
+                            CustomRectangle {
+                                Layout.fillWidth: true
+                                title: "Vector3SpinBox"
+                                collapsible: false
+
+                                ColumnLayout {
+                                    spacing: 12
+
+                                    CustomVector3SpinBox {
+                                        id: positionVector
+                                        objectName: "positionVector"
+                                        Layout.fillWidth: true
+                                        vector: [10.5, 20.3, 30.7]
+                                        decimals: 2
+                                        stepSize: 0.5
+                                    }
+                                }
+                            }
                         }
-
-                        onPaint: render()
-                        onWidthChanged: requestPaint()
-                        onHeightChanged: requestPaint()
                     }
-
-                    function resetData() {
-                        const data = [];
-                        const labels = [];
-                        for (let i = 0; i < 120; ++i) {
-                            const x = i / 12;
-                            data.push(Math.sin(x) * 40 + Math.cos(x * 0.5) * 15);
-                            labels.push(i % 15 === 0 ? String(i) : "");
-                        }
-                        demoChart.chartData.labels = labels;
-                        demoChart.chartData.datasets[0].data = data;
-                        demoChart.requestPaint();
-                    }
-
-                    function tick() {
-                        const data = demoChart.chartData.datasets[0].data;
-                        const labels = demoChart.chartData.labels;
-                        const t = Date.now() * 0.001;
-                        data.push(Math.sin(t * 2.0) * 45 + Math.cos(t * 0.9) * 18);
-                        labels.push(labels.length % 15 === 0 ? String(labels.length) : "");
-                        while (data.length > 120)
-                            data.shift();
-                        while (labels.length > 120)
-                            labels.shift();
-                        demoChart.requestPaint();
-                    }
-
-                    Timer {
-                        id: chartTimer
-                        interval: 80
-                        repeat: true
-                        onTriggered: chartSection.tick()
-                    }
-
-                    Component.onCompleted: resetData()
                 }
-            }
 
-            CustomRectangle {
-                Layout.fillWidth: true
-                implicitHeight: 118
-
-                RowLayout {
-                    anchors.fill: parent
-                    anchors.margins: 14
-                    spacing: 10
-
-                    CustomLabel {
-                        text: "Dialogs"
-                        font.bold: true
+                Page {
+                    background: Rectangle {
+                        color: "transparent"
                     }
-                    CustomButton {
-                        text: "Message"
-                        onClicked: {
-                            messageDialog.titleText = "GeoControls";
-                            messageDialog.messageText = "MessageDialog is available.";
-                            messageDialog.buttons = ["OK"];
-                            messageDialog.openWithButtons();
+
+                    ScrollView {
+                        id: chartScroll
+                        anchors.fill: parent
+                        contentWidth: availableWidth
+                        clip: true
+
+                        ColumnLayout {
+                            width: chartScroll.availableWidth
+                            spacing: 14
+
+                            CustomRectangle {
+                                Layout.fillWidth: true
+                                Layout.preferredHeight: 360
+                                title: "CustomChart"
+                                collapsible: false
+
+                                ColumnLayout {
+                                    id: chartSection
+                                    spacing: 12
+
+                                    RowLayout {
+                                        Layout.fillWidth: true
+
+                                        Item {
+                                            Layout.fillWidth: true
+                                        }
+
+                                        CustomCheckBox {
+                                            id: realtimeToggle
+                                            text: "Realtime"
+                                            onCheckedChanged: checked ? chartTimer.start() : chartTimer.stop()
+                                        }
+                                    }
+
+                                    CustomChart {
+                                        id: demoChart
+                                        Layout.fillWidth: true
+                                        Layout.fillHeight: true
+
+                                        property var chartData: ({
+                                                labels: [],
+                                                datasets: [
+                                                    {
+                                                        strokeColor: "#2f80ed",
+                                                        fillColor: "rgba(47,128,237,0.12)",
+                                                        pointColor: "#2f80ed",
+                                                        pointStrokeColor: "#ffffff",
+                                                        data: []
+                                                    }
+                                                ]
+                                            })
+
+                                        function render() {
+                                            line(chartData, {
+                                                animation: false,
+                                                bezierCurve: false,
+                                                scaleShowLabels: true,
+                                                datasetFill: false,
+                                                pointDot: false
+                                            })
+                                        }
+
+                                        onPaint: render()
+                                        onWidthChanged: requestPaint()
+                                        onHeightChanged: requestPaint()
+                                    }
+
+                                    Timer {
+                                        id: chartTimer
+                                        interval: 90
+                                        repeat: true
+                                        onTriggered: chartSection.tick()
+                                    }
+
+                                    function resetData() {
+                                        const data = []
+                                        const labels = []
+                                        for (let i = 0; i < 100; ++i) {
+                                            const x = i / 10
+                                            data.push(Math.sin(x) * 35 + Math.cos(x * 0.45) * 18)
+                                            labels.push(i % 20 === 0 ? String(i) : "")
+                                        }
+                                        demoChart.chartData.labels = labels
+                                        demoChart.chartData.datasets[0].data = data
+                                        demoChart.requestPaint()
+                                    }
+
+                                    function tick() {
+                                        const data = demoChart.chartData.datasets[0].data
+                                        const labels = demoChart.chartData.labels
+                                        const t = Date.now() * 0.001
+                                        data.push(Math.sin(t * 2.2) * 34 + Math.cos(t * 0.8) * 16)
+                                        labels.push(labels.length % 20 === 0 ? String(labels.length) : "")
+                                        while (data.length > 100)
+                                            data.shift()
+                                        while (labels.length > 100)
+                                            labels.shift()
+                                        demoChart.requestPaint()
+                                    }
+
+                                    Component.onCompleted: resetData()
+                                }
+                            }
+
+                            CustomRectangle {
+                                Layout.fillWidth: true
+                                title: "Dialogs and tooltips"
+                                collapsible: false
+
+                                RowLayout {
+                                    spacing: 12
+
+                                    CustomButton {
+                                        text: "Open Message"
+                                        onClicked: showMessage("Dialog", "This message uses MessageDialog from GeoToy.Controls.")
+                                    }
+
+                                    CustomButton {
+                                        text: "Pick Color"
+                                        onClicked: colorPicker.open()
+                                    }
+
+                                    CustomToolButton {
+                                        display: AbstractButton.TextOnly
+                                        displayName: "Hover"
+                                        tooltip: "Tooltip delay comes from ToolTipConfig."
+                                    }
+
+                                    Rectangle {
+                                        width: 42
+                                        height: 30
+                                        radius: 4
+                                        color: window.selectedColor
+                                        border.color: Theme.midColor
+                                        border.width: 1
+                                    }
+                                }
+                            }
                         }
-                    }
-                    CustomButton {
-                        text: "Tooltip"
-                        ToolTip.visible: hovered
-                        ToolTip.text: "ToolTipConfig is provided by the Controls module."
-                    }
-                    Item {
-                        Layout.fillWidth: true
                     }
                 }
             }
         }
+
+        CustomColorPicker {
+            id: colorPicker
+            parent: contentRoot
+            selectedColor: window.selectedColor
+            onAccepted: window.selectedColor = selectedColor
+        }
+    }
+
+    function showMessage(title, body) {
+        messageDialog.titleText = title
+        messageDialog.messageText = body
+        messageDialog.buttons = ["OK"]
+        messageDialog.defaultButtonText = "OK"
+        messageDialog.openWithButtons()
     }
 }

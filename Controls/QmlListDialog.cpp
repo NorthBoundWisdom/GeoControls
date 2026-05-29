@@ -2,6 +2,7 @@
 
 #include <functional>
 
+#include <QtCore/QDebug>
 #include <QtCore/QEventLoop>
 #include <QtCore/QList>
 #include <QtCore/QObject>
@@ -11,7 +12,6 @@
 #include <QtCore/QVariant>
 #include <QtCore/Qt>
 #include <QtCore/QtContainerFwd>
-#include <QtCore/QDebug>
 #include <QtQml/QQmlComponent>
 #include <QtQml/QQmlContext>
 #include <QtQml/QQmlEngine>
@@ -41,10 +41,7 @@ void requestDialogActivation(QQuickView *view, QObject *dialog)
 }
 } // namespace
 
-QmlListDialog::QmlListDialog(QObject *parent)
-    : QObject(parent)
-{
-}
+QmlListDialog::QmlListDialog(QObject *parent) : QObject(parent) {}
 
 void QmlListDialog::showListDialog(QQuickView *view, const QStringList &items, const QString &title,
                                    bool allow_multiple_selection, const SelectionCallback &callback)

@@ -16,7 +16,6 @@ Rectangle {
     property double stepSize: 1.0
     property int decimals: 3
     property bool editable: true
-    property bool enabled: true
 
     // Layout properties
     property int spacing: Fonts.size4
@@ -37,11 +36,11 @@ Rectangle {
     // Watch for external vector changes and update spinboxes
     onVectorChanged: {
         if (!_internal_updating && vector && vector.length >= 3) {
-            _internal_updating = true;
-            spinBoxX.realValue = vector[0];
-            spinBoxY.realValue = vector[1];
-            spinBoxZ.realValue = vector[2];
-            _internal_updating = false;
+            _internal_updating = true
+            spinBoxX.realValue = vector[0]
+            spinBoxY.realValue = vector[1]
+            spinBoxZ.realValue = vector[2]
+            _internal_updating = false
         }
     }
 
@@ -77,12 +76,12 @@ Rectangle {
 
                 onRealValueChanged: {
                     if (!control._internal_updating && control.vector[0] !== realValue) {
-                        control._internal_updating = true;
-                        var newVector = [realValue, control.vector[1] || 0.0, control.vector[2] || 0.0];
-                        control.vector = newVector;
-                        control.valueChanged(0, realValue);
-                        control.vectorValueChanged(newVector);
-                        control._internal_updating = false;
+                        control._internal_updating = true
+                        var newVector = [realValue, control.vector[1] || 0.0, control.vector[2] || 0.0]
+                        control.vector = newVector
+                        control.valueChanged(0, realValue)
+                        control.vectorValueChanged(newVector)
+                        control._internal_updating = false
                     }
                 }
             }
@@ -116,12 +115,12 @@ Rectangle {
 
                 onRealValueChanged: {
                     if (!control._internal_updating && control.vector[1] !== realValue) {
-                        control._internal_updating = true;
-                        var newVector = [control.vector[0] || 0.0, realValue, control.vector[2] || 0.0];
-                        control.vector = newVector;
-                        control.valueChanged(1, realValue);
-                        control.vectorValueChanged(newVector);
-                        control._internal_updating = false;
+                        control._internal_updating = true
+                        var newVector = [control.vector[0] || 0.0, realValue, control.vector[2] || 0.0]
+                        control.vector = newVector
+                        control.valueChanged(1, realValue)
+                        control.vectorValueChanged(newVector)
+                        control._internal_updating = false
                     }
                 }
             }
@@ -155,12 +154,12 @@ Rectangle {
 
                 onRealValueChanged: {
                     if (!control._internal_updating && control.vector[2] !== realValue) {
-                        control._internal_updating = true;
-                        var newVector = [control.vector[0] || 0.0, control.vector[1] || 0.0, realValue];
-                        control.vector = newVector;
-                        control.valueChanged(2, realValue);
-                        control.vectorValueChanged(newVector);
-                        control._internal_updating = false;
+                        control._internal_updating = true
+                        var newVector = [control.vector[0] || 0.0, control.vector[1] || 0.0, realValue]
+                        control.vector = newVector
+                        control.valueChanged(2, realValue)
+                        control.vectorValueChanged(newVector)
+                        control._internal_updating = false
                     }
                 }
             }
@@ -170,69 +169,69 @@ Rectangle {
     // Function to set the entire vector at once
     function setVector(newVector) {
         if (newVector && newVector.length >= 3) {
-            _internal_updating = true;
-            control.vector = [newVector[0], newVector[1], newVector[2]];
-            spinBoxX.realValue = control.vector[0];
-            spinBoxY.realValue = control.vector[1];
-            spinBoxZ.realValue = control.vector[2];
-            _internal_updating = false;
-            vectorValueChanged(control.vector);
+            _internal_updating = true
+            control.vector = [newVector[0], newVector[1], newVector[2]]
+            spinBoxX.realValue = control.vector[0]
+            spinBoxY.realValue = control.vector[1]
+            spinBoxZ.realValue = control.vector[2]
+            _internal_updating = false
+            vectorValueChanged(control.vector)
         }
     }
 
     // Function to get the current vector
     function getVector() {
-        return [control.vector[0] || 0.0, control.vector[1] || 0.0, control.vector[2] || 0.0];
+        return [control.vector[0] || 0.0, control.vector[1] || 0.0, control.vector[2] || 0.0]
     }
 
     // Function to set individual component
     function setComponent(index, value) {
         if (index >= 0 && index < 3) {
-            _internal_updating = true;
-            var newVector = [control.vector[0] || 0.0, control.vector[1] || 0.0, control.vector[2] || 0.0];
-            newVector[index] = value;
-            control.vector = newVector;
+            _internal_updating = true
+            var newVector = [control.vector[0] || 0.0, control.vector[1] || 0.0, control.vector[2] || 0.0]
+            newVector[index] = value
+            control.vector = newVector
 
             switch (index) {
             case 0:
-                spinBoxX.realValue = value;
-                break;
+                spinBoxX.realValue = value
+                break
             case 1:
-                spinBoxY.realValue = value;
-                break;
+                spinBoxY.realValue = value
+                break
             case 2:
-                spinBoxZ.realValue = value;
-                break;
+                spinBoxZ.realValue = value
+                break
             }
-            _internal_updating = false;
-            valueChanged(index, value);
-            vectorValueChanged(control.vector);
+            _internal_updating = false
+            valueChanged(index, value)
+            vectorValueChanged(control.vector)
         }
     }
 
     // Function to reset all values to zero
     function reset() {
-        setVector([0.0, 0.0, 0.0]);
+        setVector([0.0, 0.0, 0.0])
     }
 
     // Additional utility functions
     function setX(value) {
-        setComponent(0, value);
+        setComponent(0, value)
     }
     function setY(value) {
-        setComponent(1, value);
+        setComponent(1, value)
     }
     function setZ(value) {
-        setComponent(2, value);
+        setComponent(2, value)
     }
 
     function getX() {
-        return control.vector[0] || 0.0;
+        return control.vector[0] || 0.0
     }
     function getY() {
-        return control.vector[1] || 0.0;
+        return control.vector[1] || 0.0
     }
     function getZ() {
-        return control.vector[2] || 0.0;
+        return control.vector[2] || 0.0
     }
 }

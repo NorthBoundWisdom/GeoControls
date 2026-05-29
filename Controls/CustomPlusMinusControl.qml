@@ -21,8 +21,8 @@ RowLayout {
         text: "-"
         Layout.preferredWidth: Fonts.size50
         onClicked: {
-            let val = parseInt(valueField.text) || 0;
-            root.valueChanged(-val);
+            let val = parseInt(valueField.text) || 0
+            root.valueChanged(-val)
         }
     }
 
@@ -42,8 +42,8 @@ RowLayout {
         text: "+"
         Layout.preferredWidth: Fonts.size50
         onClicked: {
-            let val = parseInt(valueField.text) || 0;
-            root.valueChanged(val);
+            let val = parseInt(valueField.text) || 0
+            root.valueChanged(val)
         }
     }
 }

@@ -1,11 +1,11 @@
 #include "QmlFileDialog.h"
 
 #include <QtCore/QCoreApplication>
+#include <QtCore/QDebug>
 #include <QtCore/QEvent>
 #include <QtCore/QEventLoop>
 #include <QtCore/QFileInfo>
 #include <QtCore/QObject>
-#include <QtCore/QDebug>
 #include <QtCore/QTimer>
 #include <QtCore/QUrl>
 #include <QtCore/QVariant>
@@ -19,10 +19,7 @@
 
 namespace geotoys
 {
-QmlFileDialog::QmlFileDialog(QObject *parent)
-    : QObject(parent)
-{
-}
+QmlFileDialog::QmlFileDialog(QObject *parent) : QObject(parent) {}
 
 QString QmlFileDialog::getOpenFileName(QQuickView *view, const QString &title, const QString &dir,
                                        const QString &filter, QString *selectedFilter)

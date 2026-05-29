@@ -59,15 +59,15 @@ DialogShell {
 
             Keys.onReturnPressed: {
                 if (text.trim().length > 0) {
-                    root.textSubmitted(text.trim());
-                    root.close();
+                    root.textSubmitted(text.trim())
+                    root.close()
                 }
             }
 
             Keys.onEnterPressed: {
                 if (text.trim().length > 0) {
-                    root.textSubmitted(text.trim());
-                    root.close();
+                    root.textSubmitted(text.trim())
+                    root.close()
                 }
             }
         }
@@ -88,8 +88,8 @@ DialogShell {
             enabled: inputField.text.trim().length > 0
             onClicked: {
                 if (inputField.text.trim().length > 0) {
-                    root.textSubmitted(inputField.text.trim());
-                    root.close();
+                    root.textSubmitted(inputField.text.trim())
+                    root.close()
                 }
             }
         }
@@ -104,7 +104,7 @@ DialogShell {
     }
 
     onOpened: {
-        inputField.forceActiveFocus();
-        inputField.selectAll();
+        inputField.forceActiveFocus()
+        inputField.selectAll()
     }
 }

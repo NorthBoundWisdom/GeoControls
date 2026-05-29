@@ -6,7 +6,7 @@ Rectangle {
     id: control
 
     function expandedPreferredHeight() {
-        return contentColumn.implicitHeight + titleBar.height + (control.padding * 2);
+        return contentColumn.implicitHeight + titleBar.height + (control.padding * 2)
     }
 
     readonly property real collapsedPreferredHeight: titleBar.height
@@ -61,17 +61,17 @@ Rectangle {
 
     onExpandedChanged: {
         if (!control.initialized) {
-            return;
+            return
         }
-        control._expandedTransitionAnimating = true;
-        expandedTransitionResetTimer.restart();
+        control._expandedTransitionAnimating = true
+        expandedTransitionResetTimer.restart()
     }
 
     // Initialize expanded/collapsed state
     Component.onCompleted: {
         Qt.callLater(function () {
-            control.initialized = true;
-        });
+            control.initialized = true
+        })
     }
 
     Timer {
@@ -79,7 +79,7 @@ Rectangle {
         interval: 180
         repeat: false
         onTriggered: {
-            control._expandedTransitionAnimating = false;
+            control._expandedTransitionAnimating = false
         }
     }
 
@@ -139,9 +139,9 @@ Rectangle {
             enabled: control.collapsible
             onClicked: {
                 if (!control.collapsible)
-                    return;
-                control.expanded = !control.expanded;
-                control.toggled(control.expanded);
+                    return
+                control.expanded = !control.expanded
+                control.toggled(control.expanded)
             }
         }
     }

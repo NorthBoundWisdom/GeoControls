@@ -33,7 +33,7 @@ class Vector3SpinBoxWrapper : public QObject
     Q_PROPERTY(bool editable READ editable WRITE setEditable NOTIFY editableChanged)
     Q_PROPERTY(bool enabled READ enabled WRITE setEnabled NOTIFY enabledChanged)
 
-public:
+  public:
     explicit Vector3SpinBoxWrapper(QObject *parent = nullptr);
 
     // Connect to a QML CustomVector3SpinBox item
@@ -126,7 +126,7 @@ public:
     Q_INVOKABLE double dotProduct(const QVariantList &other) const;
     Q_INVOKABLE QVariantList crossProduct(const QVariantList &other) const;
 
-Q_SIGNALS:
+  Q_SIGNALS:
     void vectorChanged(const QVariantList &vector);
     void xChanged(double x);
     void yChanged(double y);
@@ -140,16 +140,16 @@ Q_SIGNALS:
     void editableChanged(bool editable);
     void enabledChanged(bool enabled);
 
-private Q_SLOTS:
+  private Q_SLOTS:
     void onQmlVectorChanged(const QVariant &newVector);
     void onQmlValueChanged(int index, double newValue);
 
-private:
+  private:
     void updateQmlProperty(const QString &propertyName, const QVariant &value);
     void connectQmlSignals();
     void disconnectQmlSignals();
 
-private:
+  private:
     QQuickItem *qml_item_ = nullptr;
     QVariantList vector_ = {0.0, 0.0, 0.0};
     QString label_;

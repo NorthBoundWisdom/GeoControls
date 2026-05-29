@@ -12,7 +12,7 @@ class ThemeHelper : public QObject
 {
     Q_OBJECT
 
-public:
+  public:
     Q_PROPERTY(QColor windowColor READ windowColor NOTIFY colorsChanged)
     Q_PROPERTY(QColor windowTextColor READ windowTextColor NOTIFY colorsChanged)
 
@@ -39,12 +39,16 @@ public:
     Q_PROPERTY(QColor buttonPressedColor READ buttonPressedColor NOTIFY colorsChanged)
     Q_PROPERTY(QColor buttonHoveredColor READ buttonHoveredColor NOTIFY colorsChanged)
     Q_PROPERTY(QColor buttonDisabledColor READ buttonDisabledColor NOTIFY colorsChanged)
+    Q_PROPERTY(QColor chromeDividerColor READ chromeDividerColor NOTIFY colorsChanged)
+    Q_PROPERTY(QColor chatComposerSurfaceColor READ chatComposerSurfaceColor NOTIFY colorsChanged)
+
+    Q_PROPERTY(int appearance READ appearance NOTIFY colorsChanged)
 
     /*Fonts*/
     Q_PROPERTY(QFont appFont READ appFont NOTIFY fontsChanged)
     Q_PROPERTY(QFont cmdlineFont READ cmdlineFont NOTIFY fontsChanged)
 
-public:
+  public:
     ThemeHelper(QObject *parent = nullptr);
     ~ThemeHelper() override;
 
@@ -70,16 +74,20 @@ public:
     QColor buttonPressedColor() const;
     QColor buttonHoveredColor() const;
     QColor buttonDisabledColor() const;
+    QColor chromeDividerColor() const;
+    QColor chatComposerSurfaceColor() const;
+
+    int appearance() const;
 
     /*Fonts*/
     QFont appFont() const;
     QFont cmdlineFont() const;
 
-Q_SIGNALS:
+  Q_SIGNALS:
     void colorsChanged();
     void fontsChanged();
 
-private:
+  private:
     QColor window_color_;
     QColor window_text_color_;
     QColor base_color_;
@@ -101,6 +109,8 @@ private:
     QColor button_pressed_color_;
     QColor button_hovered_color_;
     QColor button_disabled_color_;
+    QColor chrome_divider_color_;
+    QColor chat_composer_surface_color_;
 
     QFont app_font_;
     QFont cmdline_font_;

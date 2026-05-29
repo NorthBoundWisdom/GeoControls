@@ -15,15 +15,15 @@ Item {
             italic: baseFont.italic,
             underline: baseFont.underline,
             strikeout: baseFont.strikeout
-        });
+        })
         if (baseFont.pixelSize > 0) {
-            f.pixelSize = Math.max(1, Math.round(baseFont.pixelSize * factor));
+            f.pixelSize = Math.max(1, Math.round(baseFont.pixelSize * factor))
         } else if (baseFont.pointSize > 0) {
-            f.pointSize = Math.max(1, baseFont.pointSize * factor);
+            f.pointSize = Math.max(1, baseFont.pointSize * factor)
         } else {
-            f.pixelSize = Math.max(1, Math.round(Qt.application.font.pixelSize * factor));
+            f.pixelSize = Math.max(1, Math.round(Qt.application.font.pixelSize * factor))
         }
-        return f;
+        return f
     }
 
     function makeBoldFont(baseFont) {
@@ -33,15 +33,15 @@ Item {
             italic: baseFont.italic,
             underline: baseFont.underline,
             strikeout: baseFont.strikeout
-        });
+        })
         if (baseFont.pixelSize > 0) {
-            f.pixelSize = baseFont.pixelSize;
+            f.pixelSize = baseFont.pixelSize
         } else if (baseFont.pointSize > 0) {
-            f.pointSize = baseFont.pointSize;
+            f.pointSize = baseFont.pointSize
         } else {
-            f.pixelSize = Qt.application.font.pixelSize;
+            f.pixelSize = Qt.application.font.pixelSize
         }
-        return f;
+        return f
     }
 
     function makeUnderlineFont(baseFont) {
@@ -51,15 +51,15 @@ Item {
             italic: baseFont.italic,
             underline: true,
             strikeout: baseFont.strikeout
-        });
+        })
         if (baseFont.pixelSize > 0) {
-            f.pixelSize = baseFont.pixelSize;
+            f.pixelSize = baseFont.pixelSize
         } else if (baseFont.pointSize > 0) {
-            f.pointSize = baseFont.pointSize;
+            f.pointSize = baseFont.pointSize
         } else {
-            f.pixelSize = Qt.application.font.pixelSize;
+            f.pixelSize = Qt.application.font.pixelSize
         }
-        return f;
+        return f
     }
 
     function makeItalicFont(baseFont) {
@@ -69,37 +69,37 @@ Item {
             italic: true,
             underline: baseFont.underline,
             strikeout: baseFont.strikeout
-        });
+        })
         if (baseFont.pixelSize > 0) {
-            f.pixelSize = baseFont.pixelSize;
+            f.pixelSize = baseFont.pixelSize
         } else if (baseFont.pointSize > 0) {
-            f.pointSize = baseFont.pointSize;
+            f.pointSize = baseFont.pointSize
         } else {
-            f.pixelSize = Qt.application.font.pixelSize;
+            f.pixelSize = Qt.application.font.pixelSize
         }
-        return f;
+        return f
     }
 
     function scaledFontPixelSize(px) {
-        var configured = globalFont.pixelSize;
-        var fallback = Qt.application.font.pixelSize;
-        var base = configured > 0 ? configured : (fallback > 0 ? fallback : baseFontPx);
-        return Math.max(1, Math.round(base * (px / baseFontPx)));
+        var configured = globalFont.pixelSize
+        var fallback = Qt.application.font.pixelSize
+        var base = configured > 0 ? configured : (fallback > 0 ? fallback : baseFontPx)
+        return Math.max(1, Math.round(base * (px / baseFontPx)))
     }
 
     function resolvedFontPixelSize() {
-        var configured = globalFont.pixelSize;
-        var fallback = Qt.application.font.pixelSize;
-        return configured > 0 ? configured : (fallback > 0 ? fallback : baseFontPx);
+        var configured = globalFont.pixelSize
+        var fallback = Qt.application.font.pixelSize
+        return configured > 0 ? configured : (fallback > 0 ? fallback : baseFontPx)
     }
 
     readonly property real uiScaleFactor: {
-        var base = resolvedFontPixelSize();
-        return base > 0 ? (base / baseFontPx) : 1.0;
+        var base = resolvedFontPixelSize()
+        return base > 0 ? (base / baseFontPx) : 1.0
     }
 
     function scaledUiSize(px) {
-        return Math.max(1, Math.round(px * uiScaleFactor));
+        return Math.max(1, Math.round(px * uiScaleFactor))
     }
 
     property font standardFont: globalFont
@@ -107,21 +107,21 @@ Item {
     property font listFont: makeScaledFont(globalFont, 0.8)
 
     FontMetrics {
-        id: _standardFontMetrics
+        id: standardFontMetricsItem
         font: standardFont
     }
     FontMetrics {
-        id: _listFontMetrics
+        id: listFontMetricsItem
         font: listFont
     }
     FontMetrics {
-        id: _annotationFontMetrics
+        id: annotationFontMetricsItem
         font: annotationFont
     }
 
-    property FontMetrics standardFontMetrics: _standardFontMetrics
-    property FontMetrics listFontMetrics: _listFontMetrics
-    property FontMetrics annotationFontMetrics: _annotationFontMetrics
+    property FontMetrics standardFontMetrics: standardFontMetricsItem
+    property FontMetrics listFontMetrics: listFontMetricsItem
+    property FontMetrics annotationFontMetrics: annotationFontMetricsItem
 
     property int standardMargin: Math.round(standardFontMetrics.height * 0.6)
     property int standardSpacing: standardMargin
@@ -171,7 +171,7 @@ Item {
     // Common UI size tokens
     property int sizeBasePx: 16
     function scaledSize(px) {
-        return Math.round(standardFontMetrics.height * (px / sizeBasePx));
+        return Math.round(standardFontMetrics.height * (px / sizeBasePx))
     }
     property int size1: 1
     property int size2: scaledUiSize(2)

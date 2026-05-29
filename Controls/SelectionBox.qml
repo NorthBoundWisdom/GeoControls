@@ -16,21 +16,21 @@ Rectangle {
         Connections {
             target: Theme
             function onTextColorChanged() {
-                canvas.requestPaint();
+                canvas.requestPaint()
             }
         }
 
         onPaint: {
-            var ctx = getContext("2d");
-            ctx.clearRect(0, 0, width, height);
+            var ctx = getContext("2d")
+            ctx.clearRect(0, 0, width, height)
 
-            ctx.strokeStyle = selectionBox.strokeColor;
-            ctx.lineWidth = 1;
-            ctx.setLineDash([5, 3]);
-            ctx.strokeRect(0, 0, width, height);
+            ctx.strokeStyle = selectionBox.strokeColor
+            ctx.lineWidth = 1
+            ctx.setLineDash([5, 3])
+            ctx.strokeRect(0, 0, width, height)
 
-            ctx.fillStyle = selectionBox.fillColor;
-            ctx.fillRect(0, 0, width, height);
+            ctx.fillStyle = selectionBox.fillColor
+            ctx.fillRect(0, 0, width, height)
         }
     }
 

@@ -9,8 +9,8 @@ Item {
 
     property var helper: null
 
-    signal colorsChanged()
-    signal fontsChanged()
+    signal colorsChanged
+    signal fontsChanged
 
     property int appearance: helper ? helper.appearance : 0
 
@@ -37,7 +37,9 @@ Item {
     property color chromeDividerColor: helper ? helper.chromeDividerColor : "#c8d0da"
     property color chatComposerSurfaceColor: helper ? helper.chatComposerSurfaceColor : baseColor
 
-    property font appFont: helper ? helper.appFont : Qt.font({ pixelSize: 14 })
+    property font appFont: helper ? helper.appFont : Qt.font({
+        pixelSize: 14
+    })
     property font cmdlineFont: helper ? helper.cmdlineFont : appFont
 
     Connections {
@@ -45,11 +47,11 @@ Item {
         ignoreUnknownSignals: true
 
         function onColorsChanged() {
-            theme.colorsChanged();
+            theme.colorsChanged()
         }
 
         function onFontsChanged() {
-            theme.fontsChanged();
+            theme.fontsChanged()
         }
     }
 }

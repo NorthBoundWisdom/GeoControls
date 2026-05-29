@@ -78,12 +78,12 @@ QmlMessageBox::Button QmlMessageBox::question(const QString &title, const QStrin
         dlg->setProperty("buttons", btns);
         dlg->setProperty(
             "defaultButtonText",
-            defaultButton == Button::Yes ? QCoreApplication::translate("MessageDialog", "Yes") :
-            defaultButton == Button::No  ? QCoreApplication::translate("MessageDialog", "No") :
-            defaultButton == Button::Ok  ? QCoreApplication::translate("MessageDialog", "OK") :
-            defaultButton == Button::Cancel ?
-                                          QCoreApplication::translate("MessageDialog", "Cancel") :
-                                          QString());
+            defaultButton == Button::Yes  ? QCoreApplication::translate("MessageDialog", "Yes")
+            : defaultButton == Button::No ? QCoreApplication::translate("MessageDialog", "No")
+            : defaultButton == Button::Ok ? QCoreApplication::translate("MessageDialog", "OK")
+            : defaultButton == Button::Cancel
+                ? QCoreApplication::translate("MessageDialog", "Cancel")
+                : QString());
 
         // Use QEventLoop to wait for dialog result
         QEventLoop loop;

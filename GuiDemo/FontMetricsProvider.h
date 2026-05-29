@@ -12,7 +12,7 @@ class FontMetricsProvider : public QObject
     Q_PROPERTY(int height READ height NOTIFY fontChanged)
     Q_PROPERTY(int averageCharWidth READ averageCharWidth NOTIFY fontChanged)
 
-public:
+  public:
     explicit FontMetricsProvider(QObject *parent = nullptr);
 
     void setFont(const QFont &font);
@@ -25,10 +25,10 @@ public:
         return m_metrics.averageCharWidth();
     }
 
-Q_SIGNALS:
+  Q_SIGNALS:
     void fontChanged();
 
-private:
+  private:
     QFontMetrics m_metrics;
 };
 } // namespace networkutil

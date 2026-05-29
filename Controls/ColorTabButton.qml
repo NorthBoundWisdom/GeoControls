@@ -33,22 +33,22 @@ TabButton {
             radius: Fonts.size4
             color: {
                 if (!control.enabled)
-                    return control.disabledBackgroundColor;
+                    return control.disabledBackgroundColor
                 if (control.checked)
-                    return control.activeBackgroundColor;
+                    return control.activeBackgroundColor
                 if (control.hovered)
-                    return control.hoverBackgroundColor;
-                return control.backgroundColor;
+                    return control.hoverBackgroundColor
+                return control.backgroundColor
             }
 
             border.color: {
                 if (!control.enabled)
-                    return control.borderColor;
+                    return control.borderColor
                 if (control.checked)
-                    return control.activeBorderColor;
+                    return control.activeBorderColor
                 if (control.hovered)
-                    return control.hoverBorderColor;
-                return control.borderColor;
+                    return control.hoverBorderColor
+                return control.borderColor
             }
             border.width: control.checked ? Fonts.size1 : 0
         }
@@ -71,10 +71,10 @@ TabButton {
         font: control.font
         color: {
             if (!control.enabled)
-                return control.disabledTextColor;
+                return control.disabledTextColor
             if (control.checked)
-                return control.activeTextColor;
-            return control.textColor;
+                return control.activeTextColor
+            return control.textColor
         }
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
