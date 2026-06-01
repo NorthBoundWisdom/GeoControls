@@ -17,10 +17,13 @@ qt_add_qml_module(GeoControlsControls
     OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/GeoControls"
     OUTPUT_TARGETS GEOCONTROLS_CONTROLS_QML_EXTRA_TARGETS
     NO_PLUGIN
-    QML_FILES
+        QML_FILES
+        Badge.qml
+        Breadcrumb.qml
         ChartLine.qml
         ChartPie.qml
         ChartScatter.qml
+        Chip.qml
         ColorTabBar.qml
         ColorTabButton.qml
         ConfirmationButtons.qml
@@ -57,16 +60,22 @@ qt_add_qml_module(GeoControlsControls
         CustomVector3SpinBox.qml
         DialogShell.qml
         EqualActionButtonRow.qml
+        Expander.qml
         ExtendLine.qml
         Fonts.qml
+        InfoBar.qml
         MessageDialog.qml
+        Pagination.qml
         QmlExportImageOptionsDialogPage.qml
         QmlFileDialogPage.qml
         QmlInputDialogPage.qml
         QmlKeyValueDialogPage.qml
         QmlListDialogPage.qml
         RButtonMenu.qml
+        RatingControl.qml
         SelectionBox.qml
+        SegmentedButton.qml
+        SegmentedControl.qml
         SliderWithPresets.qml
         Theme.qml
         ToolTipConfig.qml

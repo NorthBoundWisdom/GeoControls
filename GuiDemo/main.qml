@@ -292,6 +292,88 @@ ApplicationWindow {
                                     }
                                 }
                             }
+
+                            CustomRectangle {
+                                Layout.fillWidth: true
+                                title: "Fluent-inspired light controls"
+                                collapsible: false
+
+                                ColumnLayout {
+                                    spacing: 12
+
+                                    InfoBar {
+                                        Layout.fillWidth: true
+                                        severity: "success"
+                                        title: "Dependency-neutral absorption"
+                                        message: "These controls use GeoControls Theme and ControlState only."
+                                        actionText: "Details"
+                                        onActionTriggered: showMessage("InfoBar", "InfoBar action clicked.")
+                                        onClosed: visible = false
+                                    }
+
+                                    RowLayout {
+                                        spacing: 10
+
+                                        Badge {
+                                            count: 7
+                                        }
+
+                                        Badge {
+                                            text: "NEW"
+                                            color: Theme.successColor
+                                        }
+
+                                        Chip {
+                                            text: "Selectable chip"
+                                            checkable: true
+                                            checked: true
+                                        }
+
+                                        Chip {
+                                            text: "Closable chip"
+                                            closable: true
+                                            onCloseRequested: visible = false
+                                        }
+                                    }
+
+                                    SegmentedControl {
+                                        model: ["Overview", "Details", "History"]
+                                        currentIndex: 0
+                                        onActivated: appShellLog.text = "Segment: " + index
+                                    }
+
+                                    Breadcrumb {
+                                        model: ["Project", "Scene", "Layer"]
+                                        onActivated: showMessage("Breadcrumb", "Clicked index " + index + ".")
+                                    }
+
+                                    Expander {
+                                        Layout.fillWidth: true
+                                        title: "Expander"
+
+                                        CustomLabel {
+                                            Layout.fillWidth: true
+                                            text: "Expandable content stays inside ordinary GeoControls layouts."
+                                            color: Theme.placeholderTextColor
+                                        }
+                                    }
+
+                                    RowLayout {
+                                        spacing: 14
+
+                                        Pagination {
+                                            page: 3
+                                            pageCount: 12
+                                            onPageRequested: appShellLog.text = "Page requested: " + page
+                                        }
+
+                                        RatingControl {
+                                            rating: 3
+                                            onRatingChangedByUser: appShellLog.text = "Rating: " + rating
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }

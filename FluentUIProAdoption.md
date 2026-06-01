@@ -47,12 +47,12 @@ GeoControls 现有架构重写进入 `Controls/` 或 `AppShell/`。
 
 ## Phase 2: 常用控件体验补齐
 
-- [ ] 重写轻量通知与提示能力：`InfoBar`、`Badge`、结果/状态提示。
-- [ ] 补齐选择与标签类控件：`Chip`、`SegmentedControl`、`SegmentedButton`。
-- [ ] 补齐可折叠和路径导航能力：`Expander`、`Breadcrumb`。
-- [ ] 补齐列表分页和评分交互：`Pagination`、`RatingControl`。
-- [ ] 所有新增控件都能单独在 GuiDemo 中演示。
-- [ ] 所有新增控件都使用 `GeoControls 1.0` 导入。
+- [x] 重写轻量通知与提示能力：`InfoBar`、`Badge`、结果/状态提示。
+- [x] 补齐选择与标签类控件：`Chip`、`SegmentedControl`、`SegmentedButton`。
+- [x] 补齐可折叠和路径导航能力：`Expander`、`Breadcrumb`。
+- [x] 补齐列表分页和评分交互：`Pagination`、`RatingControl`。
+- [x] 所有新增控件都能单独在 GuiDemo 中演示。
+- [x] 所有新增控件都使用 `GeoControls 1.0` 导入。
 
 ## Phase 3: 布局与导航模式
 
@@ -73,16 +73,16 @@ GeoControls 现有架构重写进入 `Controls/` 或 `AppShell/`。
 
 ## 每轮吸收前检查
 
-- [ ] 明确本轮目标、目标控件、宿主模块和不迁入项。
-- [ ] 若变更范围较大，先更新根目录 `TodoList.md`。
-- [ ] 确认本轮不会新增 CMake package、Qt 组件、第三方库、字体或 JS bundle。
-- [ ] 确认新增 API 属于 `GeoControls 1.0` 或 `GeoControls.AppShell 1.0`。
-- [ ] 确认新增资源使用 `qrc:/GeoControls/icons/...`。
+- [x] 明确本轮目标、目标控件、宿主模块和不迁入项。
+- [x] 若变更范围较大，先更新根目录 `TodoList.md`。
+- [x] 确认本轮不会新增 CMake package、Qt 组件、第三方库、字体或 JS bundle。
+- [x] 确认新增 API 属于 `GeoControls 1.0` 或 `GeoControls.AppShell 1.0`。
+- [x] 确认新增资源使用 `qrc:/GeoControls/icons/...`。
 
 ## 每轮实现后检查
 
-- [ ] 记录实现 summary。
-- [ ] 运行 configure：
+- [x] 记录实现 summary。
+- [x] 运行 configure：
 
 ```sh
 cmake -S /Users/henrykang/Documents/GeoControls \
@@ -91,57 +91,57 @@ cmake -S /Users/henrykang/Documents/GeoControls \
     -DGEOCONTROLS_BUILD_DEMO=ON
 ```
 
-- [ ] 构建 `GeoControlsControls`：
+- [x] 构建 `GeoControlsControls`：
 
 ```sh
 cmake --build /Users/henrykang/Documents/GeoControls/build/mac_clang_release \
     --target GeoControlsControls
 ```
 
-- [ ] 构建 `GeoControlsAppShell`：
+- [x] 构建 `GeoControlsAppShell`：
 
 ```sh
 cmake --build /Users/henrykang/Documents/GeoControls/build/mac_clang_release \
     --target GeoControlsAppShell
 ```
 
-- [ ] 构建 `GuiDemo`：
+- [x] 构建 `GuiDemo`：
 
 ```sh
 cmake --build /Users/henrykang/Documents/GeoControls/build/mac_clang_release \
     --target GuiDemo
 ```
 
-- [ ] 运行 QML lint：
+- [x] 运行 QML lint：
 
 ```sh
 cmake --build /Users/henrykang/Documents/GeoControls/build/mac_clang_release \
     --target all_qmllint
 ```
 
-- [ ] 运行 legacy/resource residue scan：
+- [x] 运行 legacy/resource residue scan：
 
 ```sh
 rg 'Geo[T]oy|Custom[Q]ml|geo[t]oys|qrc:/[i]cons|qrc:/Geo[T]oy' \
     /Users/henrykang/Documents/GeoControls
 ```
 
-- [ ] 运行 shell/application boundary scan：
+- [x] 运行 shell/application boundary scan：
 
 ```sh
 rg "Geo2dCore/Define[.]h|rlog/logger[.]h|App[M]anager" \
     /Users/henrykang/Documents/GeoControls
 ```
 
-- [ ] 在最终交付中记录实际运行的 verification commands 和结果。
+- [x] 在最终交付中记录实际运行的 verification commands 和结果。
 
 ## 文档维护检查
 
-- [ ] 更新本文件后运行文档级验收：
+- [x] 更新本文件后运行文档级验收：
 
 ```sh
 rg 'FluentUI[.]Controls|FluentUI[.]impl|Qt6::Shader[T]ools|Chart[.]js|Break[p]ad|Ai[A]ssistant|libqr[e]ncode|Qt S[D]K|QT_SDK_D[I]R' \
     /Users/henrykang/Documents/GeoControls/FluentUIProAdoption.md
 ```
 
-- [ ] 确认匹配结果只出现在“永久排除项”或“文档维护检查”语境中。
+- [x] 确认匹配结果只出现在“永久排除项”或“文档维护检查”语境中。

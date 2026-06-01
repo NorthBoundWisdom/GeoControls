@@ -42,6 +42,10 @@ Item {
         readonly property color actionButtonHoveredColor: "#e8eef7"
         readonly property color actionButtonPressedColor: "#dae3f1"
         readonly property color actionButtonBorderColor: dividerColor
+        readonly property color infoColor: "#2563eb"
+        readonly property color successColor: "#15803d"
+        readonly property color warningColor: "#b45309"
+        readonly property color errorColor: "#dc2626"
 
         readonly property font appFont: Qt.font({
             pixelSize: 14
@@ -86,6 +90,10 @@ Item {
     property color actionButtonHoveredColor: helper ? helper.actionButtonHoveredColor : "#e8eef7"
     property color actionButtonPressedColor: helper ? helper.actionButtonPressedColor : "#dae3f1"
     property color actionButtonBorderColor: helper ? helper.actionButtonBorderColor : dividerColor
+    property color infoColor: helper && helper.infoColor !== undefined ? helper.infoColor : "#2563eb"
+    property color successColor: helper && helper.successColor !== undefined ? helper.successColor : "#15803d"
+    property color warningColor: helper && helper.warningColor !== undefined ? helper.warningColor : "#b45309"
+    property color errorColor: helper && helper.errorColor !== undefined ? helper.errorColor : "#dc2626"
 
     property font appFont: helper ? helper.appFont : Qt.font({
         pixelSize: 14
