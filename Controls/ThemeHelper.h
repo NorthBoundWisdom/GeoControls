@@ -36,22 +36,19 @@ class ThemeHelper : public QObject
     Q_PROPERTY(QColor buttonPressedColor READ buttonPressedColor NOTIFY colorsChanged)
     Q_PROPERTY(QColor buttonHoveredColor READ buttonHoveredColor NOTIFY colorsChanged)
     Q_PROPERTY(QColor buttonDisabledColor READ buttonDisabledColor NOTIFY colorsChanged)
-    Q_PROPERTY(QColor chromeDividerColor READ chromeDividerColor NOTIFY colorsChanged)
-    Q_PROPERTY(QColor navigationSurfaceColor READ navigationSurfaceColor NOTIFY colorsChanged)
-    Q_PROPERTY(QColor commandSurfaceColor READ commandSurfaceColor NOTIFY colorsChanged)
-    Q_PROPERTY(QColor chatPageSurfaceColor READ chatPageSurfaceColor NOTIFY colorsChanged)
-    Q_PROPERTY(QColor chatContentSurfaceColor READ chatContentSurfaceColor NOTIFY colorsChanged)
-    Q_PROPERTY(QColor chatComposerSurfaceColor READ chatComposerSurfaceColor NOTIFY colorsChanged)
-    Q_PROPERTY(QColor chatActionButtonColor READ chatActionButtonColor NOTIFY colorsChanged)
-    Q_PROPERTY(
-        QColor chatActionButtonHoveredColor READ chatActionButtonHoveredColor NOTIFY colorsChanged)
-    Q_PROPERTY(
-        QColor chatActionButtonPressedColor READ chatActionButtonPressedColor NOTIFY colorsChanged)
-    Q_PROPERTY(
-        QColor chatActionButtonBorderColor READ chatActionButtonBorderColor NOTIFY colorsChanged)
+    Q_PROPERTY(QColor dividerColor READ dividerColor NOTIFY colorsChanged)
+    Q_PROPERTY(QColor railSurfaceColor READ railSurfaceColor NOTIFY colorsChanged)
+    Q_PROPERTY(QColor inputSurfaceColor READ inputSurfaceColor NOTIFY colorsChanged)
+    Q_PROPERTY(QColor pageSurfaceColor READ pageSurfaceColor NOTIFY colorsChanged)
+    Q_PROPERTY(QColor contentSurfaceColor READ contentSurfaceColor NOTIFY colorsChanged)
+    Q_PROPERTY(QColor popupSurfaceColor READ popupSurfaceColor NOTIFY colorsChanged)
+    Q_PROPERTY(QColor actionButtonColor READ actionButtonColor NOTIFY colorsChanged)
+    Q_PROPERTY(QColor actionButtonHoveredColor READ actionButtonHoveredColor NOTIFY colorsChanged)
+    Q_PROPERTY(QColor actionButtonPressedColor READ actionButtonPressedColor NOTIFY colorsChanged)
+    Q_PROPERTY(QColor actionButtonBorderColor READ actionButtonBorderColor NOTIFY colorsChanged)
 
     Q_PROPERTY(QFont appFont READ appFont NOTIFY fontsChanged)
-    Q_PROPERTY(QFont cmdlineFont READ cmdlineFont NOTIFY fontsChanged)
+    Q_PROPERTY(QFont monoFont READ monoFont NOTIFY fontsChanged)
 
   public:
     explicit ThemeHelper(QObject *parent = nullptr);
@@ -80,19 +77,19 @@ class ThemeHelper : public QObject
     QColor buttonPressedColor() const;
     QColor buttonHoveredColor() const;
     QColor buttonDisabledColor() const;
-    QColor chromeDividerColor() const;
-    QColor navigationSurfaceColor() const;
-    QColor commandSurfaceColor() const;
-    QColor chatPageSurfaceColor() const;
-    QColor chatContentSurfaceColor() const;
-    QColor chatComposerSurfaceColor() const;
-    QColor chatActionButtonColor() const;
-    QColor chatActionButtonHoveredColor() const;
-    QColor chatActionButtonPressedColor() const;
-    QColor chatActionButtonBorderColor() const;
+    QColor dividerColor() const;
+    QColor railSurfaceColor() const;
+    QColor inputSurfaceColor() const;
+    QColor pageSurfaceColor() const;
+    QColor contentSurfaceColor() const;
+    QColor popupSurfaceColor() const;
+    QColor actionButtonColor() const;
+    QColor actionButtonHoveredColor() const;
+    QColor actionButtonPressedColor() const;
+    QColor actionButtonBorderColor() const;
 
     QFont appFont() const;
-    QFont cmdlineFont() const;
+    QFont monoFont() const;
 
   Q_SIGNALS:
     void colorsChanged();
@@ -120,19 +117,19 @@ class ThemeHelper : public QObject
     QColor button_pressed_color_;
     QColor button_hovered_color_;
     QColor button_disabled_color_;
-    QColor chrome_divider_color_;
-    QColor navigation_surface_color_;
-    QColor command_surface_color_;
-    QColor chat_page_surface_color_;
-    QColor chat_content_surface_color_;
-    QColor chat_composer_surface_color_;
-    QColor chat_action_button_color_;
-    QColor chat_action_button_hovered_color_;
-    QColor chat_action_button_pressed_color_;
-    QColor chat_action_button_border_color_;
+    QColor divider_color_;
+    QColor rail_surface_color_;
+    QColor input_surface_color_;
+    QColor page_surface_color_;
+    QColor content_surface_color_;
+    QColor popup_surface_color_;
+    QColor action_button_color_;
+    QColor action_button_hovered_color_;
+    QColor action_button_pressed_color_;
+    QColor action_button_border_color_;
 
     QFont app_font_;
-    QFont cmdline_font_;
+    QFont mono_font_;
 };
 } // namespace geocontrols
 

@@ -1,5 +1,5 @@
 import QtQuick
-import GeoToy.Controls 1.0
+import GeoControls 1.0
 
 Item {
     id: root

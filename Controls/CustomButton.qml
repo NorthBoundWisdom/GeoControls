@@ -3,7 +3,7 @@ import QtQuick.Controls 2.15
 import QtQuick.Controls.impl 2.15
 import QtQuick.Window 2.15
 import QtQuick.Layouts 2.15
-import GeoToy.Controls 1.0
+import GeoControls 1.0
 
 Button {
     id: control

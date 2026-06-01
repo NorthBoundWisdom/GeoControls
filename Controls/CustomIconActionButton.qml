@@ -1,6 +1,6 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
-import GeoToy.Controls 1.0
+import GeoControls 1.0
 
 CustomButton {
     id: control
@@ -16,7 +16,7 @@ CustomButton {
     property color pressedBorderColor: hoveredBorderColor
     property int borderWidth: 0
     property real activeTextFactor: 1.3
-    property int iconPixelSize: Theme.cmdlineFont.pixelSize
+    property int iconPixelSize: Theme.monoFont.pixelSize
 
     defaultHeight: Fonts.iconButtonSize
     defaultPadding: 0

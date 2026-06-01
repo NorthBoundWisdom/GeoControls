@@ -1,11 +1,11 @@
-#ifndef GUI_CONTROLS_QML_MESSAGE_BOX_H
-#define GUI_CONTROLS_QML_MESSAGE_BOX_H
+#ifndef GEOCONTROLS_QML_MESSAGE_BOX_H
+#define GEOCONTROLS_QML_MESSAGE_BOX_H
 
 #include <QtCore/QString>
 
 class QQuickView;
 
-namespace geotoys
+namespace geocontrols
 {
 class QmlMessageBox
 {
@@ -30,5 +30,5 @@ class QmlMessageBox
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(QmlMessageBox::Buttons)
-} // namespace geotoys
-#endif // GUI_CONTROLS_QML_MESSAGE_BOX_H
+} // namespace geocontrols
+#endif // GEOCONTROLS_QML_MESSAGE_BOX_H

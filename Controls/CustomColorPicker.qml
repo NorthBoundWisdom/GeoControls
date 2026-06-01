@@ -1,7 +1,7 @@
 import QtQuick 2.13
 import QtQuick.Controls 2.13
 import QtQuick.Layouts 1.13
-import GeoToy.Controls 1.0
+import GeoControls 1.0
 
 Dialog {
     id: control

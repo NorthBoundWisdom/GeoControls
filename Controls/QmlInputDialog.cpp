@@ -11,7 +11,7 @@
 #include <QtQuick/QQuickItem>
 #include <QtQuick/QQuickView>
 
-namespace geotoys
+namespace geocontrols
 {
 QmlInputDialog::QmlInputDialog(QObject *parent) : QObject(parent) {}
 
@@ -131,7 +131,7 @@ QObject *QmlInputDialog::createDialog(QQuickView *view, const QString &title,
         qWarning() << "QmlInputDialog::createDialog: rootObject is null";
     }
 
-    QQmlComponent component(engine, QUrl("qrc:/GeoToy/Controls/QmlInputDialogPage.qml"));
+    QQmlComponent component(engine, QUrl("qrc:/GeoControls/QmlInputDialogPage.qml"));
     if (component.isError())
     {
         qCritical().noquote() << "QmlInputDialog::createDialog: failed to load QML component:"
@@ -222,4 +222,4 @@ void QmlInputDialog::onCancelled()
     invokeCallback(result);
     cleanupDialog();
 }
-} // namespace geotoys
+} // namespace geocontrols

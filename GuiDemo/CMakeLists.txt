@@ -33,8 +33,8 @@ endif()
 
 target_link_libraries(GuiDemo
 PRIVATE
-    GeoToyControls
-    GeoToyAppShell
+    GeoControlsControls
+    GeoControlsAppShell
     Qt6::Core
     Qt6::Gui
     Qt6::Qml

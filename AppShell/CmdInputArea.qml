@@ -1,7 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.13
-import GeoToy.Controls 1.0
+import GeoControls 1.0
 
 Rectangle {
     id: inputArea
@@ -17,6 +17,7 @@ Rectangle {
     property string commandPrefix: "/"
     property string placeholderText: qsTr("Enter /command...")
     property bool showPromptPrefix: true
+    property var completionProvider: null
 
     property alias text: commandInput.text
     signal commandSubmitted(string command)
@@ -165,7 +166,11 @@ Rectangle {
             return
         }
 
-        const completions = commandConsole.getCompletions(completion_prefix);
+        if (!completionProvider || typeof completionProvider.getCompletions !== "function") {
+            throw new Error("CmdInputArea requires completionProvider.getCompletions(prefix)")
+        }
+
+        const completions = completionProvider.getCompletions(completion_prefix);
         // Keep completionModel as plain strings. Object model + modelData role mapping
         // can regress into blank popup rows when delegate role injection changes.
         const normalized_completions = []

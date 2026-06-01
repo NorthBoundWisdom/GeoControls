@@ -11,7 +11,7 @@ static QFont makeAppFont()
     return font;
 }
 
-static QFont makeCmdlineFont()
+static QFont makeMonoFont()
 {
     QFont font = QFontDatabase::systemFont(QFontDatabase::FixedFont);
     font.setPixelSize(12);
@@ -46,19 +46,19 @@ ThemeHelper::ThemeHelper(QObject *parent) : QObject(parent)
     button_pressed_color_ = QColor(203, 213, 225);
     button_hovered_color_ = QColor(219, 228, 240);
     button_disabled_color_ = QColor(226, 230, 236);
-    chrome_divider_color_ = QColor(200, 208, 218);
-    navigation_surface_color_ = QColor(241, 244, 248);
-    command_surface_color_ = QColor(255, 255, 255);
-    chat_page_surface_color_ = QColor(246, 247, 249);
-    chat_content_surface_color_ = QColor(255, 255, 255);
-    chat_composer_surface_color_ = base_color_;
-    chat_action_button_color_ = QColor(247, 249, 252);
-    chat_action_button_hovered_color_ = QColor(232, 238, 247);
-    chat_action_button_pressed_color_ = QColor(218, 227, 241);
-    chat_action_button_border_color_ = QColor(200, 208, 218);
+    divider_color_ = QColor(200, 208, 218);
+    rail_surface_color_ = QColor(241, 244, 248);
+    input_surface_color_ = QColor(255, 255, 255);
+    page_surface_color_ = QColor(246, 247, 249);
+    content_surface_color_ = QColor(255, 255, 255);
+    popup_surface_color_ = base_color_;
+    action_button_color_ = QColor(247, 249, 252);
+    action_button_hovered_color_ = QColor(232, 238, 247);
+    action_button_pressed_color_ = QColor(218, 227, 241);
+    action_button_border_color_ = QColor(200, 208, 218);
 
     app_font_ = makeAppFont();
-    cmdline_font_ = makeCmdlineFont();
+    mono_font_ = makeMonoFont();
 }
 
 ThemeHelper::~ThemeHelper() = default;
@@ -173,54 +173,54 @@ QColor ThemeHelper::buttonDisabledColor() const
     return button_disabled_color_;
 }
 
-QColor ThemeHelper::chromeDividerColor() const
+QColor ThemeHelper::dividerColor() const
 {
-    return chrome_divider_color_;
+    return divider_color_;
 }
 
-QColor ThemeHelper::navigationSurfaceColor() const
+QColor ThemeHelper::railSurfaceColor() const
 {
-    return navigation_surface_color_;
+    return rail_surface_color_;
 }
 
-QColor ThemeHelper::commandSurfaceColor() const
+QColor ThemeHelper::inputSurfaceColor() const
 {
-    return command_surface_color_;
+    return input_surface_color_;
 }
 
-QColor ThemeHelper::chatPageSurfaceColor() const
+QColor ThemeHelper::pageSurfaceColor() const
 {
-    return chat_page_surface_color_;
+    return page_surface_color_;
 }
 
-QColor ThemeHelper::chatContentSurfaceColor() const
+QColor ThemeHelper::contentSurfaceColor() const
 {
-    return chat_content_surface_color_;
+    return content_surface_color_;
 }
 
-QColor ThemeHelper::chatComposerSurfaceColor() const
+QColor ThemeHelper::popupSurfaceColor() const
 {
-    return chat_composer_surface_color_;
+    return popup_surface_color_;
 }
 
-QColor ThemeHelper::chatActionButtonColor() const
+QColor ThemeHelper::actionButtonColor() const
 {
-    return chat_action_button_color_;
+    return action_button_color_;
 }
 
-QColor ThemeHelper::chatActionButtonHoveredColor() const
+QColor ThemeHelper::actionButtonHoveredColor() const
 {
-    return chat_action_button_hovered_color_;
+    return action_button_hovered_color_;
 }
 
-QColor ThemeHelper::chatActionButtonPressedColor() const
+QColor ThemeHelper::actionButtonPressedColor() const
 {
-    return chat_action_button_pressed_color_;
+    return action_button_pressed_color_;
 }
 
-QColor ThemeHelper::chatActionButtonBorderColor() const
+QColor ThemeHelper::actionButtonBorderColor() const
 {
-    return chat_action_button_border_color_;
+    return action_button_border_color_;
 }
 
 QFont ThemeHelper::appFont() const
@@ -228,8 +228,8 @@ QFont ThemeHelper::appFont() const
     return app_font_;
 }
 
-QFont ThemeHelper::cmdlineFont() const
+QFont ThemeHelper::monoFont() const
 {
-    return cmdline_font_;
+    return mono_font_;
 }
 } // namespace geocontrols

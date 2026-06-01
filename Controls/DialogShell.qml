@@ -1,7 +1,7 @@
 import QtQuick 2.13
 import QtQuick.Controls 2.13
 import QtQuick.Layouts 1.15
-import GeoToy.Controls 1.0
+import GeoControls 1.0
 
 Popup {
     id: root
@@ -146,7 +146,7 @@ Popup {
                         rightPadding: 0
                         topPadding: 0
                         bottomPadding: 0
-                        icon.source: "qrc:/icons/Close.svg"
+                        icon.source: "qrc:/GeoControls/icons/Close.svg"
                         icon.width: Math.round(root.unit * 1.0)
                         icon.height: Math.round(root.unit * 1.0)
                         icon.color: Theme.textColor

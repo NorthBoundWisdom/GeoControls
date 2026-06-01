@@ -1,5 +1,5 @@
-#ifndef GUI_CUSTOMQML_QML_LIST_DIALOG_H
-#define GUI_CUSTOMQML_QML_LIST_DIALOG_H
+#ifndef GEOCONTROLS_QML_LIST_DIALOG_H
+#define GEOCONTROLS_QML_LIST_DIALOG_H
 
 #include <functional>
 
@@ -8,7 +8,7 @@
 #include <QtQuick/QQuickItem>
 #include <QtQuick/QQuickView>
 
-namespace geotoys
+namespace geocontrols
 {
 /*!
  * \brief A generic QML-based list selection dialog
@@ -108,5 +108,5 @@ class QmlListDialog : public QObject
     SelectionCallback callback_;
     bool allowMultipleSelection_ = false;
 };
-} // namespace geotoys
-#endif // GUI_CUSTOMQML_QML_LIST_DIALOG_H
+} // namespace geocontrols
+#endif // GEOCONTROLS_QML_LIST_DIALOG_H

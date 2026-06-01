@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import GeoToy.Controls 1.0
+import GeoControls 1.0
 
 RowLayout {
     id: root

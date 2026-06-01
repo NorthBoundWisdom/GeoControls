@@ -3,18 +3,19 @@ set_source_files_properties(Fonts.qml Theme.qml ToolTipConfig.qml
         QT_QML_SINGLETON_TYPE TRUE
 )
 
-qt_add_library(GeoToyControls STATIC)
-set_target_properties(GeoToyControls PROPERTIES
+qt_add_library(GeoControlsControls STATIC)
+set_target_properties(GeoControlsControls PROPERTIES
     AUTOMOC ON
     AUTORCC ON
+    EXPORT_NAME Controls
 )
 
-qt_add_qml_module(GeoToyControls
-    URI GeoToy.Controls
+qt_add_qml_module(GeoControlsControls
+    URI GeoControls
     VERSION 1.0
     RESOURCE_PREFIX /
-    OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/GeoToy/Controls"
-    OUTPUT_TARGETS GEOTOY_CONTROLS_QML_EXTRA_TARGETS
+    OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/GeoControls"
+    OUTPUT_TARGETS GEOCONTROLS_CONTROLS_QML_EXTRA_TARGETS
     NO_PLUGIN
     QML_FILES
         ChartLine.qml
@@ -88,18 +89,18 @@ qt_add_qml_module(GeoToyControls
         Vector3SpinBoxWrapper.h
 )
 
-target_include_directories(GeoToyControls
+target_include_directories(GeoControlsControls
 PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/GeoControls>
 )
 
-target_sources(GeoToyControls
+target_sources(GeoControlsControls
 PRIVATE
     icons.qrc
 )
 
-target_link_libraries(GeoToyControls
+target_link_libraries(GeoControlsControls
 PUBLIC
     Qt6::Core
     Qt6::Gui
@@ -118,7 +119,7 @@ if(GEOCONTROLS_INSTALL_SDK)
 endif()
 
 set(GEOCONTROLS_EXPORT_TARGETS
-    GeoToyControls
-    ${GEOTOY_CONTROLS_QML_EXTRA_TARGETS}
+    GeoControlsControls
+    ${GEOCONTROLS_CONTROLS_QML_EXTRA_TARGETS}
     PARENT_SCOPE
 )

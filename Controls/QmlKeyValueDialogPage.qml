@@ -1,7 +1,7 @@
 import QtQuick 2.13
 import QtQuick.Controls 2.13
 import QtQuick.Layouts 1.15
-import GeoToy.Controls 1.0
+import GeoControls 1.0
 
 DialogShell {
     id: root

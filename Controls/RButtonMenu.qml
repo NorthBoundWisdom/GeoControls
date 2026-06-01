@@ -1,7 +1,7 @@
 import QtQuick 2.13
 import QtQuick.Controls 2.13
 import QtQuick.Controls.impl 2.15
-import GeoToy.Controls 1.0
+import GeoControls 1.0
 
 Menu {
     id: control
@@ -32,9 +32,9 @@ Menu {
     property color menuPressedColor: Qt.alpha(Theme.accentColor, 0.18)
     property color menuHighlightColor: Theme.highlightColor
     property color menuDarkColor: Theme.darkColor
-    property color menuMidColor: Theme.chromeDividerColor
-    property color popupSurfaceColor: Theme.chatComposerSurfaceColor
-    property color popupBorderColor: Qt.alpha(Theme.chromeDividerColor, 0.88)
+    property color menuMidColor: Theme.dividerColor
+    property color popupSurfaceColor: Theme.popupSurfaceColor
+    property color popupBorderColor: Qt.alpha(Theme.dividerColor, 0.88)
     property color popupHoverColor: Qt.alpha(Theme.accentColor, 0.16)
     property color popupIconPlateColor: Qt.alpha(Theme.buttonColor, 0.55)
     property int popupRadius: Fonts.size6
@@ -47,7 +47,7 @@ Menu {
     property var menuItems: []
     property var pendingAction: null
     property real iconSize: {
-        return Theme.cmdlineFont.pixelSize
+        return Theme.monoFont.pixelSize
     }
     readonly property var emptyMenuPlaceholderItems: [
         {

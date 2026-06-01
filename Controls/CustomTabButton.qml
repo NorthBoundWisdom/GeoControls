@@ -1,7 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Controls.impl 2.15
-import GeoToy.Controls 1.0
+import GeoControls 1.0
 
 TabButton {
     id: control
@@ -38,7 +38,7 @@ TabButton {
     property color darkColor: Theme.darkColor
     property color midColor: Theme.midColor
     property color surfaceColor: windowColor
-    property color dividerColor: Theme.chromeDividerColor
+    property color dividerColor: Theme.dividerColor
     readonly property bool useFlatStyle: flatStyle && !useLegacyStyle
     readonly property color foregroundColor: control.isSelected ? control.buttonTextColor : (control.hovered ? Qt.alpha(control.buttonTextColor, 0.9) : Qt.alpha(control.buttonTextColor, 0.72))
 

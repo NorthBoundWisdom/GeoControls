@@ -1,7 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Window 2.15
-import GeoToy.Controls 1.0
+import GeoControls 1.0
 
 Item {
     id: root
@@ -82,7 +82,7 @@ Item {
             padding: 0
             hoverEnabled: true
             focusPolicy: Qt.NoFocus
-            icon.source: root.isRestore ? "qrc:/icons/Restore.svg" : "qrc:/icons/Maximize.svg"
+            icon.source: root.isRestore ? "qrc:/GeoControls/icons/Restore.svg" : "qrc:/GeoControls/icons/Maximize.svg"
             icon.width: root.iconSize
             icon.height: root.iconSize
             icon.color: root.iconColor

@@ -1,6 +1,6 @@
 import QtQuick 2.15
 import QtQuick.Layouts 1.15
-import GeoToy.Controls 1.0
+import GeoControls 1.0
 
 RowLayout {
     id: root

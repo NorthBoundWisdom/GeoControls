@@ -1,5 +1,5 @@
-#ifndef GUI_CUSTOMQML_VECTOR3SPIN_BOX_WRAPPER_H
-#define GUI_CUSTOMQML_VECTOR3SPIN_BOX_WRAPPER_H
+#ifndef GEOCONTROLS_VECTOR3SPIN_BOX_WRAPPER_H
+#define GEOCONTROLS_VECTOR3SPIN_BOX_WRAPPER_H
 
 #include <array>
 
@@ -7,7 +7,7 @@
 
 class QQuickItem;
 
-namespace geotoys
+namespace geocontrols
 {
 /**
  * @brief C++ wrapper for CustomVector3SpinBox QML component
@@ -162,5 +162,5 @@ class Vector3SpinBoxWrapper : public QObject
 
     bool updating_ = false; // Prevent recursive updates
 };
-} // namespace geotoys
-#endif // GUI_CUSTOMQML_VECTOR3SPIN_BOX_WRAPPER_H
+} // namespace geocontrols
+#endif // GEOCONTROLS_VECTOR3SPIN_BOX_WRAPPER_H

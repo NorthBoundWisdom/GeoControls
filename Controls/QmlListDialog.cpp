@@ -19,7 +19,7 @@
 #include <QtQuick/QQuickItem>
 #include <QtQuick/QQuickView>
 
-namespace geotoys
+namespace geocontrols
 {
 namespace
 {
@@ -152,7 +152,7 @@ QObject *QmlListDialog::createDialog(QQuickView *view, const QStringList &items,
         qCritical() << "QmlListDialog::createDialog view has no rootObject";
     }
 
-    QQmlComponent component(engine, QUrl("qrc:/GeoToy/Controls/QmlListDialogPage.qml"));
+    QQmlComponent component(engine, QUrl("qrc:/GeoControls/QmlListDialogPage.qml"));
     if (component.isError())
     {
         const auto errors = component.errors();
@@ -284,4 +284,4 @@ QString QmlListDialog::getItem(QQuickView *view, const QStringList &items, const
 
     return result;
 }
-} // namespace geotoys
+} // namespace geocontrols

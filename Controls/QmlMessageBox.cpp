@@ -14,7 +14,7 @@
 #include <QtQuick/QQuickItem>
 #include <QtQuick/QQuickView>
 
-namespace geotoys
+namespace geocontrols
 {
 static QPointer<QQuickView> dialog_host;
 
@@ -126,4 +126,4 @@ QmlMessageBox::Button QmlMessageBox::information(const QString &title, const QSt
     // Reuse same dialog; typical info is OK only, but keep it generic
     return question(title, text, buttons, defaultButton);
 }
-} // namespace geotoys
+} // namespace geocontrols

@@ -1,5 +1,5 @@
-#ifndef GUI_CUSTOMQML_QML_KEY_VALUE_DIALOG_H
-#define GUI_CUSTOMQML_QML_KEY_VALUE_DIALOG_H
+#ifndef GEOCONTROLS_QML_KEY_VALUE_DIALOG_H
+#define GEOCONTROLS_QML_KEY_VALUE_DIALOG_H
 
 #include <functional>
 #include <string>
@@ -10,7 +10,7 @@
 #include <QtQuick/QQuickItem>
 #include <QtQuick/QQuickView>
 
-namespace geotoys
+namespace geocontrols
 {
 /*!
  * \brief A QML-based dialog for editing key-value pairs
@@ -86,5 +86,5 @@ class QmlKeyValueDialog : public QObject
     QObject *dialog_ = nullptr;
     KeyValueCallback callback_;
 };
-} // namespace geotoys
-#endif // GUI_CUSTOMQML_QML_KEY_VALUE_DIALOG_H
+} // namespace geocontrols
+#endif // GEOCONTROLS_QML_KEY_VALUE_DIALOG_H

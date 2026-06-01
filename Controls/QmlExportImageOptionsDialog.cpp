@@ -12,7 +12,7 @@
 #include <QtQuick/QQuickItem>
 #include <QtQuick/QQuickView>
 
-namespace geotoys
+namespace geocontrols
 {
 QmlExportImageOptionsDialog::QmlExportImageOptionsDialog(QObject *parent) : QObject(parent) {}
 
@@ -163,8 +163,7 @@ QObject *QmlExportImageOptionsDialog::createDialog(QQuickView *view, const QStri
         context->setContextProperty("parentItem", root_item);
     }
 
-    QQmlComponent component(engine,
-                            QUrl("qrc:/GeoToy/Controls/QmlExportImageOptionsDialogPage.qml"));
+    QQmlComponent component(engine, QUrl("qrc:/GeoControls/QmlExportImageOptionsDialogPage.qml"));
     if (component.isError())
     {
         qCritical().noquote() << "QmlExportImageOptionsDialog::createDialog QML load failed:"
@@ -222,4 +221,4 @@ void QmlExportImageOptionsDialog::invokeCallback(const ExportOptionsResult &resu
         callback_(result);
     }
 }
-} // namespace geotoys
+} // namespace geocontrols

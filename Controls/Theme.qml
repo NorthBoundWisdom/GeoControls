@@ -32,21 +32,21 @@ Item {
         readonly property color buttonPressedColor: "#cbd5e1"
         readonly property color buttonHoveredColor: "#dbe4f0"
         readonly property color buttonDisabledColor: "#e2e6ec"
-        readonly property color chromeDividerColor: "#c8d0da"
-        readonly property color navigationSurfaceColor: "#f1f4f8"
-        readonly property color commandSurfaceColor: baseColor
-        readonly property color chatPageSurfaceColor: windowColor
-        readonly property color chatContentSurfaceColor: baseColor
-        readonly property color chatComposerSurfaceColor: baseColor
-        readonly property color chatActionButtonColor: "#f7f9fc"
-        readonly property color chatActionButtonHoveredColor: "#e8eef7"
-        readonly property color chatActionButtonPressedColor: "#dae3f1"
-        readonly property color chatActionButtonBorderColor: chromeDividerColor
+        readonly property color dividerColor: "#c8d0da"
+        readonly property color railSurfaceColor: "#f1f4f8"
+        readonly property color inputSurfaceColor: baseColor
+        readonly property color pageSurfaceColor: windowColor
+        readonly property color contentSurfaceColor: baseColor
+        readonly property color popupSurfaceColor: baseColor
+        readonly property color actionButtonColor: "#f7f9fc"
+        readonly property color actionButtonHoveredColor: "#e8eef7"
+        readonly property color actionButtonPressedColor: "#dae3f1"
+        readonly property color actionButtonBorderColor: dividerColor
 
         readonly property font appFont: Qt.font({
             pixelSize: 14
         })
-        readonly property font cmdlineFont: appFont
+        readonly property font monoFont: appFont
     }
 
     property var helper: defaultHelper
@@ -76,21 +76,21 @@ Item {
     property color buttonPressedColor: helper ? helper.buttonPressedColor : "#cbd5e1"
     property color buttonHoveredColor: helper ? helper.buttonHoveredColor : "#dbe4f0"
     property color buttonDisabledColor: helper ? helper.buttonDisabledColor : "#e2e6ec"
-    property color chromeDividerColor: helper ? helper.chromeDividerColor : "#c8d0da"
-    property color navigationSurfaceColor: helper ? helper.navigationSurfaceColor : "#f1f4f8"
-    property color commandSurfaceColor: helper ? helper.commandSurfaceColor : baseColor
-    property color chatPageSurfaceColor: helper ? helper.chatPageSurfaceColor : windowColor
-    property color chatContentSurfaceColor: helper ? helper.chatContentSurfaceColor : baseColor
-    property color chatComposerSurfaceColor: helper ? helper.chatComposerSurfaceColor : baseColor
-    property color chatActionButtonColor: helper ? helper.chatActionButtonColor : "#f7f9fc"
-    property color chatActionButtonHoveredColor: helper ? helper.chatActionButtonHoveredColor : "#e8eef7"
-    property color chatActionButtonPressedColor: helper ? helper.chatActionButtonPressedColor : "#dae3f1"
-    property color chatActionButtonBorderColor: helper ? helper.chatActionButtonBorderColor : chromeDividerColor
+    property color dividerColor: helper ? helper.dividerColor : "#c8d0da"
+    property color railSurfaceColor: helper ? helper.railSurfaceColor : "#f1f4f8"
+    property color inputSurfaceColor: helper ? helper.inputSurfaceColor : baseColor
+    property color pageSurfaceColor: helper ? helper.pageSurfaceColor : windowColor
+    property color contentSurfaceColor: helper ? helper.contentSurfaceColor : baseColor
+    property color popupSurfaceColor: helper ? helper.popupSurfaceColor : baseColor
+    property color actionButtonColor: helper ? helper.actionButtonColor : "#f7f9fc"
+    property color actionButtonHoveredColor: helper ? helper.actionButtonHoveredColor : "#e8eef7"
+    property color actionButtonPressedColor: helper ? helper.actionButtonPressedColor : "#dae3f1"
+    property color actionButtonBorderColor: helper ? helper.actionButtonBorderColor : dividerColor
 
     property font appFont: helper ? helper.appFont : Qt.font({
         pixelSize: 14
     })
-    property font cmdlineFont: helper ? helper.cmdlineFont : appFont
+    property font monoFont: helper ? helper.monoFont : appFont
 
     Connections {
         target: theme.helper

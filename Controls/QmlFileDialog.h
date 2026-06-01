@@ -1,5 +1,5 @@
-#ifndef GUI_CUSTOMQML_QML_FILE_DIALOG_H
-#define GUI_CUSTOMQML_QML_FILE_DIALOG_H
+#ifndef GEOCONTROLS_QML_FILE_DIALOG_H
+#define GEOCONTROLS_QML_FILE_DIALOG_H
 
 #include <QtCore/QEventLoop>
 #include <QtCore/QObject>
@@ -9,7 +9,7 @@
 
 class QQuickView;
 
-namespace geotoys
+namespace geocontrols
 {
 class QmlFileDialog : public QObject
 {
@@ -62,6 +62,6 @@ class QmlFileDialog : public QObject
     QEventLoop *loop_ = nullptr;
     Result result_;
 };
-} // namespace geotoys
+} // namespace geocontrols
 
-#endif // GUI_CUSTOMQML_QML_FILE_DIALOG_H
+#endif // GEOCONTROLS_QML_FILE_DIALOG_H

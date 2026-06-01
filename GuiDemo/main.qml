@@ -1,8 +1,8 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
-import GeoToy.Controls 1.0
-import GeoToy.AppShell 1.0
+import GeoControls 1.0
+import GeoControls.AppShell 1.0
 
 ApplicationWindow {
     id: window
@@ -32,7 +32,7 @@ ApplicationWindow {
 
         background: Rectangle {
             color: Theme.baseColor
-            border.color: Theme.chromeDividerColor
+            border.color: Theme.dividerColor
             border.width: 1
         }
 
@@ -59,7 +59,7 @@ ApplicationWindow {
 
             CustomButton {
                 text: "Message"
-                onClicked: showMessage("GeoControls", "MessageDialog is loaded from GeoToy.Controls.")
+                onClicked: showMessage("GeoControls", "MessageDialog is loaded from GeoControls.")
             }
         }
     }
@@ -67,14 +67,14 @@ ApplicationWindow {
     footer: Rectangle {
         height: 30
         color: Theme.baseColor
-        border.color: Theme.chromeDividerColor
+        border.color: Theme.dividerColor
         border.width: 1
 
         CustomLabel {
             anchors.verticalCenter: parent.verticalCenter
             anchors.left: parent.left
             anchors.leftMargin: 16
-            text: "URI: GeoToy.Controls 1.0 / GeoToy.AppShell 1.0"
+            text: "URI: GeoControls 1.0 / GeoControls.AppShell 1.0"
             color: Theme.placeholderTextColor
         }
     }
@@ -508,7 +508,7 @@ ApplicationWindow {
 
                                     CustomButton {
                                         text: "Open Message"
-                                        onClicked: showMessage("Dialog", "This message uses MessageDialog from GeoToy.Controls.")
+                                        onClicked: showMessage("Dialog", "This message uses MessageDialog from GeoControls.")
                                     }
 
                                     CustomButton {
@@ -584,6 +584,7 @@ ApplicationWindow {
                                     CmdInputArea {
                                         id: demoCommandInput
                                         Layout.fillWidth: true
+                                        completionProvider: completionProvider
                                         requireSlashForCommand: true
                                         placeholderText: qsTr("Enter /help, /box, /measure...")
                                         onCommandSubmitted: function (command) {
@@ -604,12 +605,12 @@ ApplicationWindow {
 
                             CustomRectangle {
                                 Layout.fillWidth: true
-                                title: "Server config"
+                                title: "Endpoint config"
                                 collapsible: false
 
                                 ServerConfigSection {
                                     Layout.fillWidth: true
-                                    serverConfiger: demoServerConfiger
+                                    endpointConfig: demoEndpointConfig
                                     useComboBox: true
                                 }
                             }

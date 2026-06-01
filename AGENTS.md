@@ -1,14 +1,14 @@
 # AGENTS Guide
 
 Goal: keep GeoControls small, independently buildable, and easy to consume from
-GeoToy or any other Qt application.
+any Qt application.
 
 ## Delivery Rules
 
 - Every code change must include the implementation summary, the verification
   commands that were actually run, and the result.
-- Prefer clean architecture over compatibility shims. Do not keep legacy
-  `CustomQml` or GeoToy-only paths in this repository.
+- Prefer clean architecture over compatibility shims. Do not keep legacy or
+  application-specific paths in this repository.
 - Fail fast when a required tool, QML import, resource, or dialog host is missing.
   Do not hide missing setup with silent defaults.
 - Do not edit generated translation files manually.
@@ -16,14 +16,14 @@ GeoToy or any other Qt application.
 
 ## Repository Boundaries
 
-- `Controls/` must remain reusable. It must not depend on GeoToy application
-  modules such as `GeoToy.AppShell`, `GeoToy 1.0`, `AppManager`, `RfLog`, or
-  GeoToy geometry modules.
-- `GuiDemo/` is a Controls-only example. It may provide demo-only helpers such as
-  a theme helper, but it must not introduce app shell dependencies.
-- The public QML URI is `GeoToy.Controls 1.0`. Do not rename it without an
-  explicit migration plan.
-- Icons used by controls should keep the stable `qrc:/icons/...` paths.
+- `Controls/` must remain reusable and must not depend on application shell,
+  application manager, logging, or geometry modules.
+- `AppShell/` must remain reusable. Host integrations must be explicit properties,
+  models, or signals.
+- `GuiDemo/` may use both public modules and demo-only helpers, but demo helpers
+  must not become library API.
+- The public QML URIs are `GeoControls 1.0` and `GeoControls.AppShell 1.0`.
+- Icons used by controls should use stable `qrc:/GeoControls/icons/...` paths.
 
 ## C++ And QML Style
 
@@ -59,7 +59,10 @@ cmake -S /Users/henrykang/Documents/GeoControls \
     -DGEOCONTROLS_BUILD_DEMO=ON
 
 cmake --build /Users/henrykang/Documents/GeoControls/build/mac_clang_release \
-    --target GeoToyControls
+    --target GeoControlsControls
+
+cmake --build /Users/henrykang/Documents/GeoControls/build/mac_clang_release \
+    --target GeoControlsAppShell
 
 cmake --build /Users/henrykang/Documents/GeoControls/build/mac_clang_release \
     --target GuiDemo
@@ -71,7 +74,6 @@ cmake --build /Users/henrykang/Documents/GeoControls/build/mac_clang_release \
 Static checks:
 
 ```sh
-rg "GeoToy.AppShell|import GeoToy 1.0|ServerConfigSection" /Users/henrykang/Documents/GeoControls
+rg 'Geo[T]oy|Custom[Q]ml|geo[t]oys|qrc:/[i]cons|qrc:/Geo[T]oy' /Users/henrykang/Documents/GeoControls
 rg "Geo2dCore/Define.h|rlog/logger.h|AppManager" /Users/henrykang/Documents/GeoControls
 ```
-

@@ -1,7 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
-import GeoToy.Controls 1.0
+import GeoControls 1.0
 
 Rectangle {
     id: root
@@ -182,7 +182,7 @@ Rectangle {
                     enabled: root.actionButtonsEnabled && !root.editing
                     buttonSize: Fonts.iconButtonSize
                     iconContentSize: Math.round(Fonts.iconButtonSize * 0.9)
-                    icon.source: "qrc:/icons/Plus.svg"
+                    icon.source: "qrc:/GeoControls/icons/Plus.svg"
                     icon.color: !addButton.enabled ? Theme.disabledTextColor : (addButton.pressed ? Theme.highlightedTextColor : (addButton.hovered ? Theme.highlightColor : Theme.textColor))
                     tooltipText: root.addTooltip
                     tooltipDelay: ToolTipConfig.shortDelay
@@ -210,7 +210,7 @@ Rectangle {
                     enabled: root.actionButtonsEnabled && root.editing
                     buttonSize: Fonts.iconButtonSize
                     iconContentSize: Math.round(Fonts.iconButtonSize * 0.9)
-                    icon.source: "qrc:/icons/Trash.svg"
+                    icon.source: "qrc:/GeoControls/icons/Trash.svg"
                     icon.color: !deleteButton.enabled ? Theme.disabledTextColor : (deleteButton.pressed ? Theme.highlightedTextColor : (deleteButton.hovered ? Theme.highlightColor : Theme.textColor))
                     tooltipText: root.deleteTooltip
                     tooltipDelay: ToolTipConfig.shortDelay
@@ -235,7 +235,7 @@ Rectangle {
                     enabled: root.actionButtonsEnabled && root.editing
                     buttonSize: Fonts.iconButtonSize
                     iconContentSize: Math.round(Fonts.iconButtonSize * 0.9)
-                    icon.source: "qrc:/icons/Restart.svg"
+                    icon.source: "qrc:/GeoControls/icons/Restart.svg"
                     icon.color: !resetButton.enabled ? Theme.disabledTextColor : (resetButton.pressed ? Theme.highlightedTextColor : (resetButton.hovered ? Theme.highlightColor : Theme.textColor))
                     tooltipText: root.resetTooltip
                     tooltipDelay: ToolTipConfig.shortDelay

@@ -1,4 +1,4 @@
-import GeoToy.Controls 1.0
+import GeoControls 1.0
 /*!
  * Changed from https://github.com/qyvlik/Chart.qml/blob/master/Chart.qml
  */

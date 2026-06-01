@@ -1,7 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Layouts 1.13
 import QtQuick.Controls 2.15
-import GeoToy.Controls 1.0
+import GeoControls 1.0
 
 ToolBar {
     id: statusBar
@@ -11,7 +11,7 @@ ToolBar {
         color: Qt.lighter(Theme.windowColor, 1.1)
     }
 
-    property var progressMgr: cmdMngr ? cmdMngr.getProgressManager() : null
+    property var progressManager: null
 
     property int currentProgress: 0
 
@@ -198,10 +198,10 @@ ToolBar {
                 }
 
                 onClicked: {
-                    if (progressMgr) {
+                    if (progressManager) {
                         isCancelling = true
                         currentProgressMessage = "Cancelling..."
-                        progressMgr.requestCancellation()
+                        progressManager.requestCancellation()
                     }
                 }
             }
@@ -209,8 +209,8 @@ ToolBar {
     }
 
     Connections {
-        target: progressMgr
-        enabled: progressMgr !== null
+        target: progressManager
+        enabled: progressManager !== null
         function onOperationStarted(operationName, cancellable) {
             progressBarRow.visible = true
             currentProgress = 0

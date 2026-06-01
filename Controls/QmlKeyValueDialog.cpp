@@ -13,7 +13,7 @@
 #include <QtQuick/QQuickItem>
 #include <QtQuick/QQuickView>
 
-namespace geotoys
+namespace geocontrols
 {
 QmlKeyValueDialog::QmlKeyValueDialog(QObject *parent) : QObject(parent) {}
 
@@ -91,7 +91,7 @@ QmlKeyValueDialog::createDialog(QQuickView *view, const QString &title,
         context->setContextProperty("parentItem", root_item);
     }
 
-    QQmlComponent component(engine, QUrl("qrc:/GeoToy/Controls/QmlKeyValueDialogPage.qml"));
+    QQmlComponent component(engine, QUrl("qrc:/GeoControls/QmlKeyValueDialogPage.qml"));
     if (component.isError())
     {
         delete context;
@@ -190,4 +190,4 @@ QmlKeyValueDialog::convertFromQVariantList(const QVariantList &variantList)
     }
     return key_value_list;
 }
-} // namespace geotoys
+} // namespace geocontrols

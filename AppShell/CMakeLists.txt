@@ -1,17 +1,18 @@
-qt_add_library(GeoToyAppShell STATIC)
-set_target_properties(GeoToyAppShell PROPERTIES
+qt_add_library(GeoControlsAppShell STATIC)
+set_target_properties(GeoControlsAppShell PROPERTIES
     AUTOMOC ON
     AUTORCC ON
+    EXPORT_NAME AppShell
 )
 
-qt_add_qml_module(GeoToyAppShell
-    URI GeoToy.AppShell
+qt_add_qml_module(GeoControlsAppShell
+    URI GeoControls.AppShell
     VERSION 1.0
     RESOURCE_PREFIX /
-    OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/GeoToy/AppShell"
-    OUTPUT_TARGETS GEOTOY_APPSHELL_QML_EXTRA_TARGETS
+    OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/GeoControls/AppShell"
+    OUTPUT_TARGETS GEOCONTROLS_APPSHELL_QML_EXTRA_TARGETS
     NO_PLUGIN
-    IMPORTS GeoToy.Controls
+    IMPORTS GeoControls
     QML_FILES
         CmdInputArea.qml
         FramelessResizeHandles.qml
@@ -23,14 +24,14 @@ qt_add_qml_module(GeoToyAppShell
         WindowCaptionButtons.qml
 )
 
-target_link_libraries(GeoToyAppShell
+target_link_libraries(GeoControlsAppShell
 PUBLIC
-    GeoToyControls
+    GeoControlsControls
 )
 
 set(GEOCONTROLS_EXPORT_TARGETS
     ${GEOCONTROLS_EXPORT_TARGETS}
-    GeoToyAppShell
-    ${GEOTOY_APPSHELL_QML_EXTRA_TARGETS}
+    GeoControlsAppShell
+    ${GEOCONTROLS_APPSHELL_QML_EXTRA_TARGETS}
     PARENT_SCOPE
 )

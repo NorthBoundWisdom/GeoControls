@@ -1,11 +1,11 @@
-#ifndef GUI_CUSTOMQML_QML_EXPORT_IMAGE_OPTIONS_DIALOG_H
-#define GUI_CUSTOMQML_QML_EXPORT_IMAGE_OPTIONS_DIALOG_H
+#ifndef GEOCONTROLS_QML_EXPORT_IMAGE_OPTIONS_DIALOG_H
+#define GEOCONTROLS_QML_EXPORT_IMAGE_OPTIONS_DIALOG_H
 
 #include <functional>
 
 #include <QtQuick/QQuickView>
 
-namespace geotoys
+namespace geocontrols
 {
 class QmlExportImageOptionsDialog : public QObject
 {
@@ -57,6 +57,6 @@ class QmlExportImageOptionsDialog : public QObject
     QObject *dialog_ = nullptr;
     ExportOptionsCallback callback_;
 };
-} // namespace geotoys
+} // namespace geocontrols
 
-#endif // GUI_CUSTOMQML_QML_EXPORT_IMAGE_OPTIONS_DIALOG_H
+#endif // GEOCONTROLS_QML_EXPORT_IMAGE_OPTIONS_DIALOG_H

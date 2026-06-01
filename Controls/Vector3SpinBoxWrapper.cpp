@@ -10,7 +10,7 @@
 #include <QtCore/QtNumeric>
 #include <QtQuick/QQuickItem>
 
-namespace geotoys
+namespace geocontrols
 {
 namespace
 {
@@ -348,4 +348,4 @@ void Vector3SpinBoxWrapper::disconnectQmlSignals()
         QObject::disconnect(qml_item_, nullptr, this, nullptr);
     }
 }
-} // namespace geotoys
+} // namespace geocontrols

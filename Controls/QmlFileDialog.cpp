@@ -17,7 +17,7 @@
 #include <QtQuick/QQuickItem>
 #include <QtQuick/QQuickView>
 
-namespace geotoys
+namespace geocontrols
 {
 QmlFileDialog::QmlFileDialog(QObject *parent) : QObject(parent) {}
 
@@ -110,7 +110,7 @@ QObject *QmlFileDialog::createDialog(QQuickView *view, DialogMode mode, const QS
         context->setContextProperty("parentItem", root_item);
     }
 
-    QQmlComponent component(engine, QUrl("qrc:/GeoToy/Controls/QmlFileDialogPage.qml"));
+    QQmlComponent component(engine, QUrl("qrc:/GeoControls/QmlFileDialogPage.qml"));
     if (component.isError())
     {
         for (const auto &err : component.errors())
@@ -258,4 +258,4 @@ void QmlFileDialog::onDialogClosed()
         loop_->quit();
     }
 }
-} // namespace geotoys
+} // namespace geocontrols

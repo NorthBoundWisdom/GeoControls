@@ -14,12 +14,12 @@
 
 namespace
 {
-class DemoCommandConsole : public QObject
+class DemoCompletionProvider : public QObject
 {
     Q_OBJECT
 
   public:
-    explicit DemoCommandConsole(QObject *parent = nullptr) : QObject(parent) {}
+    explicit DemoCompletionProvider(QObject *parent = nullptr) : QObject(parent) {}
 
     Q_INVOKABLE QStringList getCompletions(const QString &prefix) const
     {
@@ -38,59 +38,59 @@ class DemoCommandConsole : public QObject
     }
 };
 
-class DemoServerConfiger : public QObject
+class DemoEndpointConfig : public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY(QString serverIP READ serverIP WRITE setServerIP NOTIFY serverConfigChangedSig)
-    Q_PROPERTY(QString serverPort READ serverPort WRITE setServerPort NOTIFY serverConfigChangedSig)
-    Q_PROPERTY(QStringList serverIPList READ serverIPList NOTIFY serverConfigChangedSig)
-    Q_PROPERTY(bool serverReachable READ serverReachable NOTIFY serverConfigChangedSig)
-    Q_PROPERTY(bool portReachable READ portReachable NOTIFY serverConfigChangedSig)
-    Q_PROPERTY(bool isConnected READ isConnected NOTIFY serverConfigChangedSig)
-    Q_PROPERTY(bool isTesting READ isTesting NOTIFY serverConfigChangedSig)
+    Q_PROPERTY(QString host READ host WRITE setHost NOTIFY endpointConfigChanged)
+    Q_PROPERTY(QString port READ port WRITE setPort NOTIFY endpointConfigChanged)
+    Q_PROPERTY(QStringList hostList READ hostList NOTIFY endpointConfigChanged)
+    Q_PROPERTY(bool hostReachable READ hostReachable NOTIFY endpointConfigChanged)
+    Q_PROPERTY(bool portReachable READ portReachable NOTIFY endpointConfigChanged)
+    Q_PROPERTY(bool isConnected READ isConnected NOTIFY endpointConfigChanged)
+    Q_PROPERTY(bool isTesting READ isTesting NOTIFY endpointConfigChanged)
 
   public:
-    explicit DemoServerConfiger(QObject *parent = nullptr) : QObject(parent) {}
+    explicit DemoEndpointConfig(QObject *parent = nullptr) : QObject(parent) {}
 
-    QString serverIP() const
+    QString host() const
     {
-        return server_ip_;
+        return host_;
     }
 
-    void setServerIP(const QString &server_ip)
+    void setHost(const QString &host)
     {
-        if (server_ip_ == server_ip)
+        if (host_ == host)
         {
             return;
         }
-        server_ip_ = server_ip;
-        Q_EMIT serverConfigChangedSig();
+        host_ = host;
+        Q_EMIT endpointConfigChanged();
     }
 
-    QString serverPort() const
+    QString port() const
     {
-        return server_port_;
+        return port_;
     }
 
-    void setServerPort(const QString &server_port)
+    void setPort(const QString &port)
     {
-        if (server_port_ == server_port)
+        if (port_ == port)
         {
             return;
         }
-        server_port_ = server_port;
-        Q_EMIT serverConfigChangedSig();
+        port_ = port;
+        Q_EMIT endpointConfigChanged();
     }
 
-    QStringList serverIPList() const
+    QStringList hostList() const
     {
-        return server_ip_list_;
+        return host_list_;
     }
 
-    bool serverReachable() const noexcept
+    bool hostReachable() const noexcept
     {
-        return server_reachable_;
+        return host_reachable_;
     }
 
     bool portReachable() const noexcept
@@ -108,37 +108,37 @@ class DemoServerConfiger : public QObject
         return is_testing_;
     }
 
-    Q_INVOKABLE void addServerIP(const QString &server_ip)
+    Q_INVOKABLE void addHost(const QString &host)
     {
-        const QString trimmed_server_ip = server_ip.trimmed();
-        if (trimmed_server_ip.isEmpty() || server_ip_list_.contains(trimmed_server_ip))
+        const QString trimmed_host = host.trimmed();
+        if (trimmed_host.isEmpty() || host_list_.contains(trimmed_host))
         {
             return;
         }
-        server_ip_list_.prepend(trimmed_server_ip);
-        Q_EMIT serverConfigChangedSig();
+        host_list_.prepend(trimmed_host);
+        Q_EMIT endpointConfigChanged();
     }
 
     Q_INVOKABLE void testConnection()
     {
         is_testing_ = true;
-        Q_EMIT serverConfigChangedSig();
+        Q_EMIT endpointConfigChanged();
 
-        server_reachable_ = !server_ip_.trimmed().isEmpty();
-        port_reachable_ = !server_port_.trimmed().isEmpty();
-        is_connected_ = server_reachable_ && port_reachable_;
+        host_reachable_ = !host_.trimmed().isEmpty();
+        port_reachable_ = !port_.trimmed().isEmpty();
+        is_connected_ = host_reachable_ && port_reachable_;
         is_testing_ = false;
-        Q_EMIT serverConfigChangedSig();
+        Q_EMIT endpointConfigChanged();
     }
 
   Q_SIGNALS:
-    void serverConfigChangedSig();
+    void endpointConfigChanged();
 
   private:
-    QString server_ip_ = "127.0.0.1";
-    QString server_port_ = "9600";
-    QStringList server_ip_list_ = {"127.0.0.1", "192.168.1.12", "10.0.0.5"};
-    bool server_reachable_ = true;
+    QString host_ = "127.0.0.1";
+    QString port_ = "9600";
+    QStringList host_list_ = {"127.0.0.1", "192.168.1.12", "10.0.0.5"};
+    bool host_reachable_ = true;
     bool port_reachable_ = true;
     bool is_connected_ = true;
     bool is_testing_ = false;
@@ -154,13 +154,13 @@ int main(int argc, char *argv[])
     QGuiApplication::setApplicationDisplayName("GeoControls GuiDemo");
     QGuiApplication app(argc, argv);
 
-    DemoCommandConsole command_console;
-    DemoServerConfiger server_configer;
+    DemoCompletionProvider completion_provider;
+    DemoEndpointConfig endpoint_config;
 
     QQmlApplicationEngine engine;
     engine.addImportPath("qrc:/");
-    engine.rootContext()->setContextProperty("commandConsole", &command_console);
-    engine.rootContext()->setContextProperty("demoServerConfiger", &server_configer);
+    engine.rootContext()->setContextProperty("completionProvider", &completion_provider);
+    engine.rootContext()->setContextProperty("demoEndpointConfig", &endpoint_config);
 
     engine.load(QUrl("qrc:/main.qml"));
     if (engine.rootObjects().isEmpty())
@@ -177,7 +177,7 @@ int main(int argc, char *argv[])
     }
 
     QQuickItem *position_vector = root_object->findChild<QQuickItem *>("positionVector");
-    auto position_wrapper = new geotoys::Vector3SpinBoxWrapper(&app);
+    auto position_wrapper = new geocontrols::Vector3SpinBoxWrapper(&app);
     if (position_vector)
     {
         position_wrapper->setQmlItem(position_vector);

@@ -1,12 +1,37 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.13
-import GeoToy.Controls 1.0
+import GeoControls 1.0
 
 ToolBar {
     id: toolBar
     property bool inCmd: false
     property var currentCmdToolBarItem: null
+    property string documentTitle: ""
+    property var commandController: null
+    property var actionModel: []
+    property bool showShortcutsButton: false
+
+    signal actionRequested(var actionData, var parameter)
+    signal shortcutsRequested
+
+    onCommandControllerChanged: {
+        if (!commandController) {
+            inCmd = false
+            currentCmdToolBarItem = null
+            commandNameLabel.text = ""
+            return
+        }
+        if (commandController.commandActive !== undefined) {
+            inCmd = commandController.commandActive
+        }
+        if (commandController.commandName !== undefined) {
+            commandNameLabel.text = commandController.commandName
+        }
+        if (commandController.commandToolBarItem !== undefined) {
+            commandToolBarHost.attachToolBarItem(commandController.commandToolBarItem)
+        }
+    }
     implicitHeight: {
         if (!toolBar.inCmd || !currentCmdToolBarItem) {
             return Fonts.toolbarHeight
@@ -32,7 +57,8 @@ ToolBar {
         }
 
         CustomLabel {
-            text: docManager.curDocName
+            text: toolBar.documentTitle
+            visible: text.length > 0
             elide: Text.ElideRight
             horizontalAlignment: Text.AlignLeft
             verticalAlignment: Text.AlignVCenter
@@ -75,13 +101,18 @@ ToolBar {
                 }
 
                 contentItem: Image {
-                    source: "qrc:/icons/Done.svg"
+                    source: "qrc:/GeoControls/icons/Done.svg"
                     fillMode: Image.PreserveAspectFit
                 }
 
                 MouseArea {
                     anchors.fill: parent
-                    onClicked: cmdPageItem.qmlDoneCmd()
+                    onClicked: {
+                        if (!toolBar.commandController || typeof toolBar.commandController.acceptCommand !== "function") {
+                            throw new Error("MainToolBar requires commandController.acceptCommand()")
+                        }
+                        toolBar.commandController.acceptCommand()
+                    }
                 }
             }
 
@@ -99,13 +130,18 @@ ToolBar {
                 }
 
                 contentItem: Image {
-                    source: "qrc:/icons/Cancel.svg"
+                    source: "qrc:/GeoControls/icons/Cancel.svg"
                     fillMode: Image.PreserveAspectFit
                 }
 
                 MouseArea {
                     anchors.fill: parent
-                    onClicked: cmdPageItem.qmlCancelCmd()
+                    onClicked: {
+                        if (!toolBar.commandController || typeof toolBar.commandController.cancelCommand !== "function") {
+                            throw new Error("MainToolBar requires commandController.cancelCommand()")
+                        }
+                        toolBar.commandController.cancelCommand()
+                    }
                 }
             }
 
@@ -121,33 +157,33 @@ ToolBar {
             Layout.fillWidth: true
             Layout.fillHeight: true
 
+            function attachToolBarItem(toolBarItem) {
+                if (currentCmdToolBarItem && currentCmdToolBarItem !== toolBarItem) {
+                    currentCmdToolBarItem.visible = false
+                    currentCmdToolBarItem.parent = null
+                }
+                currentCmdToolBarItem = toolBarItem
+                if (toolBarItem) {
+                    toolBarItem.parent = commandToolBarHost
+                    toolBarItem.anchors.fill = commandToolBarHost
+                    toolBarItem.visible = true
+                }
+            }
+
             Connections {
-                target: cmdPageItem
+                target: toolBar.commandController
 
-                function onActivateCmdToolBarSig(toolBarItem) {
-                    // Replace semantics: only keep current cmd toolbar item attached.
-                    // Supports nested commands by detaching previous toolbar and reattaching on restore.
-                    if (currentCmdToolBarItem && currentCmdToolBarItem !== toolBarItem) {
-                        currentCmdToolBarItem.visible = false
-                        currentCmdToolBarItem.parent = null
-                    }
-                    currentCmdToolBarItem = toolBarItem
-                    if (toolBarItem) {
-                        toolBarItem.parent = commandToolBarHost
-                        toolBarItem.anchors.fill = commandToolBarHost
-                        toolBarItem.visible = true
-                    } else {
-                        // New command has no toolbar: clear host to avoid showing previous toolbar.
-                    }
+                function onCommandToolBarChanged(toolBarItem) {
+                    commandToolBarHost.attachToolBarItem(toolBarItem)
                 }
 
-                function onCmdNameChangedSig(cmd_name) {
-                    commandNameLabel.text = qsTr(cmd_name)
+                function onCommandNameChanged(commandName) {
+                    commandNameLabel.text = qsTr(commandName)
                 }
 
-                function onInCmdStatusChangedSig(in_cmd) {
-                    toolBar.inCmd = in_cmd
-                    if (!in_cmd) {
+                function onCommandActiveChanged(commandActive) {
+                    toolBar.inCmd = commandActive
+                    if (!commandActive) {
                         commandNameLabel.text = ""
                     }
                 }
@@ -155,7 +191,7 @@ ToolBar {
         }
 
         Repeater {
-            model: actionManager.topBarRightActions
+            model: toolBar.actionModel
 
             CustomToolButton {
                 actionName: modelData.actionName
@@ -166,23 +202,24 @@ ToolBar {
                 displayName: modelData.displayName
                 tooltip: modelData.tooltip
                 onActionRequested: function (requestedParameter) {
-                    actionManager.executeCommandFromQml(requestedParameter)
+                    toolBar.actionRequested(modelData, requestedParameter)
                 }
 
-                Layout.rightMargin: index === (actionManager.topBarRightActions.length - Fonts.size1) ? Fonts.standardMargin : 0
+                Layout.rightMargin: index === (toolBar.actionModel.length - Fonts.size1) ? Fonts.standardMargin : 0
             }
         }
 
         CustomToolButton {
             actionName: "Shortcuts"
-            iconSource: "qrc:/icons/Keyboard.svg"
+            iconSource: "qrc:/GeoControls/icons/Keyboard.svg"
             parameter: ""
             shortcutSequence: ""
             displayName: qsTr("Shortcuts")
             tooltip: qsTr("Show keyboard shortcuts")
             handleInCpp: false
             display: AbstractButton.IconOnly
-            onClicked: shortcutsDialog.open()
+            visible: toolBar.showShortcutsButton
+            onClicked: toolBar.shortcutsRequested()
             Layout.rightMargin: Fonts.standardMargin
         }
     }

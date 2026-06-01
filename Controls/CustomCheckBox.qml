@@ -1,7 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Window 2.15
-import GeoToy.Controls 1.0
+import GeoControls 1.0
 
 CheckBox {
     id: control
@@ -84,7 +84,7 @@ CheckBox {
 
         Image {
             id: checkMark
-            source: "qrc:/icons/Check.svg"
+            source: "qrc:/GeoControls/icons/Check.svg"
             anchors.fill: parent
             anchors.margins: Fonts.size1
             visible: control.checkState === Qt.Checked
