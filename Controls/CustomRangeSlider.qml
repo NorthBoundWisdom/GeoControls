@@ -27,7 +27,7 @@ Item {
     property color buttonTextColor: Theme.buttonTextColor
     property color highlightColor: Theme.highlightColor
     property color midColor: Theme.midColor
-    property color buttonHoveredColor: Theme.lightColor
+    property color buttonHoveredColor: Theme.buttonHoveredColor
     readonly property real sliderTrackIdleThickness: Math.max(1, Fonts.size4 / 3)
     readonly property real sliderTrackActiveThickness: Math.max(sliderTrackIdleThickness, Fonts.size4 * 2 / 3)
 
@@ -81,8 +81,8 @@ Item {
 
         width: height
         height: Fonts.sliderButtonHeight
-        color: down ? control.highlightColor : hovered ? control.buttonHoveredColor : control.buttonColor
-        radius: Fonts.size2
+        color: ControlState.actionFillWithColors(control.enabled, down, hovered, false, control.buttonColor, control.buttonHoveredColor, control.highlightColor, Theme.buttonDisabledColor, control.highlightColor)
+        radius: ControlState.radiusSmall
 
         Text {
             anchors.centerIn: parent
@@ -142,7 +142,7 @@ Item {
                     width: sliderTrack.trackWidth
                     height: sliderTrack.trackHeight
                     radius: height / 2
-                    color: control.buttonColor
+                    color: ControlState.trackFill(control.enabled)
                     opacity: Theme.appearance == 0 ? 0.3 : 0.8
                 }
 
@@ -153,7 +153,7 @@ Item {
                     width: (control.valueToPosition(control.toValue) - control.valueToPosition(control.fromValue)) * sliderTrack.trackWidth
                     height: trackBackground.height
                     radius: trackBackground.radius
-                    color: control.highlightColor
+                    color: ControlState.trackActiveFill(control.enabled)
                     opacity: 1.0
                     visible: width > 0
                 }
@@ -177,8 +177,8 @@ Item {
                     ShapePath {
                         id: fromHandlePath
                         strokeWidth: (control._draggingFrom || control._hoveringFrom) ? 2 : 1
-                        strokeColor: (control._draggingFrom || control._hoveringFrom) ? control.highlightColor : control.midColor
-                        fillColor: control.buttonColor
+                        strokeColor: ControlState.handleBorder(control.enabled, control._draggingFrom || control._hoveringFrom)
+                        fillColor: ControlState.inputFill(control.enabled, false, control._draggingFrom || control._hoveringFrom)
                         startX: fromHandle.width / 2
                         startY: 0
                         PathLine {
@@ -275,8 +275,8 @@ Item {
                     ShapePath {
                         id: toHandlePath
                         strokeWidth: (control._draggingTo || control._hoveringTo) ? 2 : 1
-                        strokeColor: (control._draggingTo || control._hoveringTo) ? control.highlightColor : control.midColor
-                        fillColor: control.buttonColor
+                        strokeColor: ControlState.handleBorder(control.enabled, control._draggingTo || control._hoveringTo)
+                        fillColor: ControlState.inputFill(control.enabled, false, control._draggingTo || control._hoveringTo)
                         startX: 0
                         startY: 0
                         PathLine {

@@ -8,23 +8,23 @@ RadioButton {
 
     // custom properties
     property bool textClickable: true
-    property int defaultHeight: Fonts.inputFieldHeight
+    property int defaultHeight: ControlState.minInputHeight
     property int indicatorSize: defaultHeight // increase indicator size
-    property int defaultPadding: Fonts.size6  // increase default spacing
+    property int defaultPadding: ControlState.textPadding  // increase default spacing
     font: Fonts.standardFont
 
-    implicitHeight: Math.max(contentItem.implicitHeight, indicatorSize)
+    implicitHeight: Math.max(contentItem.implicitHeight, control.indicatorSize)
     implicitWidth: indicator.width + (text ? spacing + contentItem.implicitWidth : 0)
 
-    padding: defaultPadding  // set overall padding
-    spacing: defaultPadding * Fonts.size2  // increase spacing between text and indicator
+    padding: control.defaultPadding  // set overall padding
+    spacing: control.defaultPadding * Fonts.size2  // increase spacing between text and indicator
 
     signal textClicked
 
     indicator: Rectangle {
         id: indicatorRect
-        implicitWidth: indicatorSize
-        implicitHeight: indicatorSize
+        implicitWidth: control.indicatorSize
+        implicitHeight: control.indicatorSize
         x: control.leftPadding
         y: parent.height / 2 - height / 2
         radius: width / 2
@@ -34,34 +34,12 @@ RadioButton {
 
         // background color
         color: {
-            if (!control.enabled)
-                return Theme.buttonDisabledColor
-            // forbidden
-            if (control.pressed)
-                return Theme.buttonPressedColor
-            // pressed
-            if (isHovered)
-                return Theme.highlightColor
-            // hovered
-            return Theme.buttonColor
-            // default
+            return ControlState.selectionFill(control.enabled, control.checked, control.pressed, indicatorRect.isHovered)
         }
-        opacity: isHovered ? 0.2 : 1.0
+        opacity: control.enabled ? 1.0 : 0.65
 
-        border.color: {
-            if (!control.enabled)
-                return Theme.midColor
-            // forbidden
-            if (control.pressed || control.checked)
-                return Theme.highlightColor
-            // selected or pressed
-            if (isHovered)
-                return Theme.highlightColor
-            // hovered
-            return Theme.midColor
-            // default
-        }
-        border.width: control.checked ? Fonts.size2 : Fonts.size1
+        border.color: ControlState.selectionBorder(control.enabled, control.checked, control.pressed, indicatorRect.isHovered, control.visualFocus)
+        border.width: (control.checked || control.visualFocus || indicatorRect.isHovered) ? ControlState.borderFocus : ControlState.borderThin
 
         Behavior on color {
             ColorAnimation {
@@ -74,7 +52,7 @@ RadioButton {
             height: width
             anchors.centerIn: parent
             radius: width / 2
-            color: control.enabled ? Theme.highlightColor : Theme.midColor
+            color: control.enabled ? Theme.highlightedTextColor : Theme.midColor
             visible: control.checked
             opacity: control.enabled ? 0.8 : 0.5
 

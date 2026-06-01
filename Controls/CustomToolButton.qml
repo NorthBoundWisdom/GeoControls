@@ -7,7 +7,7 @@ ToolButton {
     id: control
 
     property int defaultHeight: Fonts.toolbarHeight
-    property int defaultPadding: Fonts.size1
+    property int defaultPadding: ControlState.borderThin
 
     property int iconSize: Fonts.iconButtonSize
     property string actionName: ""
@@ -24,6 +24,9 @@ ToolButton {
     property color disabledColor: Theme.disabledTextColor
     property color highlightColor: Theme.highlightColor
     property color midlightColor: Theme.midlightColor
+    property color hoveredColor: Theme.actionButtonHoveredColor
+    property color pressedColor: Theme.actionButtonPressedColor
+    property color borderColor: Theme.actionButtonBorderColor
     property color highlightedTextColor: Theme.highlightedTextColor
     font: Fonts.standardFont
 
@@ -45,8 +48,17 @@ ToolButton {
     icon.color: !control.enabled ? disabledColor : control.pressed ? highlightedTextColor : textColor
 
     background: Rectangle {
-        color: midlightColor
-        opacity: control.pressed ? 0.7 : control.hovered ? 0.5 : 0
+        color: ControlState.actionFillWithColors(control.enabled, control.pressed, control.hovered, false, "transparent", control.hoveredColor, control.pressedColor, "transparent", control.highlightColor)
+        border.color: ControlState.actionBorder(control.enabled, control.pressed, control.hovered, control.visualFocus, false)
+        border.width: control.visualFocus ? ControlState.borderFocus : ControlState.borderThin
+        radius: ControlState.radiusSmall
+        opacity: control.enabled && (control.pressed || control.hovered || control.visualFocus) ? 1 : 0
+
+        Behavior on opacity {
+            NumberAnimation {
+                duration: ControlState.animationFast
+            }
+        }
     }
 
     onClicked: {

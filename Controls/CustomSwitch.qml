@@ -35,10 +35,10 @@ Rectangle {
     }
     Layout.minimumWidth: implicitWidth
     implicitHeight: Fonts.inputFieldHeight
-    radius: Fonts.size2
+    radius: ControlState.radiusSmall
     color: Theme.baseColor
     border.color: Theme.midColor
-    border.width: Fonts.size1
+    border.width: ControlState.borderThin
 
     RowLayout {
         anchors.fill: parent
@@ -59,7 +59,7 @@ Rectangle {
                 text: String(modelData)
                 defaultHeight: Fonts.inputFieldHeight * 0.8
                 defaultPadding: Fonts.size4
-                defaultRadius: Fonts.size2
+                defaultRadius: ControlState.radiusSmall
                 buttonColor: root.currentIndex === index ? Theme.highlightColor : "transparent"
                 hoveredColor: root.currentIndex === index ? Theme.highlightColor : Theme.buttonHoveredColor
                 pressedColor: Theme.highlightColor

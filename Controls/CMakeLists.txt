@@ -1,4 +1,4 @@
-set_source_files_properties(Fonts.qml Theme.qml ToolTipConfig.qml
+set_source_files_properties(ControlState.qml Fonts.qml Theme.qml ToolTipConfig.qml
     PROPERTIES
         QT_QML_SINGLETON_TYPE TRUE
 )
@@ -24,6 +24,7 @@ qt_add_qml_module(GeoControlsControls
         ColorTabBar.qml
         ColorTabButton.qml
         ConfirmationButtons.qml
+        ControlState.qml
         CustomAxisSwitcher.qml
         CustomBinarySwitch.qml
         CustomButton.qml

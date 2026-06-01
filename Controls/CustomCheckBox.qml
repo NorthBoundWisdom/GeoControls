@@ -9,8 +9,8 @@ CheckBox {
     // custom properties
     property bool textClickable: true
     property int defaultHeight: Fonts.iconSize
-    property int defaultRadius: Fonts.size1
-    property int defaultPadding: Fonts.size4
+    property int defaultRadius: ControlState.radiusSmall
+    property int defaultPadding: ControlState.compactPadding
     property int indicatorSize: Math.round(defaultHeight * 0.75)
     property int textSpacing: defaultPadding
 
@@ -24,11 +24,11 @@ CheckBox {
     property color highlightColor: Theme.highlightColor
     font: Fonts.standardFont
 
-    implicitHeight: Math.max(contentItem.implicitHeight, indicatorSize)
+    implicitHeight: Math.max(contentItem.implicitHeight, control.indicatorSize)
     implicitWidth: indicator.width + (text ? spacing + contentItem.implicitWidth : 0)
 
     padding: 0
-    spacing: textSpacing
+    spacing: control.textSpacing
 
     signal textClicked
 
@@ -45,20 +45,20 @@ CheckBox {
 
             color: control.enabled ? control.textColor : control.disabledTextColor
             verticalAlignment: Text.AlignVCenter
-            leftPadding: control.indicator.width + textSpacing
+            leftPadding: control.indicator.width + control.textSpacing
             elide: Text.ElideRight
         }
     }
 
     // Checkbox indicator
     indicator: Rectangle {
-        implicitWidth: indicatorSize
-        implicitHeight: indicatorSize
+        implicitWidth: control.indicatorSize
+        implicitHeight: control.indicatorSize
         x: 0
         y: parent.height / 2 - height / 2
 
         // Add color change when hovered
-        color: !control.enabled ? control.disabledTextColor : control.pressed ? control.highlightColor : control.baseColor
+        color: ControlState.selectionFill(control.enabled, control.checked, control.pressed, control.hovered)
 
         // Hovered
         Behavior on color {
@@ -77,10 +77,10 @@ CheckBox {
             }
         }
 
-        border.color: !control.enabled ? control.midColor : control.pressed ? control.highlightColor : control.hovered ? control.highlightColor : control.midColor
+        border.color: ControlState.selectionBorder(control.enabled, control.checked, control.pressed, control.hovered, control.visualFocus)
 
-        border.width: control.hovered ? Fonts.size2 : Fonts.size1
-        radius: defaultRadius
+        border.width: (control.hovered || control.visualFocus) ? ControlState.borderFocus : ControlState.borderThin
+        radius: control.defaultRadius
 
         Image {
             id: checkMark
@@ -91,7 +91,7 @@ CheckBox {
             antialiasing: true
             smooth: true
             fillMode: Image.PreserveAspectFit
-            opacity: control.enabled ? 0.7 : 0.3
+            opacity: control.enabled ? 0.9 : 0.3
         }
 
         Rectangle {
@@ -129,8 +129,8 @@ CheckBox {
     }
 
     CustomToolTip {
-        visible: tooltipText !== "" && mouseArea.containsMouse && control.enabled
-        delay: tooltipDelay
-        text: tooltipText
+        visible: control.tooltipText !== "" && mouseArea.containsMouse && control.enabled
+        delay: control.tooltipDelay
+        text: control.tooltipText
     }
 }

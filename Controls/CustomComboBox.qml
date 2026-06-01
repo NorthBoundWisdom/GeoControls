@@ -9,9 +9,9 @@ ComboBox {
     hoverEnabled: enabled
 
     // custom properties
-    property int defaultHeight: Math.max(Fonts.inputFieldHeight, Fonts.standardFontMetrics.height + Fonts.size10)
-    property int defaultRadius: Fonts.size2
-    property int defaultPadding: Fonts.size6
+    property int defaultHeight: Math.max(ControlState.minInputHeight, Fonts.standardFontMetrics.height + Fonts.size10)
+    property int defaultRadius: ControlState.radiusSmall
+    property int defaultPadding: ControlState.textPadding
     property bool isExpanded: false
     property string placeholderText: ""
     property bool detectMouseExit: true
@@ -32,8 +32,8 @@ ComboBox {
     property color highlightColor: Theme.highlightColor
     property color alternateBaseColor: Theme.alternateBaseColor
     property color midColor: Theme.midColor
-    property color buttonHoveredColor: Theme.lightColor
-    property color buttonDisabledColor: Theme.disabledTextColor
+    property color buttonHoveredColor: Theme.buttonHoveredColor
+    property color buttonDisabledColor: Theme.buttonDisabledColor
 
     font: Fonts.standardFont
     implicitHeight: defaultHeight
@@ -226,8 +226,8 @@ ComboBox {
 
         background: Rectangle {
             anchors.fill: parent
-            color: highlighted ? control.highlightColor : hovered ? control.highlightColor : control.alternateBaseColor
-            opacity: 0.5
+            color: ControlState.actionFillWithColors(true, false, hovered, highlighted, control.alternateBaseColor, control.buttonHoveredColor, control.highlightColor, control.buttonDisabledColor, control.highlightColor)
+            opacity: highlighted ? 1.0 : 0.65
         }
 
         onClicked: {
@@ -329,29 +329,15 @@ ComboBox {
         implicitWidth: Fonts.size120
         implicitHeight: control.defaultHeight
         color: {
-            if (!control.enabled) {
-                return control.buttonDisabledColor
-            }
             if (control.editable) {
-                return control.hovered ? Qt.lighter(control.highlightColor, 1.8) : control.editableBackgroundColor
+                return ControlState.inputFill(control.enabled, false, control.hovered)
             }
-            return control.pressed ? Qt.darker(control.readOnlyBackgroundColor, 1.2) : control.hovered ? control.buttonHoveredColor : control.readOnlyBackgroundColor
+            return ControlState.actionFillWithColors(control.enabled, control.pressed, control.hovered, false, control.readOnlyBackgroundColor, control.buttonHoveredColor, Theme.buttonPressedColor, control.buttonDisabledColor, control.highlightColor)
         }
-        border.color: {
-            if (!control.enabled) {
-                return control.midColor
-            }
-            if (control.pressed || control.editable) {
-                return control.highlightColor
-            }
-            if (control.hovered) {
-                return control.highlightColor
-            }
-            return control.midColor
-        }
-        border.width: (control.visualFocus || control.editable || (control.hovered && control.enabled)) ? Fonts.size2 : Fonts.size1
+        border.color: ControlState.inputBorder(control.enabled, control.visualFocus || control.activeFocus || (control.editable && editableTextField.activeFocus), control.hovered || control.pressed, false)
+        border.width: (control.visualFocus || (control.hovered && control.enabled)) ? ControlState.borderFocus : ControlState.borderThin
         radius: defaultRadius
-        opacity: (control.hovered && control.enabled) ? 0.5 : 1.0
+        opacity: control.enabled ? 1.0 : 0.65
     }
 
     // Tooltip support

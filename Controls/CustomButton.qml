@@ -24,9 +24,9 @@ Button {
     property int defaultIconSize: Fonts.iconSize
 
     // custom properties
-    property int defaultHeight: Fonts.inputFieldHeight
-    property int defaultRadius: Fonts.size2
-    property int defaultPadding: Fonts.size6
+    property int defaultHeight: ControlState.minButtonHeight
+    property int defaultRadius: ControlState.radiusSmall
+    property int defaultPadding: ControlState.textPadding
 
     // Tooltip support
     property string tooltipText: ""
@@ -62,7 +62,7 @@ Button {
         // centered content
         Row {
             id: centerRow
-            spacing: Fonts.size6
+            spacing: ControlState.iconGap
             Layout.alignment: Qt.AlignVCenter
 
             IconLabel {
@@ -74,7 +74,7 @@ Button {
             Text {
                 text: control.text
                 font: control.font
-                color: !control.enabled ? control.disabledTextColor : control.buttonTextColor
+                color: ControlState.actionTextWithColors(control.enabled, control.pressed, false, control.buttonTextColor, control.disabledTextColor, control.highlightedTextColor)
                 visible: (control.display !== AbstractButton.IconOnly)
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
@@ -93,10 +93,22 @@ Button {
     // Background
     background: Rectangle {
         implicitHeight: control.defaultHeight
-        color: !control.enabled ? control.disabledColor : control.pressed ? control.pressedColor : control.hovered ? control.hoveredColor : control.buttonColor
-        border.color: control.pressed ? control.highlightColor : control.hovered ? control.darkColor : control.midColor
-        border.width: control.visualFocus ? Fonts.size1 : 0
-        radius: defaultRadius
+        color: ControlState.actionFillWithColors(control.enabled, control.pressed, control.hovered, false, control.buttonColor, control.hoveredColor, control.pressedColor, control.disabledColor, control.highlightColor)
+        border.color: ControlState.actionBorder(control.enabled, control.pressed, control.hovered, control.visualFocus, false)
+        border.width: control.visualFocus ? ControlState.borderFocus : ControlState.borderThin
+        radius: control.defaultRadius
+
+        Behavior on color {
+            ColorAnimation {
+                duration: ControlState.animationFast
+            }
+        }
+
+        Behavior on border.color {
+            ColorAnimation {
+                duration: ControlState.animationFast
+            }
+        }
     }
 
     MouseArea {
@@ -109,8 +121,8 @@ Button {
     }
 
     CustomToolTip {
-        visible: tooltipText !== "" && tooltipMouseArea.containsMouse && control.enabled
-        delay: tooltipDelay
-        text: tooltipText
+        visible: control.tooltipText !== "" && tooltipMouseArea.containsMouse && control.enabled
+        delay: control.tooltipDelay
+        text: control.tooltipText
     }
 }

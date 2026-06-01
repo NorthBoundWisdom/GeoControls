@@ -154,6 +154,19 @@ ApplicationWindow {
                                         onClicked: showMessage("Button", "CustomButton clicked.")
                                     }
 
+                                    CustomButton {
+                                        Layout.fillWidth: true
+                                        text: "Disabled"
+                                        enabled: false
+                                    }
+
+                                    CustomButton {
+                                        Layout.fillWidth: true
+                                        Layout.maximumWidth: 112
+                                        text: "Long button label for elide"
+                                        tooltipText: text
+                                    }
+
                                     CustomToolButton {
                                         display: AbstractButton.TextOnly
                                         displayName: "Tool"
@@ -186,9 +199,21 @@ ApplicationWindow {
                                         checked: true
                                     }
 
+                                    CustomCheckBox {
+                                        text: "Disabled check"
+                                        checked: true
+                                        enabled: false
+                                    }
+
                                     CustomRadioButton {
                                         text: "Radio"
                                         checked: true
+                                    }
+
+                                    CustomRadioButton {
+                                        text: "Disabled radio"
+                                        checked: true
+                                        enabled: false
                                     }
 
                                     CustomBinarySwitch {
@@ -203,6 +228,12 @@ ApplicationWindow {
                                             leftActive = false
                                             rightActive = true
                                         }
+                                    }
+
+                                    CustomSwitch {
+                                        Layout.columnSpan: 2
+                                        model: ["Short", "Much longer option", "Third"]
+                                        currentIndex: 1
                                     }
                                 }
                             }
@@ -301,6 +332,27 @@ ApplicationWindow {
                                     }
 
                                     CustomLabel {
+                                        text: "Disabled text"
+                                        font.bold: true
+                                    }
+
+                                    CustomTextField {
+                                        Layout.fillWidth: true
+                                        text: "Disabled value"
+                                        enabled: false
+                                    }
+
+                                    CustomLabel {
+                                        text: "Narrow text"
+                                        font.bold: true
+                                    }
+
+                                    CustomTextField {
+                                        Layout.maximumWidth: 150
+                                        text: "A very long editable value that shows clipping"
+                                    }
+
+                                    CustomLabel {
                                         text: "Combo"
                                         font.bold: true
                                     }
@@ -309,6 +361,18 @@ ApplicationWindow {
                                         Layout.fillWidth: true
                                         model: ["Alpha", "Beta", "Gamma"]
                                         currentIndex: 1
+                                    }
+
+                                    CustomLabel {
+                                        text: "Disabled combo"
+                                        font.bold: true
+                                    }
+
+                                    CustomComboBox {
+                                        Layout.fillWidth: true
+                                        model: ["Alpha", "Beta", "Gamma"]
+                                        currentIndex: 0
+                                        enabled: false
                                     }
 
                                     CustomLabel {

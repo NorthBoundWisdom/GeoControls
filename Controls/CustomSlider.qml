@@ -36,7 +36,7 @@ Item {
     property color buttonTextColor: Theme.buttonTextColor
     property color highlightColor: Theme.highlightColor
     property color midColor: Theme.midColor
-    property color buttonHoveredColor: Theme.lightColor
+    property color buttonHoveredColor: Theme.buttonHoveredColor
     readonly property real sliderTrackIdleThickness: Math.max(1, Fonts.size4 / 3)
     readonly property real sliderTrackActiveThickness: Math.max(sliderTrackIdleThickness, Fonts.size4 * 2 / 3)
 
@@ -80,8 +80,8 @@ Item {
 
         width: height
         height: Fonts.iconButtonSize
-        color: down ? control.highlightColor : hovered ? control.buttonHoveredColor : control.buttonColor
-        radius: Fonts.size2
+        color: ControlState.actionFillWithColors(control.enabled, down, hovered, false, control.buttonColor, control.buttonHoveredColor, control.highlightColor, Theme.buttonDisabledColor, control.highlightColor)
+        radius: ControlState.radiusSmall
 
         Text {
             id: buttonText
@@ -204,13 +204,13 @@ Item {
                     width: slider.availableWidth
                     height: slider.sliderTrackActive ? control.sliderTrackActiveThickness : control.sliderTrackIdleThickness
                     radius: height / 2
-                    color: control.buttonColor
+                    color: ControlState.trackFill(control.enabled)
                     opacity: Theme.appearance == 0 ? 0.3 : 0.8
 
                     Rectangle {
                         width: slider.visualPosition * parent.width
                         height: parent.height
-                        color: control.highlightColor
+                        color: ControlState.trackActiveFill(control.enabled)
                         opacity: slider.pressed ? 0.8 : 1.0
                         radius: parent.radius
                     }
@@ -226,15 +226,9 @@ Item {
                     width: Fonts.size20
                     height: width
                     radius: width / 2
-                    color: control.buttonColor
-                    border.color: {
-                        if (slider.pressed || handleMouseArea.drag.active || handleMouseArea.containsMouse) {
-                            return control.highlightColor
-                        } else {
-                            return control.midColor
-                        }
-                    }
-                    border.width: (handleMouseArea.containsMouse || slider.pressed || handleMouseArea.drag.active) ? Fonts.size2 : Fonts.size1
+                    color: ControlState.inputFill(control.enabled, false, handleMouseArea.containsMouse || slider.pressed || handleMouseArea.drag.active)
+                    border.color: ControlState.handleBorder(control.enabled, slider.pressed || handleMouseArea.drag.active || handleMouseArea.containsMouse)
+                    border.width: (handleMouseArea.containsMouse || slider.pressed || handleMouseArea.drag.active) ? ControlState.borderFocus : ControlState.borderThin
 
                     // Force update position when visualPosition or availableWidth changes
                     // This ensures handle position updates even when value is set programmatically

@@ -7,8 +7,8 @@ TextField {
     id: control
 
     // custom properties
-    property int defaultHeight: Fonts.inputFieldHeight
-    property int defaultRadius: Fonts.size2
+    property int defaultHeight: ControlState.minInputHeight
+    property int defaultRadius: ControlState.radiusSmall
     property int defaultPadding: Fonts.inputPadding
 
     property string originalText: ""
@@ -45,7 +45,7 @@ TextField {
     leftPadding: padding
     rightPadding: padding
 
-    color: control.enabled ? (text.length === 0 ? disabledTextColor : textColor) : disabledTextColor
+    color: ControlState.inputText(control.enabled, text.length === 0)
     selectedTextColor: highlightedTextColor
     selectionColor: highlightColor
 
@@ -56,10 +56,10 @@ TextField {
 
     background: Rectangle {
         implicitHeight: control.defaultHeight
-        color: !control.enabled ? disabledTextColor : control.readOnly ? disabledTextColor : control.hovered ? Qt.lighter(highlightColor, 1.8) : baseColor
-        border.color: !control.enabled ? midColor : control.activeFocus ? highlightColor : control.hovered ? highlightColor : midColor
-        opacity: control.enabled ? 1.0 : 0.1
-        border.width: control.activeFocus ? Fonts.size2 : Fonts.size1
+        color: ControlState.inputFill(control.enabled, control.readOnly, control.hovered)
+        border.color: ControlState.inputBorder(control.enabled, control.activeFocus, control.hovered, control.readOnly)
+        opacity: control.enabled ? 1.0 : 0.65
+        border.width: control.activeFocus ? ControlState.borderFocus : ControlState.borderThin
         radius: defaultRadius
 
         Behavior on border.color {

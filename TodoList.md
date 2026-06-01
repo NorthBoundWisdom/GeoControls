@@ -19,6 +19,16 @@
 - [x] Update GuiDemo to exercise the new controls and app shell APIs.
 - [ ] Run configure, builds, qmllint, install verification, and residue scans.
 
+## FluentUI-Pro Absorption
+
+- [x] Add a lightweight GeoControls-owned state helper for common control surfaces.
+- [x] Route buttons, tool buttons, text fields, combo boxes, check boxes, radio buttons,
+      switches, and sliders through the shared state helper where practical.
+- [x] Expand GuiDemo coverage for default, disabled, hover/pressed/focus, long text, and
+      narrow-width states.
+- [x] Keep the absorption dependency-neutral: no FluentUI-Pro URI, CMake, ShaderTools,
+      Chart.js, Breakpad, AiAssistant, QRCode/libqrencode, or font-icon import.
+
 ## Acceptance
 
 - `GeoControls::Controls` and `GeoControls::AppShell` are the only exported SDK targets.

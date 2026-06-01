@@ -20,10 +20,10 @@ Rectangle {
     implicitWidth: leftButton.implicitWidth + rightButton.implicitWidth + Fonts.size12
     Layout.minimumWidth: implicitWidth
     implicitHeight: Math.max(leftButton.implicitHeight, rightButton.implicitHeight) + Fonts.size8
-    radius: Fonts.size2
+    radius: ControlState.radiusSmall
     color: Theme.baseColor
     border.color: Theme.midColor
-    border.width: Fonts.size1
+    border.width: ControlState.borderThin
 
     TextMetrics {
         id: leftTextMetrics
@@ -50,7 +50,7 @@ Rectangle {
             text: root.leftText
             defaultHeight: Fonts.inputFieldHeight * 0.8
             defaultPadding: Fonts.size4
-            defaultRadius: Fonts.size2
+            defaultRadius: ControlState.radiusSmall
             buttonColor: root.leftActive ? Theme.highlightColor : "transparent"
             hoveredColor: root.leftActive ? Theme.highlightColor : Theme.buttonHoveredColor
             pressedColor: Theme.highlightColor
@@ -81,7 +81,7 @@ Rectangle {
             text: root.rightText
             defaultHeight: Fonts.inputFieldHeight * 0.8
             defaultPadding: Fonts.size4
-            defaultRadius: Fonts.size2
+            defaultRadius: ControlState.radiusSmall
             buttonColor: root.rightActive ? Theme.highlightColor : "transparent"
             hoveredColor: root.rightActive ? Theme.highlightColor : Theme.buttonHoveredColor
             pressedColor: Theme.highlightColor
