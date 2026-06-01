@@ -15,6 +15,8 @@ Rectangle {
     property string subtitleRole: "subtitle"
     property string iconRole: "iconSource"
     property string sectionRole: "section"
+    property string emptyText: qsTr("NavigationView requires a non-empty model.")
+    readonly property bool hasModel: Array.isArray(model) && model.length > 0
     default property alias content: contentHost.data
 
     signal activated(int index, var item)
@@ -44,7 +46,7 @@ Rectangle {
                 anchors.margins: Fonts.size8
                 spacing: Fonts.size4
                 clip: true
-                model: Array.isArray(control.model) ? control.model : []
+                model: control.hasModel ? control.model : []
                 currentIndex: control.currentIndex
 
                 delegate: ColumnLayout {
@@ -76,6 +78,18 @@ Rectangle {
                         }
                     }
                 }
+            }
+
+            InfoBar {
+                visible: !control.hasModel && !control.compact
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.top: parent.top
+                anchors.margins: Fonts.size8
+                severity: "error"
+                title: qsTr("Missing model")
+                message: control.emptyText
+                closable: false
             }
         }
 

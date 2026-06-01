@@ -17,7 +17,7 @@
 - [x] Generalize AppShell host contracts.
 - [x] Convert Theme tokens to generic surfaces and fonts.
 - [x] Update GuiDemo to exercise the new controls and app shell APIs.
-- [ ] Run configure, builds, qmllint, install verification, and residue scans.
+- [x] Run configure, builds, qmllint, install verification, and residue scans.
 
 ## FluentUI-Pro Absorption
 
@@ -26,8 +26,23 @@
       switches, and sliders through the shared state helper where practical.
 - [x] Expand GuiDemo coverage for default, disabled, hover/pressed/focus, long text, and
       narrow-width states.
+- [x] Add dependency-neutral layout and navigation primitives for list tiles, scrollable
+      pages, hosted navigation, and closable/movable tab views.
 - [x] Keep the absorption dependency-neutral: no FluentUI-Pro URI, CMake, ShaderTools,
       Chart.js, Breakpad, AiAssistant, QRCode/libqrencode, or font-icon import.
+
+## FluentUI-Pro Advanced Candidates
+
+- [x] Add lightweight `DataGrid` and `TreeDataGrid` interaction primitives with explicit
+      columns, host-provided array data, sorting signals, selection, expansion, and empty/error states.
+- [x] Add a compact `ColorPicker` facade that reuses `CustomColorPicker` and fails visibly
+      when no dialog host is provided.
+- [x] Add pure-QML date/time picking controls without platform calendar modules or new Qt
+      package dependencies.
+- [x] Add an explicit route/navigation model primitive that uses host-owned route IDs and
+      activation signals instead of router singletons.
+- [x] Expand GuiDemo coverage for each advanced candidate, including empty or invalid
+      configuration states.
 
 ## Acceptance
 

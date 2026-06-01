@@ -24,6 +24,7 @@ qt_add_qml_module(GeoControlsControls
         ChartPie.qml
         ChartScatter.qml
         Chip.qml
+        ColorPicker.qml
         ColorTabBar.qml
         ColorTabButton.qml
         ConfirmationButtons.qml
@@ -58,6 +59,8 @@ qt_add_qml_module(GeoControlsControls
         CustomToolButton.qml
         CustomToolTip.qml
         CustomVector3SpinBox.qml
+        DataGrid.qml
+        DatePicker.qml
         DialogShell.qml
         EqualActionButtonRow.qml
         Expander.qml
@@ -82,7 +85,9 @@ qt_add_qml_module(GeoControlsControls
         SliderWithPresets.qml
         TabView.qml
         Theme.qml
+        TimePicker.qml
         ToolTipConfig.qml
+        TreeDataGrid.qml
         TwoSideSpinBox.qml
     SOURCES
         QmlExportImageOptionsDialog.cpp

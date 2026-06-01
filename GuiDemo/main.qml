@@ -16,6 +16,8 @@ ApplicationWindow {
 
     property int currentPage: 0
     property color selectedColor: "#2f80ed"
+    property string selectedDateText: ""
+    property string selectedTimeText: "09:00"
 
     Component.onCompleted: {
         raise()
@@ -760,71 +762,223 @@ ApplicationWindow {
                                     useComboBox: true
                                 }
                             }
-                        }
 
-                        CustomRectangle {
-                            Layout.fillWidth: true
-                            Layout.preferredHeight: 430
-                            title: "Navigation and page patterns"
-                            collapsible: false
-
-                            NavigationView {
-                                id: demoNavigationView
+                            CustomRectangle {
                                 Layout.fillWidth: true
-                                Layout.fillHeight: true
-                                model: [
-                                    {
-                                        title: "Dashboard",
-                                        subtitle: "Summary page",
-                                        iconSource: "qrc:/GeoControls/icons/Home.svg",
-                                        section: "Workspace"
-                                    },
-                                    {
-                                        title: "Data",
-                                        subtitle: "List and table entry",
-                                        iconSource: "qrc:/GeoControls/icons/Table.svg"
-                                    },
-                                    {
-                                        title: "Review",
-                                        subtitle: "Tabbed detail view",
-                                        iconSource: "qrc:/GeoControls/icons/Eye.svg",
-                                        section: "Flow"
-                                    }
-                                ]
-                                onActivated: appShellLog.text = "Navigation index: " + index
+                                Layout.preferredHeight: 430
+                                title: "Navigation and page patterns"
+                                collapsible: false
 
-                                ScrollablePage {
-                                    anchors.fill: parent
-                                    pageTitle: demoNavigationView.model[demoNavigationView.currentIndex].title
-                                    subtitle: demoNavigationView.model[demoNavigationView.currentIndex].subtitle
+                                NavigationView {
+                                    id: demoNavigationView
+                                    Layout.fillWidth: true
+                                    Layout.fillHeight: true
+                                    model: [
+                                        {
+                                            title: "Dashboard",
+                                            subtitle: "Summary page",
+                                            iconSource: "qrc:/GeoControls/icons/Home.svg",
+                                            section: "Workspace"
+                                        },
+                                        {
+                                            title: "Data",
+                                            subtitle: "List and table entry",
+                                            iconSource: "qrc:/GeoControls/icons/Table.svg"
+                                        },
+                                        {
+                                            title: "Review",
+                                            subtitle: "Tabbed detail view",
+                                            iconSource: "qrc:/GeoControls/icons/Eye.svg",
+                                            section: "Flow"
+                                        }
+                                    ]
+                                    onActivated: appShellLog.text = "Navigation index: " + index
 
-                                    ListTile {
-                                        Layout.fillWidth: true
-                                        title: "ListTile"
-                                        subtitle: "Host-provided data, no route singleton."
-                                        iconSource: "qrc:/GeoControls/icons/Tree.svg"
-                                        selected: true
-                                    }
+                                    ScrollablePage {
+                                        anchors.fill: parent
+                                        pageTitle: demoNavigationView.model[demoNavigationView.currentIndex].title
+                                        subtitle: demoNavigationView.model[demoNavigationView.currentIndex].subtitle
 
-                                    TabView {
-                                        Layout.fillWidth: true
-                                        Layout.preferredHeight: 180
-                                        model: [
-                                            {
-                                                title: "General",
-                                                closeable: false
-                                            },
-                                            {
-                                                title: "Preview"
-                                            },
-                                            {
-                                                title: "History"
+                                        ListTile {
+                                            Layout.fillWidth: true
+                                            title: "ListTile"
+                                            subtitle: "Host-provided data, no route singleton."
+                                            iconSource: "qrc:/GeoControls/icons/Tree.svg"
+                                            selected: true
+                                        }
+
+                                        TabView {
+                                            Layout.fillWidth: true
+                                            Layout.preferredHeight: 180
+                                            model: [
+                                                {
+                                                    title: "General",
+                                                    closeable: false
+                                                },
+                                                {
+                                                    title: "Preview"
+                                                },
+                                                {
+                                                    title: "History"
+                                                }
+                                            ]
+                                            onActivated: appShellLog.text = "Tab index: " + index
+                                            onCloseRequested: appShellLog.text = "Close requested: " + index
+                                            onMoveRequested: function (from, to) {
+                                                appShellLog.text = "Move requested: " + from + " -> " + to
                                             }
-                                        ]
-                                        onActivated: appShellLog.text = "Tab index: " + index
-                                        onCloseRequested: appShellLog.text = "Close requested: " + index
-                                        onMoveRequested: function (from, to) {
-                                            appShellLog.text = "Move requested: " + from + " -> " + to
+                                        }
+                                    }
+                                }
+                            }
+
+                            CustomRectangle {
+                                Layout.fillWidth: true
+                                Layout.preferredHeight: 360
+                                title: "Advanced candidates"
+                                collapsible: false
+
+                                RowLayout {
+                                    anchors.fill: parent
+                                    spacing: 12
+
+                                    ColumnLayout {
+                                        Layout.fillWidth: true
+                                        Layout.fillHeight: true
+                                        spacing: 10
+
+                                        DataGrid {
+                                            Layout.fillWidth: true
+                                            Layout.preferredHeight: 150
+                                            columns: [
+                                                {
+                                                    role: "name",
+                                                    title: "Name",
+                                                    width: 150
+                                                },
+                                                {
+                                                    role: "status",
+                                                    title: "Status",
+                                                    width: 110
+                                                },
+                                                {
+                                                    role: "owner",
+                                                    title: "Owner",
+                                                    width: 120
+                                                }
+                                            ]
+                                            rows: [
+                                                {
+                                                    name: "Terrain import",
+                                                    status: "Ready",
+                                                    owner: "Geo"
+                                                },
+                                                {
+                                                    name: "Point cloud",
+                                                    status: "Review",
+                                                    owner: "QA"
+                                                }
+                                            ]
+                                            onSortRequested: function (role, ascending) {
+                                                appShellLog.text = "Sort requested: " + role + " " + ascending
+                                            }
+                                            onSelectionChanged: function (index, row, selected) {
+                                                appShellLog.text = "Grid row " + index + " selected: " + selected
+                                            }
+                                        }
+
+                                        TreeDataGrid {
+                                            Layout.fillWidth: true
+                                            Layout.fillHeight: true
+                                            columns: [
+                                                {
+                                                    role: "name",
+                                                    title: "Node",
+                                                    width: 180
+                                                },
+                                                {
+                                                    role: "kind",
+                                                    title: "Kind",
+                                                    width: 120
+                                                }
+                                            ]
+                                            sourceRows: [
+                                                {
+                                                    id: "root",
+                                                    name: "Project",
+                                                    kind: "Folder",
+                                                    children: [
+                                                        {
+                                                            id: "mesh",
+                                                            name: "Mesh",
+                                                            kind: "Layer"
+                                                        },
+                                                        {
+                                                            id: "survey",
+                                                            name: "Survey",
+                                                            kind: "Layer"
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                            onExpanded: function (key, opened) {
+                                                appShellLog.text = "Tree node " + key + " expanded: " + opened
+                                            }
+                                        }
+                                    }
+
+                                    ColumnLayout {
+                                        Layout.preferredWidth: 330
+                                        Layout.fillHeight: true
+                                        spacing: 10
+
+                                        ColorPicker {
+                                            Layout.fillWidth: true
+                                            dialogHost: contentRoot
+                                            selectedColor: window.selectedColor
+                                            onAccepted: function (color) {
+                                                window.selectedColor = color
+                                            }
+                                        }
+
+                                        DatePicker {
+                                            Layout.fillWidth: true
+                                            minYear: 2024
+                                            maxYear: 2028
+                                            onDateSelected: function (value) {
+                                                window.selectedDateText = value.toLocaleDateString()
+                                            }
+                                        }
+
+                                        TimePicker {
+                                            Layout.fillWidth: true
+                                            showSeconds: true
+                                            onTimeSelected: function (value) {
+                                                window.selectedTimeText = value
+                                            }
+                                        }
+
+                                        RouteView {
+                                            Layout.fillWidth: true
+                                            Layout.fillHeight: true
+                                            activeRouteId: "overview"
+                                            routes: [
+                                                {
+                                                    routeId: "overview",
+                                                    title: "Overview",
+                                                    subtitle: "Explicit route id",
+                                                    iconSource: "qrc:/GeoControls/icons/Home.svg"
+                                                },
+                                                {
+                                                    routeId: "details",
+                                                    title: "Details",
+                                                    subtitle: "Host handles activation",
+                                                    iconSource: "qrc:/GeoControls/icons/Table.svg"
+                                                }
+                                            ]
+                                            onRouteActivated: function (routeId) {
+                                                appShellLog.text = "Route activated: " + routeId
+                                            }
                                         }
                                     }
                                 }
@@ -835,11 +989,13 @@ ApplicationWindow {
             }
         }
 
-        CustomColorPicker {
+        ColorPicker {
             id: colorPicker
-            parent: contentRoot
+            dialogHost: contentRoot
             selectedColor: window.selectedColor
-            onAccepted: window.selectedColor = selectedColor
+            onAccepted: function (color) {
+                window.selectedColor = color
+            }
         }
     }
 

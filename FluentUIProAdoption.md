@@ -14,7 +14,7 @@ GeoControls 现有架构重写进入 `Controls/` 或 `AppShell/`。
 - [x] 每轮只迁入一组相关能力，避免一次性重排控件体系。
 - [x] `Controls/` 不依赖应用 shell、日志、应用管理器或 demo helper。
 - [x] `AppShell/` 只通过属性、模型、信号与宿主应用集成。
-- [ ] 缺少必需 import、资源、dialog host 或模型时暴露明确错误，不静默降级。
+- [x] 缺少必需 import、资源、dialog host 或模型时暴露明确错误，不静默降级。
 - [x] 新增公共类型使用 GeoControls 命名和现有样式，不保留 FluentUI-Pro 名称空间。
 - [x] 图标优先复用 `icons/` 中已有资产；新增图标必须进入
       `qrc:/GeoControls/icons/...`。
@@ -64,12 +64,12 @@ GeoControls 现有架构重写进入 `Controls/` 或 `AppShell/`。
 
 ## Phase 4: 高级能力候选
 
-- [ ] 先更新根目录 `TodoList.md`，再开始任何高级能力代码改动。
-- [ ] 评估并重写 `DataGrid`/`TreeDataGrid` 的交互模式：列宽、排序、选择、展开、空态。
-- [ ] 评估并重写 `ColorPicker` 的 UX，复用现有 `CustomColorPicker` 能力，不引入 shader。
-- [ ] 评估日期/时间选择器，优先纯 QML 实现，不引入平台日历或额外 Qt 模块。
-- [ ] 评估窗口路由概念，只吸收显式 API 设计，不迁入 FluentUI-Pro 的 router 单例。
-- [ ] 为每个高级能力补充 GuiDemo 演示和失败态验证。
+- [x] 先更新根目录 `TodoList.md`，再开始任何高级能力代码改动。
+- [x] 评估并重写 `DataGrid`/`TreeDataGrid` 的交互模式：列宽、排序、选择、展开、空态。
+- [x] 评估并重写 `ColorPicker` 的 UX，复用现有 `CustomColorPicker` 能力，不引入 shader。
+- [x] 评估日期/时间选择器，优先纯 QML 实现，不引入平台日历或额外 Qt 模块。
+- [x] 评估窗口路由概念，只吸收显式 API 设计，不迁入 FluentUI-Pro 的 router 单例。
+- [x] 为每个高级能力补充 GuiDemo 演示和失败态验证。
 
 ## 每轮吸收前检查
 

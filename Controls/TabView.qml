@@ -11,6 +11,8 @@ ColumnLayout {
     property int currentIndex: 0
     property bool tabsClosable: true
     property bool tabsMovable: true
+    property string emptyText: qsTr("TabView requires a non-empty model.")
+    readonly property bool hasModel: Array.isArray(model) && model.length > 0
 
     signal activated(int index)
     signal closeRequested(int index)
@@ -31,11 +33,12 @@ ColumnLayout {
 
     CustomTabBar {
         id: tabBar
+        visible: control.hasModel
         Layout.fillWidth: true
         targetIndex: control.currentIndex
 
         Repeater {
-            model: Array.isArray(control.model) ? control.model : []
+            model: control.hasModel ? control.model : []
 
             CustomTabButton {
                 required property int index
@@ -68,7 +71,7 @@ ColumnLayout {
 
         CustomLabel {
             anchors.centerIn: parent
-            text: control.titleAt(control.currentIndex)
+            text: control.hasModel ? control.titleAt(control.currentIndex) : control.emptyText
             color: Theme.placeholderTextColor
         }
     }

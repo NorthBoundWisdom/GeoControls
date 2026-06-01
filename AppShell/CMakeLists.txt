@@ -19,6 +19,7 @@ qt_add_qml_module(GeoControlsAppShell
         MainStatusBar.qml
         MainToolBar.qml
         MiniViewer2d.qml
+        RouteView.qml
         ServerConfigSection.qml
         SplashScreen.qml
         WindowCaptionButtons.qml
