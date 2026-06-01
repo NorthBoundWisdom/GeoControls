@@ -56,11 +56,11 @@ GeoControls 现有架构重写进入 `Controls/` 或 `AppShell/`。
 
 ## Phase 3: 布局与导航模式
 
-- [ ] 借鉴 `NavigationView` 的信息架构，按 GeoControls AppShell 的显式宿主契约重写。
-- [ ] 借鉴 `TabView` 的关闭、拖拽、溢出和选中状态设计，优先增强现有 tab 控件族。
-- [ ] 借鉴 `ListTile`、`ScrollablePage`、轻量页面容器的排版模式，形成通用页面骨架。
-- [ ] 导航模型由宿主传入，不依赖应用全局对象、路由单例或 Gallery helper。
-- [ ] 在 GuiDemo 中补充布局与导航的最小宿主演示。
+- [x] 借鉴 `NavigationView` 的信息架构，按 GeoControls AppShell 的显式宿主契约重写。
+- [x] 借鉴 `TabView` 的关闭、拖拽、溢出和选中状态设计，优先增强现有 tab 控件族。
+- [x] 借鉴 `ListTile`、`ScrollablePage`、轻量页面容器的排版模式，形成通用页面骨架。
+- [x] 导航模型由宿主传入，不依赖应用全局对象、路由单例或 Gallery helper。
+- [x] 在 GuiDemo 中补充布局与导航的最小宿主演示。
 
 ## Phase 4: 高级能力候选
 

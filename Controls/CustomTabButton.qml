@@ -26,6 +26,8 @@ TabButton {
     property var viewerItem: null
     readonly property bool useLegacyStyle: !!(tabBar && tabBar.useLegacyTabStyle)
     property bool forceHidden: false
+    property bool closeable: false
+    property bool movable: false
 
     property int targetIndex: -1
 
@@ -41,6 +43,9 @@ TabButton {
     property color dividerColor: Theme.dividerColor
     readonly property bool useFlatStyle: flatStyle && !useLegacyStyle
     readonly property color foregroundColor: control.isSelected ? control.buttonTextColor : (control.hovered ? Qt.alpha(control.buttonTextColor, 0.9) : Qt.alpha(control.buttonTextColor, 0.72))
+
+    signal closeRequested
+    signal moveRequested(int targetIndex)
 
     font: Fonts.standardFont
     padding: defaultPadding
@@ -83,6 +88,16 @@ TabButton {
             elide: Text.ElideNone
             visible: control.display !== AbstractButton.IconOnly
             anchors.verticalCenter: parent.verticalCenter
+        }
+
+        CustomToolButton {
+            visible: control.closeable
+            iconSource: "qrc:/GeoControls/icons/Close.svg"
+            defaultHeight: Fonts.iconSize
+            iconSize: Fonts.iconSize * 0.75
+            tooltip: qsTr("Close tab")
+            anchors.verticalCenter: parent.verticalCenter
+            onClicked: control.closeRequested()
         }
     }
 
@@ -132,6 +147,25 @@ TabButton {
             } else {
                 tabBar.currentIndex = targetIndex
             }
+        }
+    }
+
+    Drag.active: dragHandler.active
+    Drag.hotSpot.x: width / 2
+    Drag.hotSpot.y: height / 2
+
+    DragHandler {
+        id: dragHandler
+        enabled: control.movable
+        target: control
+        yAxis.enabled: false
+        onActiveChanged: {
+            if (active || !control.movable || !control.tabBar || control.targetIndex < 0)
+                return
+            var direction = control.x > width * 0.5 ? 1 : (control.x < -width * 0.5 ? -1 : 0)
+            if (direction !== 0)
+                control.moveRequested(Math.max(0, control.targetIndex + direction))
+            control.x = 0
         }
     }
 

@@ -64,7 +64,9 @@ qt_add_qml_module(GeoControlsControls
         ExtendLine.qml
         Fonts.qml
         InfoBar.qml
+        ListTile.qml
         MessageDialog.qml
+        NavigationView.qml
         Pagination.qml
         QmlExportImageOptionsDialogPage.qml
         QmlFileDialogPage.qml
@@ -73,10 +75,12 @@ qt_add_qml_module(GeoControlsControls
         QmlListDialogPage.qml
         RButtonMenu.qml
         RatingControl.qml
+        ScrollablePage.qml
         SelectionBox.qml
         SegmentedButton.qml
         SegmentedControl.qml
         SliderWithPresets.qml
+        TabView.qml
         Theme.qml
         ToolTipConfig.qml
         TwoSideSpinBox.qml

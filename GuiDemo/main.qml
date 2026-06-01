@@ -761,6 +761,75 @@ ApplicationWindow {
                                 }
                             }
                         }
+
+                        CustomRectangle {
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 430
+                            title: "Navigation and page patterns"
+                            collapsible: false
+
+                            NavigationView {
+                                id: demoNavigationView
+                                Layout.fillWidth: true
+                                Layout.fillHeight: true
+                                model: [
+                                    {
+                                        title: "Dashboard",
+                                        subtitle: "Summary page",
+                                        iconSource: "qrc:/GeoControls/icons/Home.svg",
+                                        section: "Workspace"
+                                    },
+                                    {
+                                        title: "Data",
+                                        subtitle: "List and table entry",
+                                        iconSource: "qrc:/GeoControls/icons/Table.svg"
+                                    },
+                                    {
+                                        title: "Review",
+                                        subtitle: "Tabbed detail view",
+                                        iconSource: "qrc:/GeoControls/icons/Eye.svg",
+                                        section: "Flow"
+                                    }
+                                ]
+                                onActivated: appShellLog.text = "Navigation index: " + index
+
+                                ScrollablePage {
+                                    anchors.fill: parent
+                                    pageTitle: demoNavigationView.model[demoNavigationView.currentIndex].title
+                                    subtitle: demoNavigationView.model[demoNavigationView.currentIndex].subtitle
+
+                                    ListTile {
+                                        Layout.fillWidth: true
+                                        title: "ListTile"
+                                        subtitle: "Host-provided data, no route singleton."
+                                        iconSource: "qrc:/GeoControls/icons/Tree.svg"
+                                        selected: true
+                                    }
+
+                                    TabView {
+                                        Layout.fillWidth: true
+                                        Layout.preferredHeight: 180
+                                        model: [
+                                            {
+                                                title: "General",
+                                                closeable: false
+                                            },
+                                            {
+                                                title: "Preview"
+                                            },
+                                            {
+                                                title: "History"
+                                            }
+                                        ]
+                                        onActivated: appShellLog.text = "Tab index: " + index
+                                        onCloseRequested: appShellLog.text = "Close requested: " + index
+                                        onMoveRequested: function (from, to) {
+                                            appShellLog.text = "Move requested: " + from + " -> " + to
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
