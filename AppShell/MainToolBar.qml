@@ -10,6 +10,7 @@ ToolBar {
     property string documentTitle: ""
     property var commandController: null
     property var actionModel: []
+    property var actionAvailabilityProvider: null
     property bool showShortcutsButton: false
 
     signal actionRequested(var actionData, var parameter)
@@ -201,6 +202,9 @@ ToolBar {
                 shortcutSequence: modelData.shortcut
                 displayName: modelData.displayName
                 tooltip: modelData.tooltip
+                enabled: toolBar.actionAvailabilityProvider
+                         && toolBar.actionAvailabilityProvider.availabilityRevision >= 0
+                         && toolBar.actionAvailabilityProvider.isActionEnabled(modelData.parameter)
                 onActionRequested: function (requestedParameter) {
                     toolBar.actionRequested(modelData, requestedParameter)
                 }
