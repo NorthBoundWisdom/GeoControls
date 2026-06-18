@@ -13,6 +13,8 @@ Rectangle {
 
     readonly property real buttonTextPadding: Fonts.size8
     readonly property real fallbackButtonWidth: Fonts.scaledUiSize(96)
+    readonly property int optionCount: Array.isArray(model) ? model.length : 0
+    readonly property real minimumButtonWidth: Fonts.size24
     readonly property real resolvedButtonWidth: {
         var maxWidth = fallbackButtonWidth
         if (!Array.isArray(model)) {
@@ -27,13 +29,17 @@ Rectangle {
     }
 
     implicitWidth: {
-        var count = Array.isArray(model) ? model.length : 0
-        if (count <= 0) {
+        if (optionCount <= 0) {
             return 0
         }
-        return count * resolvedButtonWidth + Math.max(0, count - 1) * Fonts.size4 + Fonts.size12
+        return optionCount * resolvedButtonWidth + Math.max(0, optionCount - 1) * Fonts.size4 + Fonts.size12
     }
-    Layout.minimumWidth: implicitWidth
+    Layout.minimumWidth: {
+        if (optionCount <= 0) {
+            return 0
+        }
+        return optionCount * minimumButtonWidth + Math.max(0, optionCount - 1) * Fonts.size4 + Fonts.size12
+    }
     implicitHeight: Fonts.inputFieldHeight
     radius: ControlState.radiusSmall
     color: Theme.baseColor
@@ -54,7 +60,7 @@ Rectangle {
                 required property var modelData
 
                 Layout.fillWidth: true
-                Layout.minimumWidth: root.resolvedButtonWidth
+                Layout.minimumWidth: root.minimumButtonWidth
                 implicitWidth: Math.max(root.resolvedButtonWidth, contentItem.implicitWidth + leftPadding + rightPadding)
                 text: String(modelData)
                 defaultHeight: Fonts.inputFieldHeight * 0.8
