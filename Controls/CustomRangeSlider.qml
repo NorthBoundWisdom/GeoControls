@@ -158,6 +158,14 @@ Item {
                     visible: width > 0
                 }
 
+                MouseArea {
+                    anchors.fill: parent
+                    acceptedButtons: Qt.NoButton
+                    cursorShape: Qt.SizeHorCursor
+                    enabled: control._draggingFrom || control._draggingTo
+                    hoverEnabled: true
+                }
+
                 // From handle (left) - Upward triangle
                 Shape {
                     id: fromHandle
