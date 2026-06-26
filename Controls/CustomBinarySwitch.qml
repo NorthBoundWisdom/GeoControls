@@ -51,13 +51,19 @@ Rectangle {
             defaultHeight: Fonts.inputFieldHeight * 0.8
             defaultPadding: Fonts.size4
             defaultRadius: ControlState.radiusSmall
-            buttonColor: root.leftActive ? Theme.highlightColor : "transparent"
-            hoveredColor: root.leftActive ? Theme.highlightColor : Theme.buttonHoveredColor
-            pressedColor: Theme.highlightColor
-            buttonTextColor: root.leftActive ? Theme.highlightedTextColor : Theme.textColor
+            buttonColor: root.leftActive ? root.color : Theme.buttonColor
+            hoveredColor: root.leftActive ? root.color : Theme.buttonHoveredColor
+            pressedColor: root.leftActive ? root.color : Theme.buttonPressedColor
+            buttonTextColor: Theme.textColor
             midColor: "transparent"
-            darkColor: root.leftActive ? Theme.highlightColor : Theme.midColor
-            highlightColor: Theme.highlightColor
+            darkColor: "transparent"
+            highlightColor: root.color
+
+            background: Rectangle {
+                implicitHeight: leftButton.defaultHeight
+                color: ControlState.actionFillWithColors(leftButton.enabled, leftButton.pressed, leftButton.hovered, false, leftButton.buttonColor, leftButton.hoveredColor, leftButton.pressedColor, leftButton.disabledColor, leftButton.highlightColor)
+                radius: leftButton.defaultRadius
+            }
 
             contentItem: Text {
                 text: leftButton.text
@@ -82,13 +88,19 @@ Rectangle {
             defaultHeight: Fonts.inputFieldHeight * 0.8
             defaultPadding: Fonts.size4
             defaultRadius: ControlState.radiusSmall
-            buttonColor: root.rightActive ? Theme.highlightColor : "transparent"
-            hoveredColor: root.rightActive ? Theme.highlightColor : Theme.buttonHoveredColor
-            pressedColor: Theme.highlightColor
-            buttonTextColor: root.rightActive ? Theme.highlightedTextColor : Theme.textColor
+            buttonColor: root.rightActive ? root.color : Theme.buttonColor
+            hoveredColor: root.rightActive ? root.color : Theme.buttonHoveredColor
+            pressedColor: root.rightActive ? root.color : Theme.buttonPressedColor
+            buttonTextColor: Theme.textColor
             midColor: "transparent"
-            darkColor: root.rightActive ? Theme.highlightColor : Theme.midColor
-            highlightColor: Theme.highlightColor
+            darkColor: "transparent"
+            highlightColor: root.color
+
+            background: Rectangle {
+                implicitHeight: rightButton.defaultHeight
+                color: ControlState.actionFillWithColors(rightButton.enabled, rightButton.pressed, rightButton.hovered, false, rightButton.buttonColor, rightButton.hoveredColor, rightButton.pressedColor, rightButton.disabledColor, rightButton.highlightColor)
+                radius: rightButton.defaultRadius
+            }
 
             contentItem: Text {
                 text: rightButton.text

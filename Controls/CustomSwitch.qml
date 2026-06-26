@@ -66,13 +66,19 @@ Rectangle {
                 defaultHeight: Fonts.inputFieldHeight * 0.8
                 defaultPadding: Fonts.size4
                 defaultRadius: ControlState.radiusSmall
-                buttonColor: root.currentIndex === index ? Theme.highlightColor : "transparent"
-                hoveredColor: root.currentIndex === index ? Theme.highlightColor : Theme.buttonHoveredColor
-                pressedColor: Theme.highlightColor
-                buttonTextColor: root.currentIndex === index ? Theme.highlightedTextColor : Theme.textColor
+                buttonColor: root.currentIndex === index ? root.color : Theme.buttonColor
+                hoveredColor: root.currentIndex === index ? root.color : Theme.buttonHoveredColor
+                pressedColor: root.currentIndex === index ? root.color : Theme.buttonPressedColor
+                buttonTextColor: Theme.textColor
                 midColor: "transparent"
-                darkColor: root.currentIndex === index ? Theme.highlightColor : Theme.midColor
-                highlightColor: Theme.highlightColor
+                darkColor: "transparent"
+                highlightColor: root.color
+
+                background: Rectangle {
+                    implicitHeight: optionButton.defaultHeight
+                    color: ControlState.actionFillWithColors(optionButton.enabled, optionButton.pressed, optionButton.hovered, false, optionButton.buttonColor, optionButton.hoveredColor, optionButton.pressedColor, optionButton.disabledColor, optionButton.highlightColor)
+                    radius: optionButton.defaultRadius
+                }
 
                 contentItem: Text {
                     text: optionButton.text
