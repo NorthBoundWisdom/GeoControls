@@ -37,6 +37,11 @@ Item {
     property bool _draggingTo: false
     property bool _hoveringFrom: false
     property bool _hoveringTo: false
+    property double _dragStartFromValue: fromValue
+    property double _dragStartToValue: toValue
+    readonly property bool dragging: _draggingFrom || _draggingTo
+
+    signal rangeCommitted(double fromValue, double toValue)
 
     width: parent.width
     height: columnLayout.implicitHeight
@@ -54,6 +59,12 @@ Item {
 
     function positionToValue(position) {
         return from + position * (to - from)
+    }
+
+    function rangeChangedSinceDragStart() {
+        var epsilon = Math.max(1e-10, Math.abs(stepSize) * 1e-6)
+        return Math.abs(fromValue - _dragStartFromValue) > epsilon ||
+               Math.abs(toValue - _dragStartToValue) > epsilon
     }
 
     // Reset all values to default: from=-100, to=100, fromValue=0, toValue=0
@@ -215,12 +226,17 @@ Item {
                         drag.maximumX: Math.min(sliderTrack.trackPadding + sliderTrack.trackWidth - parent.width / 2, toHandle.x + toHandle.width / 2 - parent.width / 2)
 
                         onPressed: {
+                            control._dragStartFromValue = control.fromValue
+                            control._dragStartToValue = control.toValue
                             control._draggingFrom = true
                             control._draggingTo = false
                         }
 
                         onReleased: {
                             control._draggingFrom = false
+                            if (control.rangeChangedSinceDragStart()) {
+                                control.rangeCommitted(control.fromValue, control.toValue)
+                            }
                         }
 
                         onEntered: {
@@ -313,12 +329,17 @@ Item {
                         drag.maximumX: sliderTrack.trackPadding + sliderTrack.trackWidth - parent.width / 2
 
                         onPressed: {
+                            control._dragStartFromValue = control.fromValue
+                            control._dragStartToValue = control.toValue
                             control._draggingTo = true
                             control._draggingFrom = false
                         }
 
                         onReleased: {
                             control._draggingTo = false
+                            if (control.rangeChangedSinceDragStart()) {
+                                control.rangeCommitted(control.fromValue, control.toValue)
+                            }
                         }
 
                         onEntered: {
