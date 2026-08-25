@@ -45,6 +45,9 @@ Rectangle {
     property bool editing: false
     property bool showAddButton: true
     property bool showDeleteButton: true
+    property bool showResetButton: true
+    property bool showApplyButton: true
+    property bool actionsNeedEditing: true
     property bool actionButtonsEnabled: true
     property string addTooltip: "Activate editing with current parameters"
     property string deleteTooltip: "Delete current item"
@@ -232,7 +235,8 @@ Rectangle {
                 // Reset button icon
                 CustomPanelIconButton {
                     id: resetButton
-                    enabled: root.actionButtonsEnabled && root.editing
+                    visible: root.showResetButton
+                    enabled: root.actionButtonsEnabled && (!root.actionsNeedEditing || root.editing)
                     buttonSize: Fonts.iconButtonSize
                     iconContentSize: Math.round(Fonts.iconButtonSize * 0.9)
                     icon.source: "qrc:/GeoControls/icons/Restart.svg"
@@ -257,7 +261,8 @@ Rectangle {
                 // Apply button icon
                 CustomPanelCheckButton {
                     id: applyButton
-                    enabled: root.actionButtonsEnabled && root.editing
+                    visible: root.showApplyButton
+                    enabled: root.actionButtonsEnabled && (!root.actionsNeedEditing || root.editing)
                     buttonSize: Fonts.iconButtonSize
                     checkSize: Math.round(Fonts.iconButtonSize * 0.65)
                     buttonTextColor: applyButton.hovered ? Theme.highlightColor : Theme.textColor
