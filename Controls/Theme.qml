@@ -94,6 +94,13 @@ Item {
     property color successColor: helper && helper.successColor !== undefined ? helper.successColor : "#15803d"
     property color warningColor: helper && helper.warningColor !== undefined ? helper.warningColor : "#b45309"
     property color errorColor: helper && helper.errorColor !== undefined ? helper.errorColor : "#dc2626"
+    property color photographicMiddleGray: helper && helper.photographicMiddleGray !== undefined ? helper.photographicMiddleGray : "#767676"
+    property color toolbarSurfaceColor: helper && helper.toolbarSurfaceColor !== undefined ? helper.toolbarSurfaceColor : (helper ? helper.baseColor : "#cecece")
+    property color viewerToolbarColor: helper && helper.viewerToolbarColor !== undefined ? helper.viewerToolbarColor : (helper ? helper.railSurfaceColor : "#c1c1c1")
+    property color imageSurroundColor: helper && helper.imageSurroundColor !== undefined ? helper.imageSurroundColor : "#767676"
+    property color selectedBorderColor: helper && helper.selectedBorderColor !== undefined ? helper.selectedBorderColor : (helper ? helper.textColor : "#202020")
+    property color selectedSecondaryBorderColor: helper && helper.selectedSecondaryBorderColor !== undefined ? helper.selectedSecondaryBorderColor : (helper ? helper.placeholderTextColor : "#686868")
+    property color splitHandleColor: helper && helper.splitHandleColor !== undefined ? helper.splitHandleColor : dividerColor
 
     property font appFont: helper ? helper.appFont : Qt.font({
         pixelSize: 14

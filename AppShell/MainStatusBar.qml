@@ -8,7 +8,7 @@ ToolBar {
 
     height: Fonts.statusBarHeight
     background: Rectangle {
-        color: Qt.lighter(Theme.windowColor, 1.1)
+        color: Theme.toolbarSurfaceColor
     }
 
     property string statusText: ""
