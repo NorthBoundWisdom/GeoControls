@@ -14,6 +14,7 @@ CustomButton {
     midColor: "transparent"
     darkColor: control.selected ? Theme.highlightColor : Theme.midColor
     defaultHeight: ControlState.minInputHeight
-    defaultPadding: Fonts.size8
-    defaultRadius: ControlState.radiusSmall
+    defaultPadding: Fonts.size6
+    defaultRadius: 0
+    borderWidth: 0
 }

@@ -20,6 +20,7 @@ TextField {
     property bool showClipIndicator: true
 
     property bool showEmptyIndicator: true
+    property bool alignRightWhenFocused: true
     property bool _skipFocusCommitOnce: false
 
     property alias actualText: control.text
@@ -50,7 +51,7 @@ TextField {
     selectionColor: highlightColor
 
     verticalAlignment: TextInput.AlignVCenter
-    horizontalAlignment: activeFocus ? TextInput.AlignRight : TextInput.AlignLeft
+    horizontalAlignment: (activeFocus && alignRightWhenFocused) ? TextInput.AlignRight : TextInput.AlignLeft
     selectByMouse: true
     persistentSelection: false
 
@@ -59,7 +60,7 @@ TextField {
         color: ControlState.inputFill(control.enabled, control.readOnly, control.hovered)
         border.color: ControlState.inputBorder(control.enabled, control.activeFocus, control.hovered, control.readOnly)
         opacity: control.enabled ? 1.0 : 0.65
-        border.width: control.activeFocus ? ControlState.borderFocus : ControlState.borderThin
+        border.width: ControlState.borderThin
         radius: defaultRadius
 
         Behavior on border.color {

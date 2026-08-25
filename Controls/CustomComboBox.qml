@@ -9,7 +9,7 @@ ComboBox {
     hoverEnabled: enabled
 
     // custom properties
-    property int defaultHeight: Math.max(ControlState.minInputHeight, Fonts.standardFontMetrics.height + Fonts.size10)
+    property int defaultHeight: ControlState.minInputHeight
     property int defaultRadius: ControlState.radiusSmall
     property int defaultPadding: ControlState.textPadding
     property bool isExpanded: false
@@ -232,7 +232,7 @@ ComboBox {
 
         onClicked: {
             var comboBox = control || ListView.view
-            comboBox.currentIndex = index;
+            comboBox.currentIndex = index
             // Keep compatibility with existing pages that commit via onActivated.
             comboBox.activated(index)
             if (comboBox.editable) {
@@ -335,7 +335,7 @@ ComboBox {
             return ControlState.actionFillWithColors(control.enabled, control.pressed, control.hovered, false, control.readOnlyBackgroundColor, control.buttonHoveredColor, Theme.buttonPressedColor, control.buttonDisabledColor, control.highlightColor)
         }
         border.color: ControlState.inputBorder(control.enabled, control.visualFocus || control.activeFocus || (control.editable && editableTextField.activeFocus), control.hovered || control.pressed, false)
-        border.width: (control.visualFocus || (control.hovered && control.enabled)) ? ControlState.borderFocus : ControlState.borderThin
+        border.width: ControlState.borderThin
         radius: defaultRadius
         opacity: control.enabled ? 1.0 : 0.65
     }

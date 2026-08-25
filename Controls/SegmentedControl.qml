@@ -10,34 +10,43 @@ Rectangle {
 
     signal activated(int index)
 
-    implicitWidth: segmentLayout.implicitWidth + Fonts.size8
-    implicitHeight: ControlState.minInputHeight + Fonts.size8
+    implicitWidth: segmentLayout.implicitWidth + ControlState.borderThin * 2
+    implicitHeight: ControlState.minInputHeight
     radius: ControlState.radiusSmall
     color: Theme.baseColor
     border.color: Theme.midColor
     border.width: ControlState.borderThin
+    clip: false
 
-    RowLayout {
-        id: segmentLayout
+    Item {
+        id: segmentClip
         anchors.fill: parent
-        anchors.margins: Fonts.size4
-        spacing: Fonts.size4
+        anchors.margins: control.border.width
+        clip: true
 
-        Repeater {
-            model: Array.isArray(control.model) ? control.model : []
+        RowLayout {
+            id: segmentLayout
+            anchors.fill: parent
+            spacing: 0
 
-            SegmentedButton {
-                required property int index
-                required property var modelData
+            Repeater {
+                model: Array.isArray(control.model) ? control.model : []
 
-                Layout.fillWidth: true
-                text: String(modelData)
-                selected: control.currentIndex === index
-                onClicked: {
-                    if (control.currentIndex === index)
-                        return
-                    control.currentIndex = index
-                    control.activated(index)
+                SegmentedButton {
+                    required property int index
+                    required property var modelData
+
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    implicitHeight: 1
+                    text: String(modelData)
+                    selected: control.currentIndex === index
+                    onClicked: {
+                        if (control.currentIndex === index)
+                            return
+                        control.currentIndex = index
+                        control.activated(index)
+                    }
                 }
             }
         }
