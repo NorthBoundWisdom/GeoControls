@@ -146,7 +146,7 @@ Item {
     }
 
     function trackFill(enabled) {
-        return enabled ? Theme.buttonColor : Theme.buttonDisabledColor
+        return enabled ? Theme.darkColor : Theme.buttonDisabledColor
     }
 
     function trackActiveFill(enabled) {

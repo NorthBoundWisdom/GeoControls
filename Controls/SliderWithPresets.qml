@@ -63,7 +63,7 @@ ColumnLayout {
                 checked: false
 
                 onClicked: {
-                    checked = false;
+                    checked = false
                     // presets.selectedIndex = index;
                     presets.setByPreset(index)
                 }
@@ -78,8 +78,8 @@ ColumnLayout {
             id: slider
             Layout.fillWidth: true
 
-            onValueChanged: {
-                sliderValueChanged(value)
+            onVisualValueChanged: {
+                sliderValueChanged(visualValue)
             }
         }
 

@@ -10,10 +10,14 @@ Item {
     property bool showTitle: true
     property int titleAlignment: Qt.AlignHCenter
 
-    property alias value: slider.value
+    // Incoming host value. Not an alias of Slider.value: a live host binding such as
+    // `value: presenter.temperature` would otherwise overwrite the handle on every
+    // pointer move and cancel the drag.
+    property real value: 0
     property alias from: slider.from
     property alias to: slider.to
     property alias stepSize: slider.stepSize
+    readonly property alias visualValue: slider.value
     property bool showValueLabel: true
     property bool showStepButton: true
     property bool valEditable: true
@@ -28,6 +32,7 @@ Item {
     // - When delayedCommit == false, valueCommitted(value) is emitted immediately on user change.
     property bool delayedCommit: false
     property int commitDelay: 30
+    signal valueEdited(double value)
     signal valueCommitted(double value)
 
     property bool showReset: false
@@ -42,19 +47,22 @@ Item {
     property color highlightColor: Theme.highlightColor
     property color midColor: Theme.midColor
     property color buttonHoveredColor: Theme.buttonHoveredColor
-    readonly property real sliderTrackIdleThickness: Math.max(1, Fonts.size4 / 3)
-    readonly property real sliderTrackActiveThickness: Math.max(sliderTrackIdleThickness, Fonts.size4 * 2 / 3)
+    readonly property real sliderTrackIdleThickness: Math.max(Fonts.size4, 4)
+    readonly property real sliderTrackActiveThickness: Math.max(Fonts.size6, sliderTrackIdleThickness + 2)
 
     // Guard flag to prevent recursive updates between value/text changes
     property bool _suppressSync: false
+    property var _pausedFlickable: null
+    property bool _pausedFlickableWasInteractive: false
 
     // Compact mode: when width is too small, hide buttons and min/max labels
     property int compactModeThreshold: Fonts.iconButtonSize * 6  // Minimum width before entering compact mode
     readonly property bool isCompactMode: width < compactModeThreshold
 
-    width: parent.width
+    Layout.fillWidth: true
+    implicitWidth: Math.max(columnLayout.implicitWidth, Fonts.size180)
     implicitHeight: columnLayout.implicitHeight
-    implicitWidth: columnLayout.implicitWidth
+    width: parent ? parent.width : implicitWidth
     height: implicitHeight
 
     Timer {
@@ -64,6 +72,20 @@ Item {
         onTriggered: {
             control.valueCommitted(slider.value)
         }
+    }
+
+    function valuesAlmostEqual(left, right) {
+        return Math.abs(left - right) < Math.max(1e-6, Math.abs(slider.stepSize) * 0.5)
+    }
+
+    function applyIncomingValue() {
+        if (control._suppressSync || slider.pressed)
+            return
+        if (control.valuesAlmostEqual(slider.value, control.value))
+            return
+        control._suppressSync = true
+        slider.value = control.value
+        control._suppressSync = false
     }
 
     function requestCommit() {
@@ -83,6 +105,59 @@ Item {
         slider.value = control.resetValue
         control._suppressSync = false
         control.resetRequested()
+    }
+
+    function findAncestorFlickable(item) {
+        var current = item
+        while (current) {
+            if (current.flickableDirection !== undefined && current.interactive !== undefined && current.contentY !== undefined)
+                return current
+            current = current.parent
+        }
+        return null
+    }
+
+    function pauseAncestorFlickable() {
+        if (control._pausedFlickable)
+            return
+        var flickable = findAncestorFlickable(control.parent)
+        if (!flickable)
+            return
+        control._pausedFlickable = flickable
+        control._pausedFlickableWasInteractive = flickable.interactive
+        flickable.interactive = false
+    }
+
+    function resumeAncestorFlickable() {
+        if (!control._pausedFlickable)
+            return
+        control._pausedFlickable.interactive = control._pausedFlickableWasInteractive
+        control._pausedFlickable = null
+        control._pausedFlickableWasInteractive = false
+    }
+
+    function updateValueLabel() {
+        var rounded = slider.roundToDecimal(slider.value, control.validatorDecimals)
+        var newText = rounded.toFixed(control.validatorDecimals)
+        if (valueLabel.text !== newText) {
+            control._suppressSync = true
+            valueLabel.text = newText
+            control._suppressSync = false
+        }
+    }
+
+    onValueChanged: control.applyIncomingValue()
+    Component.onCompleted: control.applyIncomingValue()
+    Component.onDestruction: control.resumeAncestorFlickable()
+
+    Connections {
+        target: slider
+        function onFromChanged() {
+            control.applyIncomingValue()
+        }
+        function onToChanged() {
+            control.applyIncomingValue()
+        }
     }
 
     component SliderButton: Rectangle {
@@ -188,216 +263,89 @@ Item {
                     return from + steps * stepSize
                 }
 
-                function valueToPosition(value) {
-                    if (to === from)
-                        return 0
-                    var ratio = (value - from) / (to - from)
-                    return slider.leftPadding + ratio * (slider.availableWidth - handleRect.width)
-                }
-
                 Layout.alignment: Qt.AlignHCenter
                 Layout.fillWidth: true
+                Layout.minimumWidth: Fonts.size80
                 Layout.preferredHeight: Fonts.sliderButtonHeight
                 Layout.minimumHeight: Fonts.sliderButtonHeight
-                value: 0
-                // Add this property to force alignment to the step value
+                implicitWidth: Fonts.size180
+                live: true
                 snapMode: Slider.SnapAlways
-                readonly property bool sliderTrackActive: pressed || handleMouseArea.containsMouse || handleMouseArea.drag.active
+                readonly property bool sliderTrackActive: pressed || handleHover.hovered
 
-                // Keep rounding, but make the update idempotent and guarded to avoid loops
                 onValueChanged: {
                     if (control._suppressSync)
                         return
-                    var rounded = roundToDecimal(value, validatorDecimals)
-                    var newText = rounded.toFixed(validatorDecimals)
-                    if (valueLabel.text !== newText) {
-                        control._suppressSync = true
-                        valueLabel.text = newText
-                        control._suppressSync = false
-                    }
-                    // Force update handle position when value changes programmatically
-                    // This ensures handle position updates even when set via code
-                    Qt.callLater(function () {
-                        if (slider.availableWidth > 0 && slider.availableWidth >= handleRect.width) {
-                            var pos = isNaN(slider.visualPosition) ? 0 : Math.max(0, Math.min(1, slider.visualPosition))
-                            handleRect.x = slider.leftPadding + pos * (slider.availableWidth - handleRect.width)
-                        }
-                    })
+                    control.updateValueLabel()
                 }
 
-                // When slider is released (e.g., after clicking on the track), trigger commit
-                onPressedChanged: {
-                    if (!pressed) {
+                onMoved: {
+                    if (pressed)
+                        control.valueEdited(slider.value)
+                    else
                         control.requestCommit()
-                    }
                 }
 
-                // Custom style
+                onPressedChanged: {
+                    if (pressed) {
+                        control.pauseAncestorFlickable()
+                        return
+                    }
+                    control.resumeAncestorFlickable()
+                    control.requestCommit()
+                }
+
                 background: Rectangle {
                     x: slider.leftPadding
                     y: slider.topPadding + slider.availableHeight / 2 - height / 2
+                    implicitWidth: Fonts.size180
+                    implicitHeight: control.sliderTrackIdleThickness
                     width: slider.availableWidth
                     height: slider.sliderTrackActive ? control.sliderTrackActiveThickness : control.sliderTrackIdleThickness
                     radius: height / 2
                     color: ControlState.trackFill(control.enabled)
-                    opacity: Theme.appearance == 0 ? 0.3 : 0.8
 
                     Rectangle {
                         width: slider.visualPosition * parent.width
                         height: parent.height
                         color: ControlState.trackActiveFill(control.enabled)
-                        opacity: slider.pressed ? 0.8 : 1.0
                         radius: parent.radius
                     }
                 }
 
                 handle: Rectangle {
                     id: handleRect
-                    // Position is manually controlled to ensure synchronization with value
-                    // Use visualPosition (same as blue bar) to ensure consistency, especially during initialization
-                    // During drag, let handle follow mouse freely; otherwise update position based on value
-                    x: slider.leftPadding
+                    x: slider.leftPadding + slider.visualPosition * (slider.availableWidth - width)
                     y: slider.topPadding + slider.availableHeight / 2 - height / 2
-                    width: Fonts.size20
-                    height: width
+                    implicitWidth: Fonts.size20
+                    implicitHeight: implicitWidth
+                    width: implicitWidth
+                    height: implicitHeight
                     radius: width / 2
-                    color: ControlState.inputFill(control.enabled, false, handleMouseArea.containsMouse || slider.pressed || handleMouseArea.drag.active)
-                    border.color: ControlState.handleBorder(control.enabled, slider.pressed || handleMouseArea.drag.active || handleMouseArea.containsMouse)
-                    border.width: (handleMouseArea.containsMouse || slider.pressed || handleMouseArea.drag.active) ? ControlState.borderFocus : ControlState.borderThin
+                    color: ControlState.inputFill(control.enabled, false, handleHover.hovered || slider.pressed)
+                    border.color: ControlState.handleBorder(control.enabled, slider.pressed || handleHover.hovered)
+                    border.width: (handleHover.hovered || slider.pressed) ? ControlState.borderFocus : ControlState.borderThin
+                    scale: (handleHover.hovered || slider.pressed) ? 1.1 : 1.0
 
-                    // Force update position when visualPosition or availableWidth changes
-                    // This ensures handle position updates even when value is set programmatically
-                    // But skip during drag to allow free movement
-                    function updatePosition() {
-                        if (handleMouseArea.drag.active) {
-                            return
-                            // Don't update position during drag - let it follow mouse
-                        }
-                        if (slider.availableWidth > 0 && slider.availableWidth >= handleRect.width) {
-                            var pos = isNaN(slider.visualPosition) ? 0 : Math.max(0, Math.min(1, slider.visualPosition))
-                            handleRect.x = slider.leftPadding + pos * (slider.availableWidth - handleRect.width)
-                        }
+                    HoverHandler {
+                        id: handleHover
                     }
 
-                    Component.onCompleted: {
-                        updatePosition()
-                    }
-
-                    // Monitor visualPosition and availableWidth changes to ensure position updates
-                    // But skip during drag to allow free movement
-                    Connections {
-                        target: slider
-                        function onVisualPositionChanged() {
-                            if (!handleMouseArea.drag.active) {
-                                handleRect.updatePosition()
-                            }
-                        }
-                        function onAvailableWidthChanged() {
-                            if (!handleMouseArea.drag.active) {
-                                handleRect.updatePosition()
-                            }
-                        }
-                    }
-
-                    scale: (handleMouseArea.containsMouse || slider.pressed || handleMouseArea.drag.active) ? 1.1 : 1.0
                     Behavior on scale {
                         NumberAnimation {
                             duration: 100
                         }
                     }
+                }
 
-                    MouseArea {
-                        id: handleMouseArea
-                        anchors.fill: parent
-                        hoverEnabled: true
-
-                        // Store the original value when drag starts
-                        property double dragStartValue: slider.value
-                        property bool isDragging: false
-
-                        drag.target: parent
-                        drag.axis: Drag.XAxis
-                        drag.minimumX: slider.leftPadding
-                        drag.maximumX: slider.leftPadding + slider.availableWidth - parent.width
-
-                        onPressed: {
-                            // Record the starting value when drag begins
-                            dragStartValue = slider.value
-                            isDragging = true
-                        }
-
-                        onPositionChanged: {
-                            if (drag.active) {
-                                // Calculate value based on handle's absolute position
-                                var handleX = parent.x - slider.leftPadding
-                                var denom = slider.availableWidth - handleRect.width
-                                if (denom <= 0) {
-                                    return
-                                }
-                                var ratio = handleX / denom
-                                ratio = Math.max(0, Math.min(1, ratio))
-                                var rawValue = slider.from + ratio * (slider.to - slider.from)
-
-                                // During drag, allow handle to follow mouse freely
-                                // Calculate snapped value for display
-                                var snappedValue = slider.snapToStep(rawValue)
-                                snappedValue = Math.max(slider.from, Math.min(slider.to, snappedValue))
-
-                                // Update the value to the snapped value for display
-                                // Position updates are suppressed during drag (checked in updatePosition)
-                                // Also directly update the display text during drag to ensure UI updates
-                                control._suppressSync = true
-                                slider.value = snappedValue
-                                // Directly update display text during drag to ensure it updates
-                                var rounded = slider.roundToDecimal(snappedValue, control.validatorDecimals)
-                                var newText = rounded.toFixed(control.validatorDecimals)
-                                if (valueLabel.text !== newText) {
-                                    valueLabel.text = newText
-                                }
-                                control._suppressSync = false
-                            }
-                        }
-
-                        onReleased: {
-                            isDragging = false
-
-                            // Calculate the final snapped value based on current handle position
-                            var handleX = parent.x - slider.leftPadding
-                            var denom = slider.availableWidth - handleRect.width
-                            if (denom <= 0) {
-                                control.requestCommit()
-                                return
-                            }
-                            var ratio = handleX / denom
-                            ratio = Math.max(0, Math.min(1, ratio))
-                            var rawValue = slider.from + ratio * (slider.to - slider.from)
-                            var snappedValue = slider.snapToStep(rawValue)
-                            snappedValue = Math.max(slider.from, Math.min(slider.to, snappedValue))
-
-                            // Check if we've actually moved to a different step value
-                            // Use a small epsilon to account for floating point precision
-                            var epsilon = Math.max(1e-10, Math.abs(slider.stepSize) * 1e-6)
-                            if (Math.abs(snappedValue - dragStartValue) < epsilon) {
-                                // Reset to original value - user didn't move enough to change the value
-                                control._suppressSync = true
-                                slider.value = dragStartValue
-                                control._suppressSync = false
-                            } else {
-                                // Update to the new snapped value
-                                control._suppressSync = true
-                                slider.value = snappedValue
-                                control._suppressSync = false
-                            }
-
-                            // Force synchronization: update position based on final value
-                            var finalValue = slider.value
-                            var finalRatio = (finalValue - slider.from) / (slider.to - slider.from)
-                            var correctX = slider.leftPadding + finalRatio * (slider.availableWidth - handleRect.width)
-                            parent.x = correctX
-
-                            // When user releases the handle after dragging, trigger (possibly delayed) commit
-                            control.requestCommit()
-                        }
+                MouseArea {
+                    anchors.fill: parent
+                    z: -1
+                    preventStealing: true
+                    acceptedButtons: Qt.LeftButton
+                    propagateComposedEvents: true
+                    onPressed: function (mouse) {
+                        mouse.accepted = false
                     }
                 }
             }

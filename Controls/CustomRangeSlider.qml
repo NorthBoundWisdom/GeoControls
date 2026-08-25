@@ -28,8 +28,8 @@ Item {
     property color highlightColor: Theme.highlightColor
     property color midColor: Theme.midColor
     property color buttonHoveredColor: Theme.buttonHoveredColor
-    readonly property real sliderTrackIdleThickness: Math.max(1, Fonts.size4 / 3)
-    readonly property real sliderTrackActiveThickness: Math.max(sliderTrackIdleThickness, Fonts.size4 * 2 / 3)
+    readonly property real sliderTrackIdleThickness: Math.max(Fonts.size4, 4)
+    readonly property real sliderTrackActiveThickness: Math.max(Fonts.size6, sliderTrackIdleThickness + 2)
 
     // Guard flags to prevent recursive updates
     property bool _suppressSync: false
@@ -63,8 +63,7 @@ Item {
 
     function rangeChangedSinceDragStart() {
         var epsilon = Math.max(1e-10, Math.abs(stepSize) * 1e-6)
-        return Math.abs(fromValue - _dragStartFromValue) > epsilon ||
-               Math.abs(toValue - _dragStartToValue) > epsilon
+        return Math.abs(fromValue - _dragStartFromValue) > epsilon || Math.abs(toValue - _dragStartToValue) > epsilon
     }
 
     // Reset all values to default: from=-100, to=100, fromValue=0, toValue=0
@@ -154,7 +153,6 @@ Item {
                     height: sliderTrack.trackHeight
                     radius: height / 2
                     color: ControlState.trackFill(control.enabled)
-                    opacity: Theme.appearance == 0 ? 0.3 : 0.8
                 }
 
                 // Active range highlight
@@ -218,6 +216,7 @@ Item {
                         id: fromHandleMouseArea
                         anchors.fill: parent
                         hoverEnabled: true
+                        preventStealing: true
                         cursorShape: Qt.SizeHorCursor
 
                         drag.target: parent
@@ -252,7 +251,7 @@ Item {
                                 // Calculate center position relative to track
                                 var centerX = parent.x + parent.width / 2 - sliderTrack.trackPadding
                                 var ratio = centerX / sliderTrack.trackWidth
-                                ratio = Math.max(0, Math.min(1, ratio));
+                                ratio = Math.max(0, Math.min(1, ratio))
 
                                 // Limit to not exceed toHandle center position
                                 var toHandleCenterX = toHandle.x + toHandle.width / 2 - sliderTrack.trackPadding
@@ -260,7 +259,7 @@ Item {
                                 ratio = Math.min(ratio, maxRatio)
 
                                 var newValue = control.positionToValue(ratio)
-                                newValue = control.roundToDecimal(newValue, control.validatorDecimals);
+                                newValue = control.roundToDecimal(newValue, control.validatorDecimals)
                                 // No range constraints - caller is responsible for valid values
                                 control._suppressSync = true
                                 control.fromValue = newValue
@@ -321,6 +320,7 @@ Item {
                         id: toHandleMouseArea
                         anchors.fill: parent
                         hoverEnabled: true
+                        preventStealing: true
                         cursorShape: Qt.SizeHorCursor
 
                         drag.target: parent
@@ -355,7 +355,7 @@ Item {
                                 // Calculate center position relative to track
                                 var centerX = parent.x + parent.width / 2 - sliderTrack.trackPadding
                                 var ratio = centerX / sliderTrack.trackWidth
-                                ratio = Math.max(0, Math.min(1, ratio));
+                                ratio = Math.max(0, Math.min(1, ratio))
 
                                 // Limit to not be less than fromHandle center position
                                 var fromHandleCenterX = fromHandle.x + fromHandle.width / 2 - sliderTrack.trackPadding
@@ -363,7 +363,7 @@ Item {
                                 ratio = Math.max(ratio, minRatio)
 
                                 var newValue = control.positionToValue(ratio)
-                                newValue = control.roundToDecimal(newValue, control.validatorDecimals);
+                                newValue = control.roundToDecimal(newValue, control.validatorDecimals)
                                 // No range constraints - caller is responsible for valid values
                                 control._suppressSync = true
                                 control.toValue = newValue

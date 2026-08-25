@@ -13,12 +13,14 @@ Item {
     property alias validatorDecimals: slider.validatorDecimals
     property alias showStepButton: slider.showStepButton
 
+    signal valueEdited(double value)
     signal valueCommitted(double value)
     signal resetRequested
 
-    width: parent.width
+    Layout.fillWidth: true
+    implicitWidth: Math.max(column.implicitWidth, Fonts.size180)
     implicitHeight: column.implicitHeight
-    implicitWidth: column.implicitWidth
+    width: parent ? parent.width : implicitWidth
     height: implicitHeight
 
     ColumnLayout {
@@ -34,6 +36,9 @@ Item {
             stepSize: 0.01
             validatorDecimals: 2
             enabled: control.enabled
+            onValueEdited: function (next) {
+                control.valueEdited(next)
+            }
             onValueCommitted: function (next) {
                 control.valueCommitted(next)
             }
