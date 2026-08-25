@@ -50,6 +50,8 @@ qt_add_qml_module(GeoControlsControls
         CustomRangeSlider.qml
         CustomRectangle.qml
         CustomSlider.qml
+        CropOverlay.qml
+        HueSlider.qml
         CustomSpinBox.qml
         CustomSwitch.qml
         CustomTabBar.qml

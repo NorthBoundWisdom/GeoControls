@@ -504,6 +504,25 @@ ApplicationWindow {
                                         delayedCommit: true
                                     }
 
+                                    CustomSlider {
+                                        Layout.fillWidth: true
+                                        title: "Resettable slider"
+                                        from: -1
+                                        to: 1
+                                        value: 0.35
+                                        resetValue: 0
+                                        showReset: true
+                                        delayedCommit: true
+                                    }
+
+                                    HueSlider {
+                                        Layout.fillWidth: true
+                                        title: "Hue"
+                                        value: 0.55
+                                        showReset: true
+                                        resetValue: 0.55
+                                    }
+
                                     CustomRangeSlider {
                                         Layout.fillWidth: true
                                         title: "Accepted range"
@@ -511,6 +530,36 @@ ApplicationWindow {
                                         to: 50
                                         fromValue: -12
                                         toValue: 28
+                                    }
+
+                                    Item {
+                                        Layout.fillWidth: true
+                                        Layout.preferredHeight: 160
+
+                                        Rectangle {
+                                            anchors.fill: parent
+                                            color: Theme.baseColor
+                                            border.color: Theme.dividerColor
+                                            Image {
+                                                id: cropPreview
+                                                anchors.fill: parent
+                                                fillMode: Image.PreserveAspectFit
+                                                source: "qrc:/GeoControls/icons/AppIcon.png"
+                                            }
+                                            CropOverlay {
+                                                anchors.fill: cropPreview
+                                                cropX: 0.1
+                                                cropY: 0.1
+                                                cropWidth: 0.7
+                                                cropHeight: 0.7
+                                                onCropCommitted: function (x, y, w, h) {
+                                                    cropX = x
+                                                    cropY = y
+                                                    cropWidth = w
+                                                    cropHeight = h
+                                                }
+                                            }
+                                        }
                                     }
                                 }
                             }

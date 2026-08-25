@@ -30,6 +30,11 @@ Item {
     property int commitDelay: 30
     signal valueCommitted(double value)
 
+    property bool showReset: false
+    property real resetValue: 0
+    readonly property bool isAtResetValue: Math.abs(slider.value - resetValue) < Math.max(1e-6, Math.abs(stepSize) * 0.5)
+    signal resetRequested
+
     property color textColor: Theme.textColor
     property color disabledTextColor: Theme.disabledTextColor
     property color buttonColor: Theme.buttonColor
@@ -71,6 +76,15 @@ Item {
         }
     }
 
+    function resetToDefault() {
+        if (!control.enabled || control.isAtResetValue)
+            return
+        control._suppressSync = true
+        slider.value = control.resetValue
+        control._suppressSync = false
+        control.resetRequested()
+    }
+
     component SliderButton: Rectangle {
         id: sliderButton
         property string text: ""
@@ -109,16 +123,37 @@ Item {
         width: parent.width
         anchors.fill: parent
 
-        CustomLabel {
-            id: titleLabel
-            visible: control.showTitle
-            text: qsTr("Title")
-            Layout.alignment: control.titleAlignment
+        RowLayout {
             Layout.fillWidth: true
             Layout.maximumWidth: columnLayout.width
-            color: control.enabled ? control.textColor : control.disabledTextColor
-            elide: Text.ElideRight
-            clip: true
+            spacing: Fonts.size4
+            visible: control.showTitle || control.showReset
+
+            CustomLabel {
+                id: titleLabel
+                visible: control.showTitle
+                text: qsTr("Title")
+                Layout.alignment: control.titleAlignment
+                Layout.fillWidth: true
+                color: control.enabled ? control.textColor : control.disabledTextColor
+                elide: Text.ElideRight
+                clip: true
+
+                MouseArea {
+                    anchors.fill: parent
+                    enabled: control.showReset && control.enabled
+                    onDoubleClicked: control.resetToDefault()
+                }
+            }
+
+            SliderButton {
+                visible: control.showReset
+                text: qsTr("↺")
+                Layout.preferredWidth: height
+                Layout.preferredHeight: Fonts.iconButtonSize
+                enabled: control.enabled && !control.isAtResetValue
+                onClicked: control.resetToDefault()
+            }
         }
 
         RowLayout {
@@ -301,18 +336,18 @@ Item {
                                 }
                                 var ratio = handleX / denom
                                 ratio = Math.max(0, Math.min(1, ratio))
-                                var rawValue = slider.from + ratio * (slider.to - slider.from);
+                                var rawValue = slider.from + ratio * (slider.to - slider.from)
 
                                 // During drag, allow handle to follow mouse freely
                                 // Calculate snapped value for display
                                 var snappedValue = slider.snapToStep(rawValue)
-                                snappedValue = Math.max(slider.from, Math.min(slider.to, snappedValue));
+                                snappedValue = Math.max(slider.from, Math.min(slider.to, snappedValue))
 
                                 // Update the value to the snapped value for display
                                 // Position updates are suppressed during drag (checked in updatePosition)
                                 // Also directly update the display text during drag to ensure UI updates
                                 control._suppressSync = true
-                                slider.value = snappedValue;
+                                slider.value = snappedValue
                                 // Directly update display text during drag to ensure it updates
                                 var rounded = slider.roundToDecimal(snappedValue, control.validatorDecimals)
                                 var newText = rounded.toFixed(control.validatorDecimals)
@@ -324,7 +359,7 @@ Item {
                         }
 
                         onReleased: {
-                            isDragging = false;
+                            isDragging = false
 
                             // Calculate the final snapped value based on current handle position
                             var handleX = parent.x - slider.leftPadding
@@ -337,7 +372,7 @@ Item {
                             ratio = Math.max(0, Math.min(1, ratio))
                             var rawValue = slider.from + ratio * (slider.to - slider.from)
                             var snappedValue = slider.snapToStep(rawValue)
-                            snappedValue = Math.max(slider.from, Math.min(slider.to, snappedValue));
+                            snappedValue = Math.max(slider.from, Math.min(slider.to, snappedValue))
 
                             // Check if we've actually moved to a different step value
                             // Use a small epsilon to account for floating point precision
@@ -358,7 +393,7 @@ Item {
                             var finalValue = slider.value
                             var finalRatio = (finalValue - slider.from) / (slider.to - slider.from)
                             var correctX = slider.leftPadding + finalRatio * (slider.availableWidth - handleRect.width)
-                            parent.x = correctX;
+                            parent.x = correctX
 
                             // When user releases the handle after dragging, trigger (possibly delayed) commit
                             control.requestCommit()
@@ -429,16 +464,16 @@ Item {
                     if (newValue < slider.from)
                         newValue = slider.from
                     if (newValue > slider.to)
-                        newValue = slider.to;
+                        newValue = slider.to
 
                     // Snap to step size
-                    var snappedValue = slider.snapToStep(newValue);
+                    var snappedValue = slider.snapToStep(newValue)
 
                     // Apply rounding for display consistency
                     var rounded = slider.roundToDecimal(snappedValue, validatorDecimals)
                     var newText = rounded.toFixed(validatorDecimals)
                     if (valueLabel.text !== newText)
-                        valueLabel.text = newText;
+                        valueLabel.text = newText
 
                     // Update slider value only if actually different, guarded to avoid loop
                     if (rounded !== slider.value) {
@@ -448,7 +483,7 @@ Item {
                     }
 
                     // Text-based changes are also user-driven; trigger (possibly delayed) commit.
-                    control.requestCommit();
+                    control.requestCommit()
 
                     // Exit edit mode
                     focus = false
@@ -460,7 +495,7 @@ Item {
                     slider.value = originalValue
                     var rounded = slider.roundToDecimal(originalValue, validatorDecimals)
                     valueLabel.text = rounded.toFixed(validatorDecimals)
-                    control._suppressSync = false;
+                    control._suppressSync = false
 
                     // Exit edit mode
                     focus = false

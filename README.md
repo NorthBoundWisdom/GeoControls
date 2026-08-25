@@ -7,7 +7,8 @@ application that exercises the reusable controls.
 ## Modules
 
 - `GeoControls 1.0`: reusable controls, dialogs, chart primitives, theme tokens,
-  input helpers, data/navigation controls, and icon-backed widgets.
+  input helpers, data/navigation controls, icon-backed widgets, resettable
+  sliders, hue sliders, and image crop overlays.
 - `GeoControls.AppShell 1.0`: reusable application shell pieces such as command
   input, status/tool bars, route views, splash/about UI, mini viewer, and window
   chrome helpers.
