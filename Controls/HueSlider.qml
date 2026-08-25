@@ -12,7 +12,6 @@ Item {
     property alias delayedCommit: slider.delayedCommit
     property alias validatorDecimals: slider.validatorDecimals
     property alias showStepButton: slider.showStepButton
-    property alias enabled: slider.enabled
 
     signal valueCommitted(double value)
     signal resetRequested
@@ -34,6 +33,7 @@ Item {
             to: 1
             stepSize: 0.01
             validatorDecimals: 2
+            enabled: control.enabled
             onValueCommitted: function (next) {
                 control.valueCommitted(next)
             }
