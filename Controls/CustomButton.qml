@@ -2,7 +2,6 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Controls.impl 2.15
 import QtQuick.Window 2.15
-import QtQuick.Layouts 2.15
 import GeoControls 1.0
 
 Button {
@@ -43,28 +42,24 @@ Button {
     implicitHeight: defaultHeight
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset, implicitContentWidth + leftPadding + rightPadding)
 
-    padding: defaultPadding
+    leftPadding: defaultPadding
+    rightPadding: defaultPadding
+    topPadding: defaultPadding
+    bottomPadding: defaultPadding
     icon.width: defaultIconSize
     icon.height: defaultIconSize
     icon.color: !control.enabled ? control.disabledTextColor : control.pressed ? control.highlightedTextColor : control.buttonTextColor
 
-    // Text
-    contentItem: RowLayout {
-        anchors.fill: parent
-        anchors.margins: Fonts.size4
-        spacing: 0
+    // Do not anchor contentItem; Control sizes it from padding. Anchors.fill here
+    // fights that geometry and shifts compact labels off the vertical center.
+    contentItem: Item {
+        implicitWidth: centerRow.implicitWidth
+        implicitHeight: centerRow.implicitHeight
 
-        // left spacer
-        Item {
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-        }
-
-        // centered content
         Row {
             id: centerRow
             spacing: ControlState.iconGap
-            Layout.alignment: Qt.AlignVCenter
+            anchors.centerIn: parent
 
             IconLabel {
                 icon: control.icon
@@ -82,12 +77,6 @@ Button {
                 elide: control.textElideMode
                 anchors.verticalCenter: parent.verticalCenter
             }
-        }
-
-        // right spacer
-        Item {
-            Layout.fillWidth: true
-            Layout.fillHeight: true
         }
     }
 

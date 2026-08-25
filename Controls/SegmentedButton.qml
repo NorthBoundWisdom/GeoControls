@@ -17,4 +17,31 @@ CustomButton {
     defaultPadding: Fonts.size6
     defaultRadius: 0
     borderWidth: 0
+    topPadding: 0
+    bottomPadding: 0
+    leftPadding: defaultPadding
+    rightPadding: defaultPadding
+
+    contentItem: Item {
+        implicitWidth: label.implicitWidth
+        implicitHeight: label.implicitHeight
+
+        FontMetrics {
+            id: labelMetrics
+            font: control.font
+        }
+
+        Text {
+            id: label
+            anchors.centerIn: parent
+            // Mixed-case Latin ink sits below the layout box center because of extra ascent.
+            anchors.verticalCenterOffset: Math.round((labelMetrics.descent - labelMetrics.ascent + labelMetrics.xHeight) / 2)
+            text: control.text
+            font: control.font
+            color: ControlState.actionTextWithColors(control.enabled, control.pressed, false, control.buttonTextColor, control.disabledTextColor, control.highlightedTextColor)
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            elide: control.textElideMode
+        }
+    }
 }
