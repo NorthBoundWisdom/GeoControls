@@ -22,6 +22,22 @@ Repository layout:
 - `icons/`: assets exposed through `qrc:/GeoControls/icons/...`.
 - `cmake/`: package config template for downstream `find_package`.
 
+## Edit and text-input contracts
+
+CustomEditPanel exposes showAddButton, showDeleteButton, and showApplyButton
+for explicit action visibility. actionsNeedEditing defaults to true; when set
+to false, visible Delete, Reset, and Apply controls honor
+actionButtonsEnabled without requiring editing. These defaults preserve the
+existing edit-panel behavior.
+
+CustomTextField.alignRightWhenFocused defaults to true and controls only the
+focused horizontal alignment. A consumer can set it to false to retain left
+alignment while editing. This is a reusable presentation contract; it does not
+alter input validation, focus, commit, or text ownership.
+
+Validate changes to these public QML contracts with qmlformat, the relevant
+GeoControls QML build/lint target, and a downstream consumer build.
+
 ## Requirements
 
 - CMake 3.24 or newer
