@@ -513,6 +513,21 @@ ApplicationWindow {
                                         resetValue: 0
                                         showReset: true
                                         delayedCommit: true
+                                        trackGradient: Gradient {
+                                            orientation: Gradient.Horizontal
+                                            GradientStop {
+                                                position: 0
+                                                color: "#4667ad"
+                                            }
+                                            GradientStop {
+                                                position: 0.5
+                                                color: Theme.midColor
+                                            }
+                                            GradientStop {
+                                                position: 1
+                                                color: "#d19a48"
+                                            }
+                                        }
                                     }
 
                                     HueSlider {

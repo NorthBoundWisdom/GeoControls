@@ -35,6 +35,13 @@ focused horizontal alignment. A consumer can set it to false to retain left
 alignment while editing. This is a reusable presentation contract; it does not
 alter input validation, focus, commit, or text ownership.
 
+CustomSlider.trackGradient accepts an optional horizontal or vertical QML
+Gradient and paints it inside the interactive track. When a gradient is set,
+showTrackProgress defaults to false so the active fill does not obscure the
+semantic ramp; consumers may enable it explicitly. SliderWithPresets exposes
+both properties, and HueSlider uses the same track contract. Solid-track
+appearance and all value/edit/commit behavior remain the default.
+
 Validate changes to these public QML contracts with qmlformat, the relevant
 GeoControls QML build/lint target, and a downstream consumer build.
 

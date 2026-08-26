@@ -36,22 +36,7 @@ Item {
             stepSize: 0.01
             validatorDecimals: 2
             enabled: control.enabled
-            onValueEdited: function (next) {
-                control.valueEdited(next)
-            }
-            onValueCommitted: function (next) {
-                control.valueCommitted(next)
-            }
-            onResetRequested: control.resetRequested()
-        }
-
-        Rectangle {
-            Layout.fillWidth: true
-            Layout.leftMargin: Fonts.iconButtonSize
-            Layout.rightMargin: Fonts.iconButtonSize
-            height: Fonts.size8
-            radius: height / 2
-            gradient: Gradient {
+            trackGradient: Gradient {
                 orientation: Gradient.Horizontal
                 GradientStop {
                     position: 0.0
@@ -82,6 +67,13 @@ Item {
                     color: "#ff0000"
                 }
             }
+            onValueEdited: function (next) {
+                control.valueEdited(next)
+            }
+            onValueCommitted: function (next) {
+                control.valueCommitted(next)
+            }
+            onResetRequested: control.resetRequested()
         }
     }
 }

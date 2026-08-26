@@ -47,6 +47,10 @@ Item {
     property color highlightColor: Theme.highlightColor
     property color midColor: Theme.midColor
     property color buttonHoveredColor: Theme.buttonHoveredColor
+    // Optional semantic ramp for the actual slider track. A gradient replaces only the
+    // neutral track paint; input, commit, range, and value ownership stay unchanged.
+    property Gradient trackGradient: null
+    property bool showTrackProgress: trackGradient === null
     readonly property real sliderTrackIdleThickness: Math.max(Fonts.size4, 4)
     readonly property real sliderTrackActiveThickness: Math.max(Fonts.size6, sliderTrackIdleThickness + 2)
 
@@ -81,11 +85,12 @@ Item {
     function applyIncomingValue() {
         if (control._suppressSync || slider.pressed)
             return
-        if (control.valuesAlmostEqual(slider.value, control.value))
-            return
-        control._suppressSync = true
-        slider.value = control.value
-        control._suppressSync = false
+        if (!control.valuesAlmostEqual(slider.value, control.value)) {
+            control._suppressSync = true
+            slider.value = control.value
+            control._suppressSync = false
+        }
+        control.updateValueLabel()
     }
 
     function requestCommit() {
@@ -147,6 +152,7 @@ Item {
     }
 
     onValueChanged: control.applyIncomingValue()
+    onValidatorDecimalsChanged: control.updateValueLabel()
     Component.onCompleted: control.applyIncomingValue()
     Component.onDestruction: control.resumeAncestorFlickable()
 
@@ -304,12 +310,15 @@ Item {
                     height: slider.sliderTrackActive ? control.sliderTrackActiveThickness : control.sliderTrackIdleThickness
                     radius: height / 2
                     color: ControlState.trackFill(control.enabled)
+                    gradient: control.trackGradient
+                    opacity: control.trackGradient !== null && !control.enabled ? 0.45 : 1.0
 
                     Rectangle {
                         width: slider.visualPosition * parent.width
                         height: parent.height
                         color: ControlState.trackActiveFill(control.enabled)
                         radius: parent.radius
+                        visible: control.showTrackProgress && width > 0
                     }
                 }
 

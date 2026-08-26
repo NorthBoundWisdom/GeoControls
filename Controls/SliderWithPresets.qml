@@ -16,6 +16,8 @@ ColumnLayout {
     property alias stepSize: slider.stepSize
     property alias value: slider.value
     property alias validatorDecimals: slider.validatorDecimals
+    property alias trackGradient: slider.trackGradient
+    property alias showTrackProgress: slider.showTrackProgress
     property bool needButton: false
     property string buttonText: "Set"
 
