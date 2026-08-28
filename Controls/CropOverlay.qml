@@ -21,11 +21,17 @@ Item {
     property real bracketLength: 22
     property bool interactive: true
     property bool interacting: false
+    property int handleHoverCount: 0
     property real imageX: -1
     property real imageY: -1
     property real imageWidth: 0
     property real imageHeight: 0
     property real imageRotation: 0
+    property Item photoItem: null
+    property real sourceWidth: 0
+    property real sourceHeight: 0
+    property real minShortEdgePixels: 300
+    property real minShortEdgeFraction: 0.5
     property real limitX: 0
     property real limitY: 0
     property real limitWidth: 1
@@ -91,39 +97,122 @@ Item {
         emitCropEdited()
     }
 
-    function photoLocal(sx, sy) {
-        const cx = root.contentX + root.contentWidth / 2
-        const cy = root.contentY + root.contentHeight / 2
-        const dx = sx - cx
-        const dy = sy - cy
-        const rad = root.imageRotation * Math.PI / 180
-        const c = Math.cos(rad)
-        const s = Math.sin(rad)
+    function mapOverlayToPhoto(sx, sy) {
+        if (root.photoItem)
+            return root.photoItem.mapFromItem(root, sx, sy)
+        return Qt.point(sx - root.contentX, sy - root.contentY)
+    }
+
+    function mapPhotoDeltaToOverlay(ldx, ldy) {
+        if (root.photoItem) {
+            const origin = root.photoItem.mapToItem(root, 0, 0)
+            const shifted = root.photoItem.mapToItem(root, ldx, ldy)
+            return Qt.point(shifted.x - origin.x, shifted.y - origin.y)
+        }
+        return Qt.point(ldx, ldy)
+    }
+
+    function photoLocalRect() {
+        const inset = root.hair
+        const w = root.photoItem && root.photoItem.width > 1 ? root.photoItem.width : root.contentWidth
+        const h = root.photoItem && root.photoItem.height > 1 ? root.photoItem.height : root.contentHeight
         return {
-            "x": dx * c + dy * s + cx,
-            "y": -dx * s + dy * c + cy
+            "left": inset,
+            "top": inset,
+            "right": Math.max(inset, w - inset),
+            "bottom": Math.max(inset, h - inset)
+        }
+    }
+
+    function rotatedPhotoBounds() {
+        if (root.photoItem && root.photoItem.width > 1) {
+            const w = root.photoItem.width
+            const h = root.photoItem.height
+            const p00 = root.photoItem.mapToItem(root, 0, 0)
+            const p10 = root.photoItem.mapToItem(root, w, 0)
+            const p11 = root.photoItem.mapToItem(root, w, h)
+            const p01 = root.photoItem.mapToItem(root, 0, h)
+            return {
+                "left": Math.min(p00.x, p10.x, p11.x, p01.x),
+                "top": Math.min(p00.y, p10.y, p11.y, p01.y),
+                "right": Math.max(p00.x, p10.x, p11.x, p01.x),
+                "bottom": Math.max(p00.y, p10.y, p11.y, p01.y)
+            }
+        }
+        return {
+            "left": root.contentX,
+            "top": root.contentY,
+            "right": root.contentX + root.contentWidth,
+            "bottom": root.contentY + root.contentHeight
+        }
+    }
+
+    function frameLocalBounds(nx, ny, nw, nh) {
+        const corners = [[nx, ny], [nx + nw, ny], [nx + nw, ny + nh], [nx, ny + nh]]
+        let minX = Infinity
+        let maxX = -Infinity
+        let minY = Infinity
+        let maxY = -Infinity
+        for (let i = 0; i < 4; ++i) {
+            const local = mapOverlayToPhoto(corners[i][0], corners[i][1])
+            minX = Math.min(minX, local.x)
+            maxX = Math.max(maxX, local.x)
+            minY = Math.min(minY, local.y)
+            maxY = Math.max(maxY, local.y)
+        }
+        return {
+            "minX": minX,
+            "maxX": maxX,
+            "minY": minY,
+            "maxY": maxY
         }
     }
 
     function frameInsidePhoto(nx, ny, nw, nh) {
-        const slop = 0.75
-        const corners = [[nx, ny], [nx + nw, ny], [nx + nw, ny + nh], [nx, ny + nh]]
-        for (let i = 0; i < 4; ++i) {
-            const local = photoLocal(corners[i][0], corners[i][1])
-            if (local.x < root.contentX - slop || local.x > root.contentX + root.contentWidth + slop || local.y < root.contentY - slop || local.y > root.contentY + root.contentHeight + slop)
-                return false
-        }
-        return true
+        const slop = 0.25
+        const rect = photoLocalRect()
+        const bounds = frameLocalBounds(nx, ny, nw, nh)
+        return bounds.minX >= rect.left - slop && bounds.maxX <= rect.right + slop && bounds.minY >= rect.top - slop && bounds.maxY <= rect.bottom + slop
     }
 
-    function shrinkIntoPhoto(nx, ny, nw, nh, pinHx, pinHy) {
-        if (Math.abs(root.imageRotation) < 0.04 || frameInsidePhoto(nx, ny, nw, nh))
+    function translateFrameIntoPhoto(nx, ny, nw, nh) {
+        const rect = photoLocalRect()
+        const bounds = frameLocalBounds(nx, ny, nw, nh)
+        let ldx = 0
+        let ldy = 0
+        if (bounds.minX < rect.left)
+            ldx = rect.left - bounds.minX
+        if (bounds.maxX + ldx > rect.right)
+            ldx = rect.right - bounds.maxX
+        if (bounds.minY < rect.top)
+            ldy = rect.top - bounds.minY
+        if (bounds.maxY + ldy > rect.bottom)
+            ldy = rect.bottom - bounds.maxY
+        if (Math.abs(ldx) < 1e-9 && Math.abs(ldy) < 1e-9)
             return {
                 "x": nx,
                 "y": ny,
                 "w": nw,
                 "h": nh
             }
+        const delta = mapPhotoDeltaToOverlay(ldx, ldy)
+        return {
+            "x": nx + delta.x,
+            "y": ny + delta.y,
+            "w": nw,
+            "h": nh
+        }
+    }
+
+    function shrinkIntoPhoto(nx, ny, nw, nh, pinHx, pinHy) {
+        if (frameInsidePhoto(nx, ny, nw, nh))
+            return {
+                "x": nx,
+                "y": ny,
+                "w": nw,
+                "h": nh
+            }
+        const minSize = minOverlayExtent()
         const hx = pinHx === 0 ? 1 : (pinHx === 1 ? 0 : 0.5)
         const hy = pinHy === 0 ? 1 : (pinHy === 1 ? 0 : 0.5)
         const pinX = nx + nw * hx
@@ -131,15 +220,15 @@ Item {
         let lo = 0
         let hi = 1
         let best = {
-            "x": nx,
-            "y": ny,
-            "w": Math.max(root.minFrame, nw * 0.5),
-            "h": Math.max(root.minFrame, nh * 0.5)
+            "x": pinX - minSize.w * hx,
+            "y": pinY - minSize.h * hy,
+            "w": minSize.w,
+            "h": minSize.h
         }
         for (let step = 0; step < 16; ++step) {
             const t = (lo + hi) / 2
-            const tw = Math.max(root.minFrame, nw * t)
-            const th = Math.max(root.minFrame, nh * t)
+            const tw = Math.max(minSize.w, nw * t)
+            const th = Math.max(minSize.h, nh * t)
             const tx = pinX - tw * hx
             const ty = pinY - th * hy
             if (frameInsidePhoto(tx, ty, tw, th)) {
@@ -157,41 +246,90 @@ Item {
         return best
     }
 
+    function containFrame(nx, ny, nw, nh, pinHx, pinHy) {
+        let box = {
+            "x": nx,
+            "y": ny,
+            "w": nw,
+            "h": nh
+        }
+        if (frameInsidePhoto(box.x, box.y, box.w, box.h))
+            return box
+        box = translateFrameIntoPhoto(box.x, box.y, box.w, box.h)
+        if (frameInsidePhoto(box.x, box.y, box.w, box.h))
+            return box
+        box = shrinkIntoPhoto(box.x, box.y, box.w, box.h, pinHx, pinHy)
+        return translateFrameIntoPhoto(box.x, box.y, box.w, box.h)
+    }
+
     function pixelAspect() {
         if (root.aspectRatio <= 0)
             return 0
         return root.aspectRatio
     }
 
-    function clampFrame(nx, ny, nw, nh, pinHx, pinHy) {
-        const left = root.clampLeft
-        const top = root.clampTop
-        const right = root.clampRight
-        const bottom = root.clampBottom
-        const target = pixelAspect()
+    function minShortEdgePx() {
+        const srcW = Math.max(root.sourceWidth, 0)
+        const srcH = Math.max(root.sourceHeight, 0)
+        const shortSrc = Math.min(srcW, srcH)
+        if (!(shortSrc > 0))
+            return 0
+        return Math.min(root.minShortEdgePixels, shortSrc * root.minShortEdgeFraction)
+    }
 
-        nw = Math.max(root.minFrame, nw)
-        nh = Math.max(root.minFrame, nh)
-        if (nx < left) {
-            nw -= left - nx
-            nx = left
+    function minOverlayExtent() {
+        const minPx = minShortEdgePx()
+        if (!(minPx > 0) || !(root.sourceWidth > 0) || !(root.sourceHeight > 0) || !(contentWidth > 1) || !(contentHeight > 1))
+            return {
+                "w": root.minFrame,
+                "h": root.minFrame
+            }
+        return {
+            "w": Math.max(root.minFrame, minPx / root.sourceWidth * contentWidth),
+            "h": Math.max(root.minFrame, minPx / root.sourceHeight * contentHeight)
         }
-        if (ny < top) {
-            nh -= top - ny
-            ny = top
+    }
+
+    function enforceMinShortEdge(nx, ny, nw, nh, pinHx, pinHy) {
+        const minSize = minOverlayExtent()
+        let tw = nw
+        let th = nh
+        const target = pixelAspect()
+        if (target > 0) {
+            tw = Math.max(nw, minSize.w, minSize.h * target)
+            th = tw / target
+            if (th < minSize.h) {
+                th = minSize.h
+                tw = th * target
+            }
+        } else {
+            tw = Math.max(nw, minSize.w)
+            th = Math.max(nh, minSize.h)
         }
-        if (nx + nw > right)
-            nw = right - nx
-        if (ny + nh > bottom)
-            nh = bottom - ny
-        nw = Math.max(root.minFrame, nw)
-        nh = Math.max(root.minFrame, nh)
-        if (nx + nw > right)
-            nx = right - nw
-        if (ny + nh > bottom)
-            ny = bottom - nh
-        nx = Math.max(left, Math.min(nx, right - root.minFrame))
-        ny = Math.max(top, Math.min(ny, bottom - root.minFrame))
+        let tx = nx
+        let ty = ny
+        if (pinHx === 0)
+            tx = nx + nw - tw
+        else if (pinHx === 0.5)
+            tx = nx + (nw - tw) / 2
+        if (pinHy === 0)
+            ty = ny + nh - th
+        else if (pinHy === 0.5)
+            ty = ny + (nh - th) / 2
+        return {
+            "x": tx,
+            "y": ty,
+            "w": tw,
+            "h": th
+        }
+    }
+
+    function clampFrame(nx, ny, nw, nh, pinHx, pinHy) {
+        const target = pixelAspect()
+        const minSize = minOverlayExtent()
+
+        nw = Math.max(minSize.w, nw)
+        nh = Math.max(minSize.h, nh)
 
         if (target > 0) {
             let tw = nw
@@ -210,23 +348,18 @@ Item {
                 ny += (nh - th) / 2
             nw = tw
             nh = th
-            if (nx < left)
-                nx = left
-            if (ny < top)
-                ny = top
-            if (nx + nw > right)
-                nx = right - nw
-            if (ny + nh > bottom)
-                ny = bottom - nh
         }
-        return shrinkIntoPhoto(nx, ny, Math.max(root.minFrame, nw), Math.max(root.minFrame, nh), pinHx, pinHy)
+        const sized = enforceMinShortEdge(nx, ny, nw, nh, pinHx, pinHy)
+        return containFrame(sized.x, sized.y, Math.max(minSize.w, sized.w), Math.max(minSize.h, sized.h), pinHx, pinHy)
     }
 
     function resizeFromHandle(hx, hy, posX, posY, startX, startY, startW, startH) {
-        const left = root.clampLeft
-        const top = root.clampTop
-        const right = root.clampRight
-        const bottom = root.clampBottom
+        const bounds = rotatedPhotoBounds()
+        const left = bounds.left
+        const top = bounds.top
+        const right = bounds.right
+        const bottom = bounds.bottom
+        const minSize = minOverlayExtent()
         const startRight = startX + startW
         const startBottom = startY + startH
         let nx = startX
@@ -235,17 +368,17 @@ Item {
         let nh = startH
 
         if (hx === 0) {
-            nx = Math.min(Math.max(left, posX), startRight - root.minFrame)
+            nx = Math.min(Math.max(left, posX), startRight - minSize.w)
             nw = startRight - nx
         } else if (hx === 1) {
-            nw = Math.max(root.minFrame, Math.min(posX, right) - startX)
+            nw = Math.max(minSize.w, Math.min(posX, right) - startX)
             nx = startX
         }
         if (hy === 0) {
-            ny = Math.min(Math.max(top, posY), startBottom - root.minFrame)
+            ny = Math.min(Math.max(top, posY), startBottom - minSize.h)
             nh = startBottom - ny
         } else if (hy === 1) {
-            nh = Math.max(root.minFrame, Math.min(posY, bottom) - startY)
+            nh = Math.max(minSize.h, Math.min(posY, bottom) - startY)
             ny = startY
         }
 
@@ -299,15 +432,21 @@ Item {
     onLimitHeightChanged: syncFrameFromCrop()
     onVisibleChanged: syncFrameFromCrop()
     onImageRotationChanged: syncFrameFromCrop()
+    onPhotoItemChanged: syncFrameFromCrop()
+    onSourceWidthChanged: syncFrameFromCrop()
+    onSourceHeightChanged: syncFrameFromCrop()
     Component.onCompleted: syncFrameFromCrop()
+
+    readonly property bool rotateCursorActive: root.interactive && straightenArea.containsMouse && !dragArea.containsMouse && root.handleHoverCount === 0
 
     MouseArea {
         id: straightenArea
         anchors.fill: parent
+        z: 1
         enabled: root.interactive
         hoverEnabled: true
         preventStealing: true
-        cursorShape: pressed ? Qt.ClosedHandCursor : Qt.OpenHandCursor
+        cursorShape: rotateCursor.status === Image.Ready ? Qt.BlankCursor : Qt.OpenHandCursor
         property real originDegrees
         property real originMouseX
 
@@ -330,6 +469,7 @@ Item {
         y: 0
         width: Math.max(0, frame.x)
         height: root.height
+        enabled: false
         color: root.dimColor
     }
     Rectangle {
@@ -337,6 +477,7 @@ Item {
         y: 0
         width: Math.max(0, root.width - x)
         height: root.height
+        enabled: false
         color: root.dimColor
     }
     Rectangle {
@@ -344,6 +485,7 @@ Item {
         y: 0
         width: frame.width
         height: Math.max(0, frame.y)
+        enabled: false
         color: root.dimColor
     }
     Rectangle {
@@ -351,11 +493,13 @@ Item {
         y: frame.y + frame.height
         width: frame.width
         height: Math.max(0, root.height - y)
+        enabled: false
         color: root.dimColor
     }
 
     Item {
         id: frame
+        z: 2
         clip: false
 
         MouseArea {
@@ -364,38 +508,37 @@ Item {
             enabled: root.interactive
             hoverEnabled: true
             preventStealing: true
-            cursorShape: rotating ? Qt.ClosedHandCursor : Qt.SizeAllCursor
+            cursorShape: rotating ? Qt.ClosedHandCursor : Qt.OpenHandCursor
             property bool rotating: false
-            property real startX
-            property real startY
             property real originX
             property real originY
             property real originDegrees
             property real originMouseX
+            property real originMouseY
 
             onPressed: function (mouse) {
                 rotating = (mouse.modifiers & Qt.AltModifier) !== 0
+                const pos = mapToItem(root, mouse.x, mouse.y)
+                originMouseX = pos.x
+                originMouseY = pos.y
                 if (rotating) {
                     originDegrees = root.straighten
-                    originMouseX = mapToItem(root, mouse.x, mouse.y).x
                     return
                 }
                 root.beginInteraction()
-                startX = mouse.x
-                startY = mouse.y
                 originX = frame.x
                 originY = frame.y
             }
             onPositionChanged: function (mouse) {
                 if (!pressed)
                     return
+                const pos = mapToItem(root, mouse.x, mouse.y)
                 if (rotating) {
-                    root.straightenEdited(root.clampedStraighten(originDegrees, originMouseX, mapToItem(root, mouse.x, mouse.y).x))
+                    root.straightenEdited(root.clampedStraighten(originDegrees, originMouseX, pos.x))
                     return
                 }
-                const nextX = Math.min(Math.max(root.clampLeft, originX + mouse.x - startX), root.clampRight - frame.width)
-                const nextY = Math.min(Math.max(root.clampTop, originY + mouse.y - startY), root.clampBottom - frame.height)
-                const box = root.clampFrame(nextX, nextY, frame.width, frame.height, 0.5, 0.5)
+                // MouseArea is a child of the moving frame; deltas must be in overlay space.
+                const box = root.clampFrame(originX + pos.x - originMouseX, originY + pos.y - originMouseY, frame.width, frame.height, 0.5, 0.5)
                 root.applyFrame(box.x, box.y, box.w, box.h)
             }
             onReleased: function (mouse) {
@@ -624,13 +767,15 @@ Item {
                 return frame.y + (frame.height - height) / 2
             }
             visible: root.interactive
-            z: 2
+            z: 3
 
             MouseArea {
                 anchors.fill: parent
                 hoverEnabled: true
                 preventStealing: true
                 cursorShape: modelData.cursor
+                onEntered: root.handleHoverCount += 1
+                onExited: root.handleHoverCount = Math.max(0, root.handleHoverCount - 1)
                 property real startFrameX
                 property real startFrameY
                 property real startFrameW
@@ -653,6 +798,20 @@ Item {
                 onReleased: root.emitCropCommitted()
             }
         }
+    }
+
+    Image {
+        id: rotateCursor
+        width: 32
+        height: 32
+        z: 50
+        enabled: false
+        visible: root.rotateCursorActive
+        x: straightenArea.mouseX - width / 2
+        y: straightenArea.mouseY - height / 2
+        source: "qrc:/GeoControls/icons/CropRotate.svg"
+        smooth: true
+        mipmap: true
     }
 
     Rectangle {

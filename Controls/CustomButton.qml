@@ -48,7 +48,7 @@ Button {
     bottomPadding: defaultPadding
     icon.width: defaultIconSize
     icon.height: defaultIconSize
-    icon.color: !control.enabled ? control.disabledTextColor : control.pressed ? control.highlightedTextColor : control.buttonTextColor
+    icon.color: !control.enabled ? control.disabledTextColor : (control.pressed || control.checked) ? control.highlightedTextColor : control.buttonTextColor
 
     // Do not anchor contentItem; Control sizes it from padding. Anchors.fill here
     // fights that geometry and shifts compact labels off the vertical center.
@@ -83,7 +83,7 @@ Button {
     // Background
     background: Rectangle {
         implicitHeight: control.defaultHeight
-        color: ControlState.actionFillWithColors(control.enabled, control.pressed, control.hovered, false, control.buttonColor, control.hoveredColor, control.pressedColor, control.disabledColor, control.highlightColor)
+        color: ControlState.actionFillWithColors(control.enabled, control.pressed, control.hovered, control.checked, control.buttonColor, control.hoveredColor, control.pressedColor, control.disabledColor, control.highlightColor)
         border.color: ControlState.actionBorder(control.enabled, control.pressed, control.hovered, control.visualFocus, false)
         border.width: control.borderWidth <= 0 ? 0 : (control.visualFocus ? Math.max(control.borderWidth, ControlState.borderFocus) : control.borderWidth)
         radius: control.defaultRadius

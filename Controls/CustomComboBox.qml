@@ -34,6 +34,7 @@ ComboBox {
     property color midColor: Theme.midColor
     property color buttonHoveredColor: Theme.buttonHoveredColor
     property color buttonDisabledColor: Theme.buttonDisabledColor
+    property color highlightedTextColor: Theme.highlightedTextColor
 
     font: Fonts.standardFont
     implicitHeight: defaultHeight
@@ -201,6 +202,7 @@ ComboBox {
         hoverEnabled: true
 
         highlighted: control.highlightedIndex === index
+        readonly property bool current: control.currentIndex === index
 
         contentItem: Text {
             text: {
@@ -213,7 +215,7 @@ ComboBox {
                 }
                 return modelData || ""
             }
-            color: control.textColor
+            color: highlighted ? control.highlightedTextColor : control.textColor
             font: control.font
             elide: Text.ElideRight
             verticalAlignment: Text.AlignVCenter
@@ -226,8 +228,7 @@ ComboBox {
 
         background: Rectangle {
             anchors.fill: parent
-            color: ControlState.actionFillWithColors(true, false, hovered, highlighted, control.alternateBaseColor, control.buttonHoveredColor, control.highlightColor, control.buttonDisabledColor, control.highlightColor)
-            opacity: highlighted ? 1.0 : 0.65
+            color: ControlState.actionFillWithColors(true, false, hovered || (current && !highlighted), highlighted, control.editableBackgroundColor, control.buttonHoveredColor, control.highlightColor, control.buttonDisabledColor, control.highlightColor)
         }
 
         onClicked: {

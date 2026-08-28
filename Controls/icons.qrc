@@ -34,6 +34,7 @@
     <file alias="GeoControls/icons/CmdSimplify.svg">../icons/CmdSimplify.svg</file>
     <file alias="GeoControls/icons/CmdZoomReset.svg">../icons/CmdZoomReset.svg</file>
     <file alias="GeoControls/icons/Console.svg">../icons/Console.svg</file>
+    <file alias="GeoControls/icons/CropRotate.svg">../icons/CropRotate.svg</file>
     <file alias="GeoControls/icons/Cube.svg">../icons/Cube.svg</file>
     <file alias="GeoControls/icons/Cut1.svg">../icons/Cut1.svg</file>
     <file alias="GeoControls/icons/Cut2.svg">../icons/Cut2.svg</file>
@@ -48,6 +49,8 @@
     <file alias="GeoControls/icons/Done.svg">../icons/Done.svg</file>
     <file alias="GeoControls/icons/Empty.svg">../icons/Empty.svg</file>
     <file alias="GeoControls/icons/Eye.svg">../icons/Eye.svg</file>
+    <file alias="GeoControls/icons/FlipHorizontal.svg">../icons/FlipHorizontal.svg</file>
+    <file alias="GeoControls/icons/FlipVertical.svg">../icons/FlipVertical.svg</file>
     <file alias="GeoControls/icons/FormExtrudeGeoControls.svg">../icons/FormExtrudeGeoControls.svg</file>
     <file alias="GeoControls/icons/FormRevolveGeoControls.svg">../icons/FormRevolveGeoControls.svg</file>
     <file alias="GeoControls/icons/GrayEye.svg">../icons/GrayEye.svg</file>
@@ -58,6 +61,7 @@
     <file alias="GeoControls/icons/Light.svg">../icons/Light.svg</file>
     <file alias="GeoControls/icons/Load.svg">../icons/Load.svg</file>
     <file alias="GeoControls/icons/LoadActionFile.svg">../icons/LoadActionFile.svg</file>
+    <file alias="GeoControls/icons/Lock.svg">../icons/Lock.svg</file>
     <file alias="GeoControls/icons/GeoControlsModeling/Model/Form-Extrude.svg">../icons/GeoControlsModeling/Model/Form-Extrude.svg</file>
     <file alias="GeoControls/icons/GeoControlsModeling/Model/Form-Revolve.svg">../icons/GeoControlsModeling/Model/Form-Revolve.svg</file>
     <file alias="GeoControls/icons/GeoControlsModeling/Sketch/Sketch-ConstraintEqual.svg">../icons/GeoControlsModeling/Sketch/Sketch-ConstraintEqual.svg</file>
@@ -116,6 +120,8 @@
     <file alias="GeoControls/icons/RemoveFavorite.svg">../icons/RemoveFavorite.svg</file>
     <file alias="GeoControls/icons/Restart.svg">../icons/Restart.svg</file>
     <file alias="GeoControls/icons/Restore.svg">../icons/Restore.svg</file>
+    <file alias="GeoControls/icons/RotateCcw.svg">../icons/RotateCcw.svg</file>
+    <file alias="GeoControls/icons/RotateCw.svg">../icons/RotateCw.svg</file>
     <file alias="GeoControls/icons/GeoControlsFiles.icns">../icons/GeoControlsFiles.icns</file>
     <file alias="GeoControls/icons/GeoControlsFiles.ico">../icons/GeoControlsFiles.ico</file>
     <file alias="GeoControls/icons/GeoControlsFiles.png">../icons/GeoControlsFiles.png</file>
@@ -135,6 +141,7 @@
     <file alias="GeoControls/icons/Trash.svg">../icons/Trash.svg</file>
     <file alias="GeoControls/icons/Tree.svg">../icons/Tree.svg</file>
     <file alias="GeoControls/icons/Undo.svg">../icons/Undo.svg</file>
+    <file alias="GeoControls/icons/Unlock.svg">../icons/Unlock.svg</file>
     <file alias="GeoControls/icons/Update.svg">../icons/Update.svg</file>
     <file alias="GeoControls/icons/View2d.svg">../icons/View2d.svg</file>
     <file alias="GeoControls/icons/View3d.svg">../icons/View3d.svg</file>
