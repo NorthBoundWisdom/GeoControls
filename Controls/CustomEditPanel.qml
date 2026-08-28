@@ -54,6 +54,16 @@ Rectangle {
     property string resetTooltip: "Reset parameters to default"
     property string applyTooltip: "Apply and create a new snapshot"
 
+    // Effect lamp: gray = unmodified, green = modified and active, black = modified and bypassed.
+    // The default editing lamp is unchanged when effectIndicator is false.
+    property bool effectIndicator: false
+    property bool modified: false
+    property bool effectEnabled: true
+    property string effectActiveTooltip: "Bypass this panel"
+    property string effectBypassedTooltip: "Enable this panel"
+    readonly property bool effectLampInteractive: effectIndicator && modified && actionButtonsEnabled
+    signal effectEnabledToggled(bool enabled)
+
     // Callback functions
     property var onAdd: function () {
     // Override this to provide add logic
@@ -143,6 +153,17 @@ Rectangle {
                 rotation: root.expanded ? 90 : 0
                 Layout.preferredWidth: visible ? root.arrowSize : 0
                 Layout.preferredHeight: root.arrowSize
+
+                MouseArea {
+                    anchors.fill: parent
+                    enabled: root.collapsible
+                    cursorShape: Qt.PointingHandCursor
+                    onClicked: {
+                        root.expanded = !root.expanded
+                        root.toggled(root.expanded)
+                        root.prevHeight = root.expandedPreferredHeight()
+                    }
+                }
             }
 
             // Activation indicator
@@ -151,12 +172,37 @@ Rectangle {
                 width: Fonts.iconButtonSize * 0.5
                 height: width
                 radius: width / 2
-                color: root.editing ? "green" : Theme.disabledTextColor
+                color: {
+                    if (root.effectIndicator) {
+                        if (!root.modified)
+                            return Theme.disabledTextColor
+                        return root.effectEnabled ? Theme.successColor : "#000000"
+                    }
+                    return root.editing ? "green" : Theme.disabledTextColor
+                }
                 border.color: Theme.midColor
                 border.width: Fonts.size1
                 Layout.preferredWidth: width
                 Layout.preferredHeight: height
                 visible: root.title.length > 0
+
+                MouseArea {
+                    id: effectLampMouse
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    enabled: root.effectLampInteractive
+                    cursorShape: enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
+                    onClicked: {
+                        root.effectEnabled = !root.effectEnabled
+                        root.effectEnabledToggled(root.effectEnabled)
+                    }
+                }
+
+                CustomToolTip {
+                    visible: effectLampMouse.containsMouse && root.effectLampInteractive
+                    delay: ToolTipConfig.shortDelay
+                    text: root.effectEnabled ? root.effectActiveTooltip : root.effectBypassedTooltip
+                }
             }
 
             // Title label
@@ -285,9 +331,17 @@ Rectangle {
             }
         }
 
-        // Collapse/expand mouse area
+        // Collapse/expand mouse area. Skip the effect lamp so clicks toggle bypass.
         MouseArea {
             anchors.fill: parent
+            anchors.leftMargin: {
+                var margin = Fonts.smallMargin
+                if (arrow.visible)
+                    margin += root.arrowSize + Fonts.standardSpacing
+                if (activeIndicator.visible)
+                    margin += activeIndicator.width + Fonts.standardSpacing
+                return margin
+            }
             anchors.rightMargin: iconButtonsRow.width + iconButtonsRow.spacing * Fonts.size2
             cursorShape: root.collapsible ? Qt.PointingHandCursor : Qt.ArrowCursor
             enabled: root.collapsible

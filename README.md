@@ -30,6 +30,12 @@ to false, visible Delete, Reset, and Apply controls honor
 actionButtonsEnabled without requiring editing. These defaults preserve the
 existing edit-panel behavior.
 
+CustomEditPanel.effectIndicator is opt-in. When true, the title-bar lamp is
+gray for an unmodified panel, green when modified and active, and black when
+modified and bypassed. Clicking a modified lamp toggles effectEnabled and
+emits effectEnabledToggled; an unmodified lamp does not toggle. The default
+editing-mode lamp is unchanged when effectIndicator is false.
+
 CustomTextField.alignRightWhenFocused defaults to true and controls only the
 focused horizontal alignment. A consumer can set it to false to retain left
 alignment while editing. This is a reusable presentation contract; it does not
