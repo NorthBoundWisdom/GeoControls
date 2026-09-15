@@ -133,7 +133,7 @@ Item {
     property int smallSpacing: smallMargin
 
     property int iconButtonSize: Math.round(standardFontMetrics.height * 1.2)
-    property int statusBarHeight: Math.round(standardFontMetrics.height * 1.2)
+    property int statusBarHeight: Math.round(standardFontMetrics.height * 1.8)
     property int inputFieldHeight: Math.round(standardFontMetrics.height * 1.4)
     property int separatorWidth: Math.round(standardFontMetrics.height * 3)
     property int loadingIndicatorHeight: Math.round(standardFontMetrics.height * 4)

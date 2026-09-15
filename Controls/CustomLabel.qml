@@ -11,8 +11,14 @@ Label {
 
     // Allow shrinking inside Layout containers without forcing parent minimum width.
     Layout.minimumWidth: 0
-    // Prevent painting outside when width is constrained by parent layout.
-    clip: true
+    // Elide handles horizontal overflow. clip:true also shears glyph ink in short rows.
+    clip: false
+    padding: 0
+    topPadding: 0
+    bottomPadding: 0
+    leftPadding: 0
+    rightPadding: 0
+    verticalAlignment: Text.AlignVCenter
 
     font: Fonts.standardFont
     color: control.enabled ? control.textColor : control.disabledTextColor

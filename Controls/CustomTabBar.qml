@@ -23,6 +23,8 @@ TabBar {
 
     property int targetIndex: 0
     implicitHeight: defaultHeight
+    padding: 0
+    spacing: 0
 
     background: Rectangle {
         color: backgroundColor
@@ -45,7 +47,7 @@ TabBar {
             // Prevent position updates on currentIndex changes
             highlightFollowsCurrentItem: false
 
-            spacing: Fonts.size1
+            spacing: 0
             orientation: ListView.Horizontal
             layoutDirection: control.alignRight ? Qt.RightToLeft : Qt.LeftToRight
             boundsBehavior: Flickable.StopAtBounds
@@ -207,11 +209,11 @@ TabBar {
 
         // First pass without reserving overflow space
         var pass1 = computeVisibility(control.width)
-        var needsOverflow = pass1.hidden.length > 0;
+        var needsOverflow = pass1.hidden.length > 0
 
         // Second pass: reserve overflow button space if needed
         var availableWidth = control.width - (needsOverflow ? control.height : 0)
-        var pass2 = computeVisibility(availableWidth);
+        var pass2 = computeVisibility(availableWidth)
 
         // Apply visibility without changing width to preserve layout
         for (var i = 0; i < contentModel.count; i++) {
@@ -223,7 +225,7 @@ TabBar {
                 continue
             }
             var isShown = pass2.shown.indexOf(i) !== -1
-            tab.visible = isShown;
+            tab.visible = isShown
             // Don't set tab.width to 0 - this breaks the layout
         }
 

@@ -41,8 +41,10 @@ TabButton {
     property color midColor: Theme.midColor
     property color surfaceColor: windowColor
     property color dividerColor: Theme.dividerColor
+    property color selectedSurfaceColor: Theme.lightColor
+    property color indicatorColor: Theme.highlightColor
     readonly property bool useFlatStyle: flatStyle && !useLegacyStyle
-    readonly property color foregroundColor: control.isSelected ? control.buttonTextColor : (control.hovered ? Qt.alpha(control.buttonTextColor, 0.9) : Qt.alpha(control.buttonTextColor, 0.72))
+    readonly property color foregroundColor: control.isSelected ? control.buttonTextColor : (control.hovered ? control.buttonTextColor : Theme.placeholderTextColor)
 
     signal closeRequested
     signal moveRequested(int targetIndex)
@@ -60,7 +62,7 @@ TabButton {
     }
     implicitHeight: defaultHeight
     width: implicitWidth
-    height: defaultHeight
+    height: (tabBar && tabBar.height > 0) ? tabBar.height : defaultHeight
 
     icon.width: iconSize
     icon.height: iconSize
@@ -108,13 +110,17 @@ TabButton {
 
         Rectangle {
             visible: !control.useLegacyStyle && !control.useFlatStyle
-            anchors.centerIn: parent
-            width: Math.max(0, parent.width - Fonts.size4)
-            height: Math.max(0, parent.height - Fonts.size4)
-            radius: Fonts.size4
-            color: control.isSelected ? control.windowColor : (control.hovered ? control.buttonHoveredColor : control.buttonDisabledColor)
-            border.color: control.isSelected ? control.midColor : (control.hovered ? control.darkColor : control.midColor)
-            border.width: control.isSelected ? Fonts.size1 : 0
+            anchors.fill: parent
+            color: control.isSelected ? control.selectedSurfaceColor : (control.hovered ? control.buttonHoveredColor : "transparent")
+
+            Rectangle {
+                visible: control.isSelected
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.bottom: parent.bottom
+                height: Fonts.size2
+                color: control.indicatorColor
+            }
         }
 
         Rectangle {
