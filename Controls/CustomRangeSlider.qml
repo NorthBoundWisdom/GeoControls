@@ -167,14 +167,6 @@ Item {
                     visible: width > 0
                 }
 
-                MouseArea {
-                    anchors.fill: parent
-                    acceptedButtons: Qt.NoButton
-                    cursorShape: Qt.SizeHorCursor
-                    enabled: control._draggingFrom || control._draggingTo
-                    hoverEnabled: true
-                }
-
                 // From handle (left) - Upward triangle
                 Shape {
                     id: fromHandle
@@ -237,6 +229,8 @@ Item {
                                 control.rangeCommitted(control.fromValue, control.toValue)
                             }
                         }
+
+                        onCanceled: control._draggingFrom = false
 
                         onEntered: {
                             control._hoveringFrom = true
@@ -341,6 +335,8 @@ Item {
                                 control.rangeCommitted(control.fromValue, control.toValue)
                             }
                         }
+
+                        onCanceled: control._draggingTo = false
 
                         onEntered: {
                             control._hoveringTo = true
