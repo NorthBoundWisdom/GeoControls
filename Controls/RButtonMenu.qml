@@ -6,7 +6,10 @@ import GeoControls 1.0
 CustomMenu {
     id: control
 
+    popupType: Popup.Item
+    focus: true
     modal: true
+    dim: false
     closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
     font: Fonts.listFont
     leftPadding: Fonts.size4
@@ -225,6 +228,8 @@ CustomMenu {
 
         CustomMenu {
             id: nestedMenu
+            popupType: control.popupType
+            focus: true
             property string menuTitle: ""
             property var menuItems: []
             title: menuTitle
@@ -333,4 +338,6 @@ CustomMenu {
         executePendingCommand()
         menuItems = []
     }
+
+    onOpened: contentItem.forceActiveFocus(Qt.PopupFocusReason)
 }

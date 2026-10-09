@@ -29,19 +29,28 @@ qt_add_qml_module(GeoControlsControls
         ColorTabButton.qml
         ConfirmationButtons.qml
         ControlState.qml
+        CustomScrollBar.qml
+        CustomScrollView.qml
+        CustomTextArea.qml
+        CustomProgressBar.qml
+        CustomPopup.qml
+        CustomDialog.qml
+        CustomMenuItem.qml
+        CustomMenu.qml
+        CustomMenuBar.qml
+        CustomToolBar.qml
+        CustomToolSeparator.qml
+        CustomPane.qml
+        CustomItemDelegate.qml
+        CustomFileDialog.qml
+        CustomFolderDialog.qml
         CustomAxisSwitcher.qml
         CustomBinarySwitch.qml
         CustomButton.qml
         CustomBusyIndicator.qml
         CustomDrawer.qml
-        CustomMenu.qml
-        CustomMenuBar.qml
-        CustomMenuItem.qml
         CustomMenuSeparator.qml
-        CustomPopup.qml
-        CustomScrollBar.qml
         CustomScrollIndicator.qml
-        CustomScrollView.qml
         CustomSplitView.qml
         CustomChart.qml
         CustomCheckBox.qml
@@ -139,6 +148,7 @@ PUBLIC
     Qt6::Qml
     Qt6::Quick
     Qt6::QuickControls2
+    Qt6::QuickDialogs2
     Qt6::Svg
 )
 

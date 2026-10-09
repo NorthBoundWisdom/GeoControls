@@ -1,9 +1,10 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Window 2.15
+import QtQuick.Templates as T
 import GeoControls 1.0
 
-TextField {
+T.TextField {
     id: control
 
     // custom properties
@@ -54,6 +55,20 @@ TextField {
     horizontalAlignment: (activeFocus && alignRightWhenFocused) ? TextInput.AlignRight : TextInput.AlignLeft
     selectByMouse: true
     persistentSelection: false
+
+    Text {
+        x: control.leftPadding
+        y: control.topPadding
+        width: control.width - control.leftPadding - control.rightPadding
+        height: control.height - control.topPadding - control.bottomPadding
+        text: control.placeholderText
+        font: control.font
+        color: control.placeholderTextColor
+        horizontalAlignment: control.horizontalAlignment
+        verticalAlignment: control.verticalAlignment
+        elide: Text.ElideRight
+        visible: control.text.length === 0 && control.preeditText.length === 0
+    }
 
     background: Rectangle {
         implicitHeight: control.defaultHeight
@@ -115,60 +130,46 @@ TextField {
         }
     }
 
-    Component {
-        id: editMenuComponent
-        CustomMenu {
-            font: Fonts.standardFont
-            onClosed: destroy()
-            CustomMenuItem {
-                text: qsTr("Cut")
+    RButtonMenu {
+        id: editMenu
+        objectName: "textEditContextMenu"
+        onAboutToShow: menuItems = [
+            {
+                display_name: qsTr("Cut"),
+                cmd_id: "cut",
                 enabled: control.selectedText.length > 0 && !control.readOnly
-                onTriggered: control.cut()
-            }
-            CustomMenuItem {
-                text: qsTr("Copy")
+            },
+            {
+                display_name: qsTr("Copy"),
+                cmd_id: "copy",
                 enabled: control.selectedText.length > 0
-                onTriggered: control.copy()
-            }
-            CustomMenuItem {
-                text: qsTr("Paste")
+            },
+            {
+                display_name: qsTr("Paste"),
+                cmd_id: "paste",
                 enabled: control.canPaste && !control.readOnly
-                onTriggered: control.paste()
-            }
-            CustomMenuSeparator {}
-            CustomMenuItem {
-                text: qsTr("Select All")
+            },
+            {
+                display_name: qsTr("Select All"),
+                cmd_id: "selectAll",
                 enabled: control.text.length > 0
-                onTriggered: control.selectAll()
             }
+        ]
+        onCommandRequested: function (command) {
+            if (command.cmd_id === "cut")
+                control.cut()
+            else if (command.cmd_id === "copy")
+                control.copy()
+            else if (command.cmd_id === "paste")
+                control.paste()
+            else if (command.cmd_id === "selectAll")
+                control.selectAll()
         }
     }
-
-    MouseArea {
-        anchors.fill: parent
-        cursorShape: Qt.IBeamCursor
+    TapHandler {
         acceptedButtons: Qt.RightButton
-        preventStealing: true
-        propagateComposedEvents: true
-
-        onClicked: {
-            if (mouse.button === Qt.RightButton) {
-                var menu = editMenuComponent.createObject(control)
-                menu.popup()
-            }
-        }
-
-        onPressed: function (mouse) {
-            mouse.accepted = false
-        }
-        onReleased: function (mouse) {
-            mouse.accepted = false
-        }
-        onDoubleClicked: function (mouse) {
-            mouse.accepted = false
-        }
-        onPositionChanged: function (mouse) {
-            mouse.accepted = false
+        onTapped: function (point) {
+            editMenu.popup(control, point.position.x, point.position.y)
         }
     }
 

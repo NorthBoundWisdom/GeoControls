@@ -1,9 +1,16 @@
+// SPDX-FileCopyrightText: Shanghai Astroform Software Ltd.
+// SPDX-License-Identifier: LicenseRef-Astroform-Proprietary
+//
+// This notice must not be removed or altered without explicit authorization.
+
 import QtQuick
 import QtQuick.Controls
 import GeoControls 1.0
 
 Menu {
     id: control
+    popupType: Popup.Item
+    focus: true
     property int menuWidth: Fonts.size200
     property bool fitToContent: false
     padding: Fonts.size4

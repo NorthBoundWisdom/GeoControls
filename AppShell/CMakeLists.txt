@@ -20,6 +20,7 @@ qt_add_qml_module(GeoControlsAppShell
     IMPORTS GeoControls
     IMPORT_PATH "${geocontrols_controls_qml_import_root}"
     QML_FILES
+        ApplicationShell.qml
         CmdInputArea.qml
         FramelessResizeHandles.qml
         MainStatusBar.qml

@@ -1,9 +1,15 @@
+// SPDX-FileCopyrightText: Shanghai Astroform Software Ltd.
+// SPDX-License-Identifier: LicenseRef-Astroform-Proprietary
+//
+// This notice must not be removed or altered without explicit authorization.
+
 import QtQuick
 import QtQuick.Controls
 import GeoControls 1.0
 
 ScrollView {
     id: control
+    clip: true
     background: Item {}
     ScrollBar.vertical: CustomScrollBar {
         parent: control

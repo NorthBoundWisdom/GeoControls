@@ -1,5 +1,5 @@
 import QtQuick 2.15
-import QtQuick.Dialogs
+import GeoControls 1.0
 
 Item {
     id: root
@@ -15,12 +15,12 @@ Item {
     signal fileRejected
     signal dialogClosed
 
-    FileDialog {
+    CustomFileDialog {
         id: fileDialog
         title: root.dialogTitle
         nameFilters: root.nameFilters
         currentFolder: root.currentFolder
-        fileMode: root.dialogMode === "save" ? FileDialog.SaveFile : root.dialogMode === "openFiles" ? FileDialog.OpenFiles : FileDialog.OpenFile
+        fileMode: root.dialogMode === "save" ? CustomFileDialog.SaveFile : root.dialogMode === "openFiles" ? CustomFileDialog.OpenFiles : CustomFileDialog.OpenFile
         Binding {
             target: fileDialog
             property: "currentFile"
@@ -30,7 +30,7 @@ Item {
 
         onAccepted: {
             var files = []
-            if (fileMode === FileDialog.OpenFiles) {
+            if (fileMode === CustomFileDialog.OpenFiles) {
                 for (var i = 0; i < selectedFiles.length; ++i) {
                     files.push(toLocalFile(selectedFiles[i]))
                 }

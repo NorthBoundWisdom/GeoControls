@@ -13,7 +13,7 @@ option(GEOCONTROLS_BUILD_DEMO "Build GeoControls GuiDemo example" ${PROJECT_IS_T
 include(CMakePackageConfigHelpers)
 include(GNUInstallDirs)
 
-find_package(Qt6 REQUIRED COMPONENTS Core Gui Qml Quick QuickControls2 Svg)
+find_package(Qt6 REQUIRED COMPONENTS Core Gui Qml Quick QuickControls2 QuickDialogs2 Svg)
 qt_standard_project_setup(REQUIRES 6.8)
 
 add_subdirectory(Controls)

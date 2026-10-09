@@ -51,10 +51,23 @@ appearance and all value/edit/commit behavior remain the default.
 Validate changes to these public QML contracts with qmlformat, the relevant
 GeoControls QML build/lint target, and a downstream consumer build.
 
+The shared presentation set includes CustomMenuBar/CustomMenu/CustomMenuItem,
+CustomPopup/CustomDialog, CustomScrollView/CustomScrollBar, CustomTextArea,
+CustomProgressBar, CustomToolBar/CustomToolSeparator, CustomPane and CustomItemDelegate.
+AppShell.ApplicationShell centralizes the window palette. Hosts should select the Basic
+Qt Quick Controls style and disable native menu bars before loading their shell.
+CustomFileDialog and CustomFolderDialog centralize the platform-native choosers, including
+filters, overwrite confirmation and URL semantics; they do not replace the OS filesystem UI.
+
+RButtonMenu uses an item popup with keyboard focus and no background dimming. It resolves
+menuItems when shown and clears them when closed; hosts refresh the list onAboutToShow.
+CustomTextField and CustomTextArea own their editing menus and placeholder presentation
+through Qt Quick Templates, avoiding a second style-provided editing menu on newer Qt versions.
+
 ## Requirements
 
 - CMake 3.24 or newer
-- Qt 6.8 or newer with `Core`, `Gui`, `Qml`, `Quick`, `QuickControls2`, and `Svg`
+- Qt 6.8 or newer with `Core`, `Gui`, `Qml`, `Quick`, `QuickControls2`, `QuickDialogs2`, and `Svg`
 - A C++20 compiler
 
 ## Build
@@ -139,8 +152,7 @@ resizable panes. The busy animation runs only while enabled, visible and running
 menu surfaces, text, selection, check and submenu visuals. Native application
 menu integration remains available through the Qt menu API. `CustomMenu` exposes
 `menuWidth` and `fitToContent`; `CustomMenuItem.displayText` optionally overrides
-its displayed label without changing action identity. Text-field edit menus use
-these controls and release their transient instances when closed.
+its displayed label without changing action identity. Text-field edit menus reuse themed popups and release temporary menu rows when closed.
 
 Compact `CustomSlider` consumers can hide titles, values and step buttons;
 `visualValue` still tracks live input, while `valueEdited`/`valueCommitted`
