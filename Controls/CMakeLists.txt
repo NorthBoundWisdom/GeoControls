@@ -32,6 +32,17 @@ qt_add_qml_module(GeoControlsControls
         CustomAxisSwitcher.qml
         CustomBinarySwitch.qml
         CustomButton.qml
+        CustomBusyIndicator.qml
+        CustomDrawer.qml
+        CustomMenu.qml
+        CustomMenuBar.qml
+        CustomMenuItem.qml
+        CustomMenuSeparator.qml
+        CustomPopup.qml
+        CustomScrollBar.qml
+        CustomScrollIndicator.qml
+        CustomScrollView.qml
+        CustomSplitView.qml
         CustomChart.qml
         CustomCheckBox.qml
         CustomColorPicker.qml

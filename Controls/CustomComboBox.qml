@@ -259,7 +259,7 @@ ComboBox {
     }
 
     // popup window style
-    popup: Popup {
+    popup: CustomPopup {
         visible: control.isExpanded
         y: control.height
         width: control.width
@@ -274,7 +274,7 @@ ComboBox {
             flickableDirection: Flickable.VerticalFlick
             model: control.popup.visible ? control.delegateModel : null
             currentIndex: control.highlightedIndex
-            ScrollIndicator.vertical: ScrollIndicator {}
+            ScrollIndicator.vertical: CustomScrollIndicator {}
         }
 
         background: Rectangle {

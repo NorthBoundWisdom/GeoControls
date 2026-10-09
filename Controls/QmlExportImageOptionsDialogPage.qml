@@ -80,7 +80,7 @@ DialogShell {
     bodyItem: ColumnLayout {
         spacing: Math.round(unit * 0.75)
 
-        Label {
+        CustomLabel {
             text: qsTr("Format")
             font: Fonts.standardFont
             color: Theme.textColor
@@ -98,7 +98,7 @@ DialogShell {
             }
         }
 
-        Label {
+        CustomLabel {
             text: qsTr("Export Mode")
             font: Fonts.standardFont
             color: Theme.textColor
@@ -134,7 +134,7 @@ DialogShell {
             }
         }
 
-        Label {
+        CustomLabel {
             text: qsTr("Resolution (Long Edge)")
             font: Fonts.standardFont
             color: Theme.textColor
@@ -152,7 +152,7 @@ DialogShell {
             }
         }
 
-        Label {
+        CustomLabel {
             text: qsTr("Overlays")
             font: Fonts.standardFont
             color: Theme.textColor

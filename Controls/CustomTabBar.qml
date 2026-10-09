@@ -71,7 +71,7 @@ TabBar {
             }
         }
 
-        Button {
+        CustomButton {
             id: overflowButton
             visible: showOverflowButton
             width: visible ? height : 0
@@ -90,7 +90,7 @@ TabBar {
                 overflowMenu.popup(overflowButton, 0, overflowButton.height)
             }
 
-            Menu {
+            CustomMenu {
                 id: overflowMenu
                 modal: true
                 closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
@@ -109,7 +109,7 @@ TabBar {
 
                 Repeater {
                     model: hiddenTabs
-                    MenuItem {
+                    CustomMenuItem {
                         id: mi
                         property var tabObject: contentModel.get(modelData)
                         text: tabObject && tabObject.text ? tabObject.text : ""
@@ -142,7 +142,7 @@ TabBar {
                                 visible: mi.icon.source && mi.icon.source.toString().length > 0
                                 anchors.verticalCenter: parent.verticalCenter
                             }
-                            Label {
+                            CustomLabel {
                                 id: textLabel
                                 text: mi.text
                                 color: Theme.windowTextColor

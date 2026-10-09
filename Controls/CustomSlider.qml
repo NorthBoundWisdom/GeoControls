@@ -256,6 +256,7 @@ Item {
 
             Slider {
                 id: slider
+                Accessible.name: control.Accessible.name.length > 0 ? control.Accessible.name : control.title
 
                 function roundToDecimal(value, decimals) {
                     var factor = Math.pow(10, decimals)
@@ -332,8 +333,8 @@ Item {
                     height: implicitHeight
                     radius: width / 2
                     color: ControlState.inputFill(control.enabled, false, handleHover.hovered || slider.pressed)
-                    border.color: ControlState.handleBorder(control.enabled, slider.pressed || handleHover.hovered)
-                    border.width: (handleHover.hovered || slider.pressed) ? ControlState.borderFocus : ControlState.borderThin
+                    border.color: ControlState.handleBorder(control.enabled, slider.pressed || handleHover.hovered || slider.visualFocus)
+                    border.width: (handleHover.hovered || slider.pressed || slider.visualFocus) ? ControlState.borderFocus : ControlState.borderThin
                     scale: (handleHover.hovered || slider.pressed) ? 1.1 : 1.0
 
                     HoverHandler {
@@ -375,6 +376,8 @@ Item {
         RowLayout {
             Layout.alignment: Qt.AlignHCenter
             Layout.fillWidth: true
+
+            visible: control.showValueLabel
 
             Text {
                 id: minLabel

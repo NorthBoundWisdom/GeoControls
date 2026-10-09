@@ -46,7 +46,7 @@ DialogShell {
                 Layout.fillWidth: true
                 spacing: Math.round(unit * 0.4)
 
-                Label {
+                CustomLabel {
                     text: modelData.name || ""
                     font: Fonts.standardFont
                     color: Theme.textColor
@@ -55,8 +55,15 @@ DialogShell {
                     wrapMode: Text.Wrap
                 }
 
-                TextField {
+                CustomTextField {
                     id: valueField
+                    alignRightWhenFocused: false
+                    showClipIndicator: false
+                    showEmptyIndicator: false
+                    Keys.onEscapePressed: function (event) {
+                        root.requestClose("escape")
+                        event.accepted = true
+                    }
                     Layout.fillWidth: true
                     Layout.preferredHeight: Math.round(unit * 1.8)
                     text: (modelData.value === undefined || modelData.value === null) ? "" : String(modelData.value)
@@ -73,7 +80,7 @@ DialogShell {
                             return Qt.createQmlObject("import QtQuick 2.13; DoubleValidator { bottom: -999999999; top: 999999999; decimals: 6; notation: DoubleValidator.StandardNotation }", valueField)
                         }
 
-                        return Qt.createQmlObject("import QtQuick 2.13; RegExpValidator { regExp: /.*/ }", valueField)
+                        return Qt.createQmlObject("import QtQuick; RegularExpressionValidator { regularExpression: /.*/ }", valueField)
                     }
 
                     background: Rectangle {

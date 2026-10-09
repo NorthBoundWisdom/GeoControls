@@ -117,25 +117,26 @@ TextField {
 
     Component {
         id: editMenuComponent
-        Menu {
+        CustomMenu {
             font: Fonts.standardFont
-            MenuItem {
+            onClosed: destroy()
+            CustomMenuItem {
                 text: qsTr("Cut")
                 enabled: control.selectedText.length > 0 && !control.readOnly
                 onTriggered: control.cut()
             }
-            MenuItem {
+            CustomMenuItem {
                 text: qsTr("Copy")
                 enabled: control.selectedText.length > 0
                 onTriggered: control.copy()
             }
-            MenuItem {
+            CustomMenuItem {
                 text: qsTr("Paste")
                 enabled: control.canPaste && !control.readOnly
                 onTriggered: control.paste()
             }
-            MenuSeparator {}
-            MenuItem {
+            CustomMenuSeparator {}
+            CustomMenuItem {
                 text: qsTr("Select All")
                 enabled: control.text.length > 0
                 onTriggered: control.selectAll()

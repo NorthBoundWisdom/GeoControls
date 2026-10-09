@@ -128,6 +128,27 @@ source: "qrc:/GeoControls/icons/Close.svg"
 
 ## Development
 
+Reusable controls own their visual delegates through `Theme`, `Fonts` and
+`ControlState`; Qt Quick Controls retains input, focus, accessibility and popup
+lifecycle. Use `CustomScrollBar`, `CustomScrollIndicator` and `CustomScrollView`
+for scrolling surfaces, `CustomBusyIndicator` for bounded loading feedback,
+`CustomPopup`/`CustomDrawer` for transient surfaces, and `CustomSplitView` for
+resizable panes. The busy animation runs only while enabled, visible and running.
+
+`CustomMenu`, `CustomMenuItem`, `CustomMenuSeparator` and `CustomMenuBar` share
+menu surfaces, text, selection, check and submenu visuals. Native application
+menu integration remains available through the Qt menu API. `CustomMenu` exposes
+`menuWidth` and `fitToContent`; `CustomMenuItem.displayText` optionally overrides
+its displayed label without changing action identity. Text-field edit menus use
+these controls and release their transient instances when closed.
+
+Compact `CustomSlider` consumers can hide titles, values and step buttons;
+`visualValue` still tracks live input, while `valueEdited`/`valueCommitted`
+let the host retain value ownership. The internal slider inherits the host's
+accessible name and shows keyboard focus. Validation uses QML build/lint and
+downstream interaction tests for input, scrolling, live theme updates and
+destruction, with localization smoke for complete application surfaces.
+
 Enable repository hooks in each clone:
 
 ```sh

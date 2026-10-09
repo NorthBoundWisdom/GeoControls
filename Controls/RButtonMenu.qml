@@ -3,7 +3,7 @@ import QtQuick.Controls 2.13
 import QtQuick.Controls.impl 2.15
 import GeoControls 1.0
 
-Menu {
+CustomMenu {
     id: control
 
     modal: true
@@ -145,7 +145,7 @@ Menu {
     Component {
         id: styledMenuDelegate
 
-        MenuItem {
+        CustomMenuItem {
             id: styledMenuItem
             readonly property bool hasIcon: !!(icon.source && String(icon.source).length > 0)
             implicitHeight: control.popupItemHeight
@@ -223,7 +223,7 @@ Menu {
     Component {
         id: subMenuComponent
 
-        Menu {
+        CustomMenu {
             id: nestedMenu
             property string menuTitle: ""
             property var menuItems: []

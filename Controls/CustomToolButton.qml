@@ -68,7 +68,7 @@ ToolButton {
     }
 
     CustomToolTip {
-        visible: control.hovered
+        visible: control.hovered && control.enabled && (control.tooltip.length > 0 || control.shortcutSequence.length > 0)
         delay: ToolTipConfig.longDelay
         text: tooltip + (shortcutSequence ? " (" + shortcutSequence + ")" : "")
     }

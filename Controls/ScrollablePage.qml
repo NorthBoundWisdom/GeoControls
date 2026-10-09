@@ -16,7 +16,7 @@ Page {
         color: Theme.pageSurfaceColor
     }
 
-    ScrollView {
+    CustomScrollView {
         anchors.fill: parent
         contentWidth: availableWidth
         clip: true

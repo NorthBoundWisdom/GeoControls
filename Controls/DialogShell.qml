@@ -3,7 +3,7 @@ import QtQuick.Controls 2.13
 import QtQuick.Layouts 1.15
 import GeoControls 1.0
 
-Popup {
+CustomPopup {
     id: root
 
     modal: true
@@ -128,7 +128,7 @@ Popup {
                     anchors.leftMargin: root.contentMargin
                     anchors.rightMargin: root.contentMargin
 
-                    Label {
+                    CustomLabel {
                         text: root.titleText
                         font: Fonts.standardFont
                         color: Theme.textColor
@@ -136,8 +136,9 @@ Popup {
                         verticalAlignment: Text.AlignVCenter
                     }
 
-                    ToolButton {
+                    CustomToolButton {
                         id: closeBtn
+                        handleInCpp: false
                         visible: root.showCloseButton
                         height: parent.height
                         width: height

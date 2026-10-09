@@ -41,7 +41,7 @@ DialogShell {
             root.close()
         }
 
-        Label {
+        CustomLabel {
             text: root.messageText
             wrapMode: Text.Wrap
             color: Theme.textColor

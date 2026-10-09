@@ -1,5 +1,6 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
+import QtQuick.Window 2.15
 import QtQuick.Layouts 1.13
 import GeoControls 1.0
 
@@ -170,7 +171,7 @@ Rectangle {
             throw new Error("CmdInputArea requires completionProvider.getCompletions(prefix)")
         }
 
-        const completions = completionProvider.getCompletions(completion_prefix);
+        const completions = completionProvider.getCompletions(completion_prefix)
         // Keep completionModel as plain strings. Object model + modelData role mapping
         // can regress into blank popup rows when delegate role injection changes.
         const normalized_completions = []
@@ -244,7 +245,7 @@ Rectangle {
                 const trimmed = commandInput.text.trim()
                 if (inputArea.requireSlashForCommand && trimmed === inputArea.commandPrefix && completionPopup.visible && commandInput.completionModel && commandInput.completionModel.length > 0) {
                     inputArea.ensureCompletionSelection()
-                    inputArea.applyCompletionSelection();
+                    inputArea.applyCompletionSelection()
                     // CustomTextField handles Enter by dropping focus after accepted.
                     // Re-focus on next tick so Enter behaves like Tab for "/".
                     Qt.callLater(function () {
@@ -290,7 +291,7 @@ Rectangle {
                 inputArea.inputMode = activeFocus
             }
 
-            Popup {
+            CustomPopup {
                 id: completionPopup
                 readonly property int completionWidthChars: 200
                 readonly property real contextMenuWidth: Fonts.size180
@@ -418,7 +419,7 @@ Rectangle {
                         }
                     }
 
-                    ScrollIndicator.vertical: ScrollIndicator {
+                    ScrollIndicator.vertical: CustomScrollIndicator {
                         active: true
                         background: Rectangle {
                             color: "transparent"

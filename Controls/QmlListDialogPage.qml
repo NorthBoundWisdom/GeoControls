@@ -34,7 +34,7 @@ DialogShell {
         itemList.forceActiveFocus(Qt.ActiveWindowFocusReason)
     }
 
-    bodyItem: ScrollView {
+    bodyItem: CustomScrollView {
         clip: true
 
         ListView {
@@ -63,7 +63,7 @@ DialogShell {
                     anchors.leftMargin: unit * 0.5
                     anchors.rightMargin: unit * 0.5
 
-                    CheckBox {
+                    CustomCheckBox {
                         visible: allowMultipleSelection
                         checked: parent.parent.selected
                         onToggled: {
@@ -82,7 +82,7 @@ DialogShell {
                         }
                     }
 
-                    Label {
+                    CustomLabel {
                         Layout.fillWidth: true
                         text: modelData
                         font: Fonts.standardFont

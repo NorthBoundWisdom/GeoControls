@@ -231,7 +231,7 @@ Rectangle {
             Layout.fillHeight: true
             visible: splashScreen.aboutMode
 
-            ScrollView {
+            CustomScrollView {
                 contentWidth: availableWidth
                 clip: true
 
@@ -290,7 +290,7 @@ Rectangle {
                 }
             }
 
-            ScrollView {
+            CustomScrollView {
                 contentWidth: availableWidth
                 clip: true
 
@@ -315,7 +315,7 @@ Rectangle {
                 }
             }
 
-            ScrollView {
+            CustomScrollView {
                 contentWidth: availableWidth
                 clip: true
 

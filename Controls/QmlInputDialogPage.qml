@@ -29,15 +29,18 @@ DialogShell {
     bodyItem: ColumnLayout {
         spacing: Math.round(unit * 0.5)
 
-        Label {
+        CustomLabel {
             text: qsTr("Enter text:")
             font: Fonts.standardFont
             color: Theme.textColor
             Layout.fillWidth: true
         }
 
-        TextField {
+        CustomTextField {
             id: inputField
+            alignRightWhenFocused: false
+            showClipIndicator: false
+            showEmptyIndicator: false
             Layout.fillWidth: true
             Layout.preferredHeight: Math.round(unit * 2.0)
             placeholderText: root.placeholderText
@@ -69,6 +72,11 @@ DialogShell {
                     root.textSubmitted(text.trim())
                     root.close()
                 }
+            }
+
+            Keys.onEscapePressed: function (event) {
+                root.requestClose("escape")
+                event.accepted = true
             }
         }
     }
