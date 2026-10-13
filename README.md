@@ -146,7 +146,9 @@ Reusable controls own their visual delegates through `Theme`, `Fonts` and
 lifecycle. Use `CustomScrollBar`, `CustomScrollIndicator` and `CustomScrollView`
 for scrolling surfaces, `CustomBusyIndicator` for bounded loading feedback,
 `CustomPopup`/`CustomDrawer` for transient surfaces, and `CustomSplitView` for
-resizable panes. The busy animation runs only while enabled, visible and running.
+resizable panes. `CustomSplitView.handleHitSize` keeps the drag target wider than
+its visual divider (12 logical pixels by default). The busy animation runs only
+while enabled, visible and running.
 
 `CustomMenu`, `CustomMenuItem`, `CustomMenuSeparator` and `CustomMenuBar` share
 menu surfaces, text, selection, check and submenu visuals. Native application
@@ -176,3 +178,9 @@ Before sending a change, run the relevant build targets and these residue checks
 rg 'Geo[T]oy|Custom[Q]ml|geo[t]oys|qrc:/[i]cons|qrc:/Geo[T]oy' .
 rg "Geo2dCore/Define[.]h|rlog/logger[.]h|App[M]anager" .
 ```
+
+## License
+
+GeoControls is licensed under the [MIT License](LICENSE). Preserve the copyright
+and permission notice when redistributing substantial portions of the software.
+Qt remains subject to its own licenses.
