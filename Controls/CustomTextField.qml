@@ -235,12 +235,6 @@ T.TextField {
         }
     }
 
-    onTextChanged: {
-        if (activeFocus && text !== "(empty)") {
-            actualText = text
-        }
-    }
-
     onActiveFocusChanged: {
         if (activeFocus) {
             originalText = actualText
