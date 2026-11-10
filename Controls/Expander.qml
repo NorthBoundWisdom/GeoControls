@@ -13,7 +13,7 @@ Rectangle {
     signal toggled(bool expanded)
 
     implicitWidth: contentColumn.implicitWidth + Fonts.size16
-    implicitHeight: header.height + (expanded ? body.implicitHeight + Fonts.size12 : 0)
+    implicitHeight: header.implicitHeight + border.width * 2 + (expanded ? body.implicitHeight + body.Layout.topMargin + body.Layout.bottomMargin : 0)
     radius: ControlState.radiusMedium
     color: Theme.baseColor
     border.color: Theme.midColor
@@ -23,12 +23,14 @@ Rectangle {
     ColumnLayout {
         id: contentColumn
         anchors.fill: parent
+        // Keep the opaque header inside the frame, including while collapsed.
+        anchors.margins: control.border.width
         spacing: 0
 
         Rectangle {
             id: header
             Layout.fillWidth: true
-            height: Math.max(ControlState.minInputHeight, titleLabel.implicitHeight + Fonts.size12)
+            implicitHeight: Math.max(ControlState.minInputHeight, titleLabel.implicitHeight + Fonts.size12)
             color: headerMouse.containsMouse && control.collapsible ? Theme.buttonHoveredColor : Theme.baseColor
 
             RowLayout {
